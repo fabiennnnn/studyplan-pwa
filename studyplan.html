@@ -141,6 +141,46 @@
         font-size: 16px;
         padding: 12px 16px;
       }
+      .mobile-center {
+        text-align: center;
+      }
+      .mobile-stack {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+      }
+      .mobile-full {
+        width: 100%;
+      }
+      .mobile-btn {
+        width: 100%;
+        font-size: 14px;
+        padding: 10px 14px;
+      }
+      .mobile-input {
+        width: 100%;
+        font-size: 14px;
+        padding: 10px 12px;
+      }
+      .mobile-tabs {
+        font-size: 14px;
+      }
+      .mobile-tabs button {
+        padding: 10px 0;
+      }
+      .mobile-chips {
+        width: 100%;
+        justify-content: center;
+      }
+      .mobile-chips button {
+        padding: 8px 12px;
+        font-size: 13px;
+      }
+      .mobile-actions {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+      }
     }
 
     .mature-ui {
@@ -722,7 +762,7 @@
       <!-- 左侧：Tabs + 内容 -->
       <section class="flex-1 flex flex-col">
         <!-- 标签页 -->
-        <div class="flex rounded-2xl bg-white/85 soft-shadow overflow-hidden mb-3 text-sm lift">
+        <div class="mobile-tabs flex rounded-2xl bg-white/85 soft-shadow overflow-hidden mb-3 text-sm lift">
           <button
             class="flex-1 py-2.5 sm:py-3 font-semibold transition"
             :class="activeTab === 'daily' ? 'bg-emerald-100 text-emerald-700' : 'bg-transparent text-slate-500 hover:bg-slate-100'"
@@ -794,7 +834,7 @@
               </div>
             </div>
             <!-- 今日信息 + 模板管理 -->
-            <div class="flex items-center justify-between mb-2 sm:mb-3 flex-wrap gap-2">
+            <div class="mobile-actions flex items-center justify-between mb-2 sm:mb-3 flex-wrap gap-2">
               <div>
                 <p class="text-xs text-slate-500">
                   今天是 <span class="font-semibold text-slate-700">{{ todayLabel }}</span>
@@ -930,15 +970,15 @@
             <!-- 添加任务 -->
             <div class="mt-3 pt-3 border-t border-slate-200/70">
               <form @submit.prevent="addTask" class="flex flex-col gap-2">
-                <div class="flex flex-col sm:flex-row gap-2">
+                <div class="mobile-stack flex flex-col sm:flex-row gap-2">
                 <input v-model="newTaskTitle"
                        type="text"
                        placeholder="例如：朗读课文 2 遍"
-                       class="flex-1 rounded-2xl border border-slate-200 px-3 py-2 text-xs sm:text-sm
+                       class="mobile-input flex-1 rounded-2xl border border-slate-200 px-3 py-2 text-xs sm:text-sm
                               focus:outline-none focus:ring-2 focus:ring-emerald-300 focus:border-emerald-400 bg-white/90" />
                 <button
                   type="submit"
-                  class="px-4 py-2 rounded-2xl text-white text-xs sm:text-sm font-semibold
+                  class="mobile-btn px-4 py-2 rounded-2xl text-white text-xs sm:text-sm font-semibold
                          shadow active:scale-95 transition btn-primary">
                   + 添加任务
                 </button>
@@ -966,7 +1006,7 @@
               <span class="text-[11px] px-2 py-0.5 rounded-full bg-sky-50 text-sky-600 border border-sky-200">复习计划</span>
             </div>
             <!-- 分类选择 -->
-            <div class="flex items-center gap-2 bg-white/90 rounded-2xl px-3 py-2">
+            <div class="mobile-chips flex items-center gap-2 bg-white/90 rounded-2xl px-3 py-2">
               <button
                 @click="memoryCategory = 'poetry'"
                 class="px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition"
@@ -1000,13 +1040,13 @@
             <div class="flex justify-end gap-2">
               <button
                 @click="addTodayMemory"
-                class="px-4 py-2 rounded-xl text-white text-xs sm:text-sm font-semibold
+                class="mobile-btn px-4 py-2 rounded-xl text-white text-xs sm:text-sm font-semibold
                        active:scale-95 transition shadow btn-primary">
                 ➕ 添加{{ memoryCategoryLabel }}内容
               </button>
               <button
                 @click="openMemoryManager"
-                class="px-4 py-2 rounded-xl text-white text-xs sm:text-sm font-semibold
+                class="mobile-btn px-4 py-2 rounded-xl text-white text-xs sm:text-sm font-semibold
                        active:scale-95 transition shadow btn-accent">
                 📚 批量导入记忆任务
               </button>
