@@ -121,10 +121,18 @@
       }
       .settings-modal .profile-fields {
         display: grid;
-        grid-template-columns: 1fr 60px;
+        grid-template-columns: 1fr;
         gap: 8px;
         align-items: center;
+        max-width: 320px;
+        margin: 0 auto;
+      }
+      .settings-modal .profile-name {
         max-width: 260px;
+        margin: 0 auto;
+      }
+      .settings-modal .profile-age {
+        max-width: 120px;
         margin: 0 auto;
       }
       .settings-modal .profile-actions {
@@ -1950,9 +1958,9 @@
             <div class="space-y-2">
               <div v-for="p in profiles" :key="p.id" class="profile-item flex items-center gap-2 bg-white rounded-xl p-2 border border-slate-200">
                 <div class="profile-fields w-full">
-                  <input v-model="p.name" class="rounded-lg border border-slate-200 px-2 py-2 text-sm" />
+                  <input v-model="p.name" class="profile-name rounded-lg border border-slate-200 px-2 py-2 text-sm text-center" />
                   <input v-model.number="p.age" type="number" min="3" max="18"
-                         class="rounded-lg border border-slate-200 px-2 py-2 text-sm text-center" />
+                         class="profile-age rounded-lg border border-slate-200 px-2 py-2 text-sm text-center" />
                 </div>
                 <div class="profile-actions flex items-center gap-2">
                   <button class="px-3 py-2 text-xs rounded-full bg-emerald-50 text-emerald-700"
@@ -1965,9 +1973,9 @@
             <div class="profile-new flex gap-2 mt-2">
               <div class="profile-fields w-full">
                 <input v-model="newProfileName" placeholder="新孩子名字"
-                       class="rounded-lg border border-slate-200 px-2 py-2 text-sm" />
+                       class="profile-name rounded-lg border border-slate-200 px-2 py-2 text-sm text-center" />
                 <input v-model.number="newProfileAge" type="number" min="3" max="18"
-                       class="rounded-lg border border-slate-200 px-2 py-2 text-sm text-center" />
+                       class="profile-age rounded-lg border border-slate-200 px-2 py-2 text-sm text-center" />
               </div>
               <button class="px-3 py-2 rounded-lg bg-blue-500 text-white text-sm disabled:bg-slate-300"
                       :disabled="!newProfileName.trim()"
