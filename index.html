@@ -103,6 +103,44 @@
         width: 100%;
         justify-content: space-between;
       }
+      .settings-modal {
+        width: 92%;
+        max-width: 92%;
+      }
+      .settings-modal .pin-actions {
+        flex-direction: column;
+      }
+      .settings-modal .pin-actions button {
+        width: 100%;
+        font-size: 14px;
+        padding: 10px 14px;
+      }
+      .settings-modal .profile-item {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .settings-modal .profile-actions {
+        flex-direction: row;
+        justify-content: space-between;
+        gap: 8px;
+      }
+      .settings-modal .profile-actions button {
+        flex: 1 1 auto;
+        font-size: 12px;
+        padding: 8px 10px;
+      }
+      .settings-modal .profile-new {
+        flex-direction: column;
+      }
+      .settings-modal .profile-new button {
+        width: 100%;
+        padding: 10px 14px;
+        font-size: 14px;
+      }
+      .settings-modal .danger-btn {
+        font-size: 16px;
+        padding: 12px 16px;
+      }
     }
 
     .mature-ui {
@@ -1811,7 +1849,7 @@
     <!-- 设置中心 -->
     <div v-if="showSettings"
          class="fixed inset-0 z-40 flex items-center justify-center bg-black/40">
-      <div class="bg-white rounded-3xl shadow-2xl max-w-lg w-[92%] p-5 relative glass">
+    <div class="settings-modal bg-white rounded-3xl shadow-2xl max-w-lg w-[92%] p-5 relative glass">
         <button
           class="absolute right-3 top-3 text-slate-400 hover:text-slate-600 text-sm"
           @click="closeSettings">
@@ -1836,18 +1874,18 @@
                 {{ isParentUnlocked ? '已授权' : '未授权' }}
               </span>
             </div>
-            <div class="flex gap-2">
-              <button
-                class="flex-1 px-3 py-2 rounded-xl text-white text-xs font-semibold btn-primary"
-                @click="setParentPin">
-                设置/修改 PIN
-              </button>
-              <button
-                class="flex-1 px-3 py-2 rounded-xl text-slate-700 text-xs font-semibold bg-slate-100"
-                @click="resetParentPin">
-                重置 PIN
-              </button>
-            </div>
+          <div class="pin-actions flex gap-2">
+            <button
+              class="flex-1 px-3 py-2 rounded-xl text-white text-xs font-semibold btn-primary"
+              @click="setParentPin">
+              设置/修改 PIN
+            </button>
+            <button
+              class="flex-1 px-3 py-2 rounded-xl text-slate-700 text-xs font-semibold bg-slate-100"
+              @click="resetParentPin">
+              重置 PIN
+            </button>
+          </div>
             <p class="text-[11px] text-slate-500 mt-2">
               10 岁以下设置与管理需家长 PIN；10 岁以上也需家长授权。
             </p>
@@ -1856,22 +1894,26 @@
           <div class="bg-slate-50 rounded-2xl p-3 border border-slate-200">
             <p class="text-sm font-semibold text-slate-800 mb-2">孩子档案</p>
             <div class="space-y-2">
-              <div v-for="p in profiles" :key="p.id" class="flex items-center gap-2 bg-white rounded-xl p-2 border border-slate-200">
-                <input v-model="p.name" class="flex-1 rounded-lg border border-slate-200 px-2 py-1 text-xs" />
-                <input v-model.number="p.age" type="number" min="3" max="18"
-                       class="w-16 rounded-lg border border-slate-200 px-2 py-1 text-xs" />
-                <button class="px-2 py-1 text-[11px] rounded-full bg-emerald-50 text-emerald-700"
-                        @click="setActiveProfile(p.id)">使用</button>
-                <button class="px-2 py-1 text-[11px] rounded-full bg-rose-50 text-rose-600"
-                        @click="removeProfile(p.id)">删除</button>
+              <div v-for="p in profiles" :key="p.id" class="profile-item flex items-center gap-2 bg-white rounded-xl p-2 border border-slate-200">
+                <div class="flex items-center gap-2 w-full">
+                  <input v-model="p.name" class="flex-1 rounded-lg border border-slate-200 px-2 py-2 text-sm" />
+                  <input v-model.number="p.age" type="number" min="3" max="18"
+                         class="w-20 rounded-lg border border-slate-200 px-2 py-2 text-sm text-center" />
+                </div>
+                <div class="profile-actions flex items-center gap-2">
+                  <button class="px-3 py-2 text-xs rounded-full bg-emerald-50 text-emerald-700"
+                          @click="setActiveProfile(p.id)">使用</button>
+                  <button class="px-3 py-2 text-xs rounded-full bg-rose-50 text-rose-600"
+                          @click="removeProfile(p.id)">删除</button>
+                </div>
               </div>
             </div>
-            <div class="flex gap-2 mt-2">
+            <div class="profile-new flex gap-2 mt-2">
               <input v-model="newProfileName" placeholder="新孩子名字"
-                     class="flex-1 rounded-lg border border-slate-200 px-2 py-1 text-xs" />
+                     class="flex-1 rounded-lg border border-slate-200 px-2 py-2 text-sm" />
               <input v-model.number="newProfileAge" type="number" min="3" max="18"
-                     class="w-16 rounded-lg border border-slate-200 px-2 py-1 text-xs" />
-              <button class="px-3 py-1 rounded-lg bg-blue-500 text-white text-xs disabled:bg-slate-300"
+                     class="w-20 rounded-lg border border-slate-200 px-2 py-2 text-sm text-center" />
+              <button class="px-3 py-2 rounded-lg bg-blue-500 text-white text-sm disabled:bg-slate-300"
                       :disabled="!newProfileName.trim()"
                       @click="addProfile">确认添加</button>
             </div>
@@ -1882,11 +1924,11 @@
 
           <div class="bg-rose-50 rounded-2xl p-3 border border-rose-200">
             <p class="text-sm font-semibold text-rose-700 mb-2">危险操作</p>
-            <button
-              @click="handleResetClick"
-              class="w-full px-4 py-2 rounded-xl bg-rose-500 text-white text-sm font-semibold">
-              清空全部数据
-            </button>
+          <button
+            @click="handleResetClick"
+            class="danger-btn w-full px-4 py-2 rounded-xl bg-rose-500 text-white text-sm font-semibold">
+            清空全部数据
+          </button>
           </div>
         </div>
       </div>
