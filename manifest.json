@@ -1,6 +1,6 @@
 {
-  "name": "快乐学习大冒险",
-  "short_name": "学习大冒险",
+  "name": "快乐大冒险",
+  "short_name": "快乐大冒险",
   "start_url": ".",
   "scope": ".",
   "display": "standalone",

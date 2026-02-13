@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
-  <title>快乐学习大冒险</title>
+  <title>快乐大冒险</title>
   
   <!-- PWA Meta Tags -->
   <meta name="description" content="每天一点点，坚持就很棒！学习打卡应用">
@@ -67,6 +67,36 @@
         radial-gradient(circle at 80% 84%, rgba(251, 191, 36, 0.25), transparent 42%);
       opacity: 0.7;
       z-index: -1;
+    }
+
+    @media (max-width: 640px) {
+      .app-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+      .app-title {
+        font-size: 22px;
+        white-space: nowrap;
+      }
+      .header-right {
+        align-items: flex-start;
+        width: 100%;
+        gap: 8px;
+      }
+      .theme-row {
+        width: 100%;
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        padding-bottom: 4px;
+      }
+      .theme-row button {
+        flex: 0 0 auto;
+      }
+      .profile-row {
+        width: 100%;
+        justify-content: space-between;
+      }
     }
 
     .mature-ui {
@@ -567,7 +597,7 @@
        class="min-h-screen flex flex-col items-center py-4 px-3 sm:px-6 lg:px-10 transition-colors duration-300">
 
     <!-- 顶部栏：标题 + 主题切换 + 等级信息 -->
-    <header class="w-full max-w-5xl flex items-center justify-between mb-3 sm:mb-4">
+    <header class="app-header w-full max-w-5xl flex items-center justify-between mb-3 sm:mb-4">
       <div>
         <h1 class="app-title text-2xl sm:text-3xl font-extrabold flex items-center gap-2 text-slate-900">
           <span class="inline-flex items-center justify-center logo-badge diamond-bg diamond-sparkle">
@@ -575,14 +605,14 @@
               <use href="#icon-diamond"></use>
             </svg>
           </span>
-          快乐学习大冒险
+          快乐大冒险
         </h1>
         <p class="text-xs sm:text-sm text-slate-600 mt-1">
           每天一点点，坚持就很棒！💪
         </p>
       </div>
 
-      <div class="flex flex-col items-end gap-2">
+      <div class="header-right flex flex-col items-end gap-2">
         <!-- 设置/重置按钮 -->
         <button
           @click="openSettings"
@@ -593,7 +623,7 @@
         
         <div class="flex flex-col items-end gap-2">
           <!-- 主题切换 -->
-          <div class="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm">
+        <div class="theme-row flex items-center gap-1 sm:gap-2 text-xs sm:text-sm">
             <span class="text-slate-600">皮肤：</span>
             <button
               v-for="opt in themeOptions"
@@ -606,7 +636,7 @@
               {{ opt.label }}
             </button>
           </div>
-          <div class="flex items-center gap-2 text-[11px] text-slate-600">
+          <div class="profile-row flex items-center gap-2 text-[11px] text-slate-600">
             <span class="px-2 py-0.5 rounded-full bg-white/70 border border-slate-200">
               👤 {{ activeProfile.name }} · {{ activeProfile.age }}岁
             </span>
@@ -1375,7 +1405,7 @@
     </main>
 
     <footer class="w-full max-w-5xl mt-4 text-center text-[11px] text-slate-400">
-      © fabien Zhang · 快乐学习大冒险
+      © fabien Zhang · 快乐大冒险
     </footer>
 
     <!-- 模板管理弹窗 -->
