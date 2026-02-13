@@ -2,15 +2,15 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
-  <title>快乐学习大冒险</title>
+  <title>快乐大冒险</title>
   
   <!-- PWA Meta Tags -->
-  <meta name="description" content="每天一点点，坚持就很棒！学习打卡应用">
+  <meta name="description" content="每天一点点，坚持就很棒！成长打卡应用">
   <meta name="theme-color" content="#4f46e5">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="学习大冒险">
+  <meta name="apple-mobile-web-app-title" content="快乐大冒险">
   <meta name="apple-touch-fullscreen" content="yes">
   
   <!-- PWA Manifest -->
@@ -575,7 +575,7 @@
               <use href="#icon-diamond"></use>
             </svg>
           </span>
-          快乐学习大冒险
+          快乐大冒险
         </h1>
         <p class="text-xs sm:text-sm text-slate-600 mt-1">
           每天一点点，坚持就很棒！💪
@@ -886,7 +886,7 @@
                 </span>
                 <div>
                   <p class="text-sm font-semibold text-slate-800">记忆挑战</p>
-                  <p class="text-[11px] text-slate-500">跟随艾宾浩斯曲线巩固学习</p>
+                  <p class="text-[11px] text-slate-500">跟随艾宾浩斯曲线巩固记忆</p>
                 </div>
               </div>
               <span class="text-[11px] px-2 py-0.5 rounded-full bg-sky-50 text-sky-600 border border-sky-200">复习计划</span>
@@ -967,8 +967,8 @@
                 <thead class="bg-gradient-to-r from-amber-100 to-yellow-50 border-b-2 border-amber-300 sticky top-0 z-10 shadow-sm">
                   <tr>
                     <th class="px-2 py-2.5 text-center font-bold text-slate-900 border-r border-amber-200">日期</th>
-                    <th class="px-3 py-2.5 text-center font-bold text-slate-900 border-r border-amber-200">学习内容</th>
-                    <th class="px-1.5 py-2.5 text-center font-bold text-slate-900 border-r border-amber-200" colspan="3">学习计划</th>
+                    <th class="px-3 py-2.5 text-center font-bold text-slate-900 border-r border-amber-200">记忆内容</th>
+                    <th class="px-1.5 py-2.5 text-center font-bold text-slate-900 border-r border-amber-200" colspan="3">当日计划</th>
                     <th class="px-1.5 py-2.5 text-center font-bold text-slate-900 border-r border-amber-200" colspan="6">后续复习日期</th>
                   </tr>
                   <tr class="bg-gradient-to-r from-amber-50 to-yellow-50/50">
@@ -1146,8 +1146,8 @@
             <!-- 每日统计 -->
             <div v-if="statsViewMode === 'daily'" class="space-y-4">
               <div class="bg-purple-50/80 border border-purple-100 rounded-2xl px-3 py-2">
-                <p class="font-semibold text-purple-700 mb-1 text-sm">每日学习时间统计</p>
-                <p class="text-xs text-slate-600">查看每天完成的学习总时长</p>
+                <p class="font-semibold text-purple-700 mb-1 text-sm">每日完成时间统计</p>
+                <p class="text-xs text-slate-600">查看每天完成的完成任务的总时长</p>
             </div>
 
               <!-- 每日统计图表 -->
@@ -1183,8 +1183,8 @@
             <!-- 任务统计 -->
             <div v-else class="space-y-4">
               <div class="bg-purple-50/80 border border-purple-100 rounded-2xl px-3 py-2">
-                <p class="font-semibold text-purple-700 mb-1 text-sm">各任务学习时间统计</p>
-                <p class="text-xs text-slate-600">查看每个任务累计的学习时长</p>
+                <p class="font-semibold text-purple-700 mb-1 text-sm">各任务完成时间统计</p>
+                <p class="text-xs text-slate-600">查看每个任务累计的完成时长</p>
               </div>
 
               <!-- 任务统计图表 -->
@@ -1375,7 +1375,7 @@
     </main>
 
     <footer class="w-full max-w-5xl mt-4 text-center text-[11px] text-slate-400">
-      © fabien Zhang · 快乐学习大冒险
+      © fabien Zhang · 快乐大冒险
     </footer>
 
     <!-- 模板管理弹窗 -->
@@ -1730,7 +1730,7 @@
         </button>
         <div class="text-center mb-3">
           <div class="text-3xl mb-1">🏅</div>
-          <h2 class="text-lg font-bold text-slate-800">本月快乐学习表扬信</h2>
+          <h2 class="text-lg font-bold text-slate-800">本月快乐表扬信</h2>
           <p class="text-xs text-slate-500 mt-1">
             自动统计本月完成情况，为你送上一封小小的表扬信。
           </p>
@@ -1740,7 +1740,7 @@
           <p>
             本月你一共完成了
             <span class="font-bold text-emerald-600">{{ monthlyStats.doneTasks }}</span>
-            个学习任务，累计获得
+            个任务，累计获得
             <span class="font-bold text-amber-500">{{ xp }}</span>
             点经验值，已经成为
             <span class="font-bold text-emerald-700">{{ levelDisplay.title }}</span> 啦！
@@ -1750,7 +1750,7 @@
             请继续保持这份努力和勇气，老师和爸爸妈妈都为你骄傲！
           </p>
           <p class="text-right text-xs text-slate-500 mt-2">
-            —— 快乐学习大冒险系统
+            —— 快乐大冒险系统
           </p>
         </div>
         <div class="mt-4 flex gap-2">
@@ -1952,7 +1952,7 @@
             '认真完成一件小事，就是了不起的勇气。',
             '你的小脑袋瓜儿真聪明！',
             '再多一步，就比昨天更厉害了。',
-            '学习就像升级打怪，你已经闯过好多关啦！'
+            '成长就像升级打怪，你已经闯过好多关啦！'
           ],
           currentQuote: '',
 
@@ -3796,7 +3796,7 @@
             data: {
               labels,
               datasets: [{
-                label: '学习时长（分钟）',
+                label: '完成时长（分钟）',
                 data,
                 backgroundColor: 'rgba(139, 92, 246, 0.6)',
                 borderColor: 'rgba(139, 92, 246, 1)',
@@ -3814,7 +3814,7 @@
                   callbacks: {
                     label: (context) => {
                       const minutes = context.parsed.y;
-                      return `学习时长: ${this.formatDuration(minutes)}`;
+                      return `完成时长: ${this.formatDuration(minutes)}`;
                     }
                   }
                 }
