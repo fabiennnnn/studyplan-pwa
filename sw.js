@@ -1,6 +1,7 @@
-const CACHE_NAME = 'studyplan-v2';
+const CACHE_NAME = 'studyplan-v3';
 const CORE_ASSETS = [
   './',
+  './index.html',
   './studyplan.html',
   './manifest.json',
   './app-icon.svg',
@@ -32,7 +33,10 @@ self.addEventListener('fetch', event => {
       fetch(request)
         .then(res => {
           const copy = res.clone();
-          caches.open(CACHE_NAME).then(cache => cache.put('./studyplan.html', copy));
+          caches.open(CACHE_NAME).then(cache => {
+            cache.put('./index.html', copy);
+            cache.put('./studyplan.html', copy);
+          });
           return res;
         })
         .catch(() => caches.match('./offline.html'))
