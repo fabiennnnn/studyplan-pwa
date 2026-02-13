@@ -119,6 +119,12 @@
         flex-direction: column;
         align-items: stretch;
       }
+      .settings-modal .profile-fields {
+        display: grid;
+        grid-template-columns: 1fr 64px;
+        gap: 8px;
+        align-items: center;
+      }
       .settings-modal .profile-actions {
         flex-direction: row;
         justify-content: space-between;
@@ -1935,10 +1941,10 @@
             <p class="text-sm font-semibold text-slate-800 mb-2">孩子档案</p>
             <div class="space-y-2">
               <div v-for="p in profiles" :key="p.id" class="profile-item flex items-center gap-2 bg-white rounded-xl p-2 border border-slate-200">
-                <div class="flex items-center gap-2 w-full">
-                  <input v-model="p.name" class="flex-1 rounded-lg border border-slate-200 px-2 py-2 text-sm" />
+                <div class="profile-fields w-full">
+                  <input v-model="p.name" class="rounded-lg border border-slate-200 px-2 py-2 text-sm" />
                   <input v-model.number="p.age" type="number" min="3" max="18"
-                         class="w-20 rounded-lg border border-slate-200 px-2 py-2 text-sm text-center" />
+                         class="rounded-lg border border-slate-200 px-2 py-2 text-sm text-center" />
                 </div>
                 <div class="profile-actions flex items-center gap-2">
                   <button class="px-3 py-2 text-xs rounded-full bg-emerald-50 text-emerald-700"
@@ -1949,10 +1955,12 @@
               </div>
             </div>
             <div class="profile-new flex gap-2 mt-2">
-              <input v-model="newProfileName" placeholder="新孩子名字"
-                     class="flex-1 rounded-lg border border-slate-200 px-2 py-2 text-sm" />
-              <input v-model.number="newProfileAge" type="number" min="3" max="18"
-                     class="w-20 rounded-lg border border-slate-200 px-2 py-2 text-sm text-center" />
+              <div class="profile-fields w-full">
+                <input v-model="newProfileName" placeholder="新孩子名字"
+                       class="rounded-lg border border-slate-200 px-2 py-2 text-sm" />
+                <input v-model.number="newProfileAge" type="number" min="3" max="18"
+                       class="rounded-lg border border-slate-200 px-2 py-2 text-sm text-center" />
+              </div>
               <button class="px-3 py-2 rounded-lg bg-blue-500 text-white text-sm disabled:bg-slate-300"
                       :disabled="!newProfileName.trim()"
                       @click="addProfile">确认添加</button>
