@@ -121,10 +121,10 @@
       }
       .settings-modal .profile-fields {
         display: grid;
-        grid-template-columns: 1fr 72px;
+        grid-template-columns: 1fr 60px;
         gap: 8px;
         align-items: center;
-        max-width: 320px;
+        max-width: 260px;
         margin: 0 auto;
       }
       .settings-modal .profile-actions {
@@ -146,8 +146,14 @@
         font-size: 14px;
       }
       .settings-modal .danger-btn {
-        font-size: 16px;
-        padding: 12px 16px;
+        font-size: 13px;
+        padding: 8px 10px;
+      }
+      .settings-modal .danger-area {
+        padding: 10px;
+      }
+      .settings-modal .danger-title {
+        font-size: 12px;
       }
       .mobile-center {
         text-align: center;
@@ -1972,14 +1978,14 @@
             </p>
           </div>
 
-          <div class="bg-rose-50 rounded-2xl p-3 border border-rose-200">
-            <p class="text-sm font-semibold text-rose-700 mb-2">危险操作</p>
+        <div class="danger-area bg-rose-50 rounded-2xl p-3 border border-rose-200">
+          <p class="danger-title text-sm font-semibold text-rose-700 mb-2">危险操作</p>
           <button
             @click="handleResetClick"
             class="danger-btn w-full px-4 py-2 rounded-xl bg-rose-500 text-white text-sm font-semibold">
-            清空全部数据
+            ⚠ 清空全部数据
           </button>
-          </div>
+        </div>
         </div>
       </div>
     </div>
@@ -3339,14 +3345,21 @@
           
           // 使用原生 confirm 对话框（避免自定义弹窗的关闭问题）
           setTimeout(() => {
-            const confirmed = window.confirm(
-              '⚠️ 恢复出厂设置\n\n' +
-              '确定要清空所有数据并重置吗？\n' +
-              '此操作无法撤销！\n\n' +
-              '点击"确定"将清空所有数据并刷新页面。'
+            const confirmed1 = window.confirm(
+              '⚠️ 第一步确认\n\n' +
+              '即将清空全部数据，确定继续吗？'
             );
-            
-            if (confirmed) {
+            if (!confirmed1) return;
+            const confirmed2 = window.confirm(
+              '⚠️ 第二步确认\n\n' +
+              '清空后无法找回，是否真的要清空？'
+            );
+            if (!confirmed2) return;
+            const confirmed3 = window.confirm(
+              '⚠️ 第三步确认\n\n' +
+              '最后一次确认：确定清空全部数据？'
+            );
+            if (confirmed3) {
               this.resetAllData();
             }
           }, 100);
