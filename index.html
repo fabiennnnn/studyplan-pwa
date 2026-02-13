@@ -69,6 +69,42 @@
       z-index: -1;
     }
 
+    @media (max-width: 640px) {
+      .app-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+      .app-title {
+        font-size: 22px;
+        white-space: nowrap;
+        width: 100%;
+      }
+      .app-header > div:first-child {
+        width: 100%;
+      }
+      .header-right {
+        align-items: flex-start;
+        width: 100%;
+        gap: 8px;
+      }
+      .theme-row {
+        width: 100%;
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        padding-bottom: 4px;
+      }
+      .theme-row button {
+        flex: 0 0 auto;
+        font-size: 10px;
+        padding: 4px 8px;
+      }
+      .profile-row {
+        width: 100%;
+        justify-content: space-between;
+      }
+    }
+
     .mature-ui {
       filter: saturate(0.92);
     }
@@ -567,7 +603,7 @@
        class="min-h-screen flex flex-col items-center py-4 px-3 sm:px-6 lg:px-10 transition-colors duration-300">
 
     <!-- 顶部栏：标题 + 主题切换 + 等级信息 -->
-    <header class="w-full max-w-5xl flex items-center justify-between mb-3 sm:mb-4">
+    <header class="app-header w-full max-w-5xl flex items-center justify-between mb-3 sm:mb-4">
       <div>
         <h1 class="app-title text-2xl sm:text-3xl font-extrabold flex items-center gap-2 text-slate-900">
           <span class="inline-flex items-center justify-center logo-badge diamond-bg diamond-sparkle">
@@ -582,7 +618,7 @@
         </p>
       </div>
 
-      <div class="flex flex-col items-end gap-2">
+      <div class="header-right flex flex-col items-end gap-2">
         <!-- 设置/重置按钮 -->
         <button
           @click="openSettings"
@@ -593,7 +629,7 @@
         
         <div class="flex flex-col items-end gap-2">
           <!-- 主题切换 -->
-          <div class="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm">
+        <div class="theme-row flex items-center gap-1 sm:gap-2 text-xs sm:text-sm">
             <span class="text-slate-600">皮肤：</span>
             <button
               v-for="opt in themeOptions"
@@ -606,7 +642,7 @@
               {{ opt.label }}
             </button>
           </div>
-          <div class="flex items-center gap-2 text-[11px] text-slate-600">
+          <div class="profile-row flex items-center gap-2 text-[11px] text-slate-600">
             <span class="px-2 py-0.5 rounded-full bg-white/70 border border-slate-200">
               👤 {{ activeProfile.name }} · {{ activeProfile.age }}岁
             </span>
@@ -1147,7 +1183,7 @@
             <div v-if="statsViewMode === 'daily'" class="space-y-4">
               <div class="bg-purple-50/80 border border-purple-100 rounded-2xl px-3 py-2">
                 <p class="font-semibold text-purple-700 mb-1 text-sm">每日完成时间统计</p>
-                <p class="text-xs text-slate-600">查看每天完成的完成任务的总时长</p>
+                <p class="text-xs text-slate-600">查看每天完成任务的总时长</p>
             </div>
 
               <!-- 每日统计图表 -->
@@ -1184,7 +1220,7 @@
             <div v-else class="space-y-4">
               <div class="bg-purple-50/80 border border-purple-100 rounded-2xl px-3 py-2">
                 <p class="font-semibold text-purple-700 mb-1 text-sm">各任务完成时间统计</p>
-                <p class="text-xs text-slate-600">查看每个任务累计的完成时长</p>
+                <p class="text-xs text-slate-600">查看每个任务累计完成时长</p>
               </div>
 
               <!-- 任务统计图表 -->
