@@ -95,6 +95,9 @@
       .settings-modal {
         width: 92%;
         max-width: 92%;
+        max-height: 85vh;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
       }
       .settings-modal .pin-actions {
         flex-direction: column;
@@ -157,6 +160,14 @@
         flex-direction: column;
         align-items: stretch;
         gap: 10px;
+      }
+      .settings-overlay {
+        align-items: flex-start;
+        padding: 16px 12px 24px;
+      }
+      .mobile-tabs button {
+        font-size: 15px;
+        padding: 12px 0;
       }
       .mobile-full {
         width: 100%;
@@ -274,13 +285,15 @@
     .btn-primary {
       background: linear-gradient(
         135deg,
-        color-mix(in srgb, var(--primary-start) 80%, transparent) 0%,
-        color-mix(in srgb, var(--primary-end) 80%, transparent) 100%
+        color-mix(in srgb, var(--primary-start) 88%, #ffffff 12%) 0%,
+        color-mix(in srgb, var(--primary-end) 88%, #ffffff 12%) 100%
       );
-      border: 1px solid rgba(255, 255, 255, 0.6);
-      box-shadow: inset 0 1px 1px rgba(255,255,255,0.55), 0 12px 26px color-mix(in srgb, var(--primary-start) 35%, transparent);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      box-shadow:
+        inset 0 1px 1px rgba(255,255,255,0.6),
+        0 10px 18px color-mix(in srgb, var(--primary-start) 30%, transparent);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
     }
 
     .btn-primary:hover {
@@ -290,25 +303,36 @@
     .btn-accent {
       background: linear-gradient(
         135deg,
-        color-mix(in srgb, var(--accent-start) 80%, transparent) 0%,
-        color-mix(in srgb, var(--accent-end) 80%, transparent) 100%
+        color-mix(in srgb, var(--accent-start) 88%, #ffffff 12%) 0%,
+        color-mix(in srgb, var(--accent-end) 88%, #ffffff 12%) 100%
       );
-      border: 1px solid rgba(255, 255, 255, 0.6);
-      box-shadow: inset 0 1px 1px rgba(255,255,255,0.55), 0 12px 26px color-mix(in srgb, var(--accent-start) 35%, transparent);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      box-shadow:
+        inset 0 1px 1px rgba(255,255,255,0.6),
+        0 10px 18px color-mix(in srgb, var(--accent-start) 30%, transparent);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
     }
 
     .btn-warm {
       background: linear-gradient(
         135deg,
-        color-mix(in srgb, var(--warm-start) 80%, transparent) 0%,
-        color-mix(in srgb, var(--warm-end) 80%, transparent) 100%
+        color-mix(in srgb, var(--warm-start) 88%, #ffffff 12%) 0%,
+        color-mix(in srgb, var(--warm-end) 88%, #ffffff 12%) 100%
       );
-      border: 1px solid rgba(255, 255, 255, 0.6);
-      box-shadow: inset 0 1px 1px rgba(255,255,255,0.55), 0 12px 26px color-mix(in srgb, var(--warm-start) 35%, transparent);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      box-shadow:
+        inset 0 1px 1px rgba(255,255,255,0.6),
+        0 10px 18px color-mix(in srgb, var(--warm-start) 30%, transparent);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .btn-main {
+      padding: 14px 18px;
+      border-radius: 999px;
+      font-size: 16px;
+      letter-spacing: 0.2px;
     }
 
     .glow-ring {
@@ -999,7 +1023,7 @@
                 <button
                   type="submit"
                   class="mobile-btn px-4 py-2 rounded-2xl text-white text-xs sm:text-sm font-semibold
-                         shadow active:scale-95 transition btn-primary">
+                         shadow active:scale-95 transition btn-primary btn-main">
                   + 添加任务
                 </button>
                 </div>
@@ -1646,7 +1670,7 @@
 
     <!-- 设置中心 -->
     <div v-if="showSettings"
-         class="fixed inset-0 z-40 flex items-center justify-center bg-black/40">
+         class="settings-overlay fixed inset-0 z-40 flex items-center justify-center bg-black/40">
     <div class="settings-modal bg-white rounded-3xl shadow-2xl max-w-lg w-[92%] p-5 relative glass">
         <button
           class="absolute right-3 top-3 text-slate-400 hover:text-slate-600 text-sm"
@@ -2106,67 +2130,67 @@
               forest: {
                 style: {
                 background: 'linear-gradient(135deg, #e8f2ea 0%, #f3f7f0 45%, #d8e9d5 100%)',
-                '--primary-start': '#10b981',
-                '--primary-end': '#22c55e',
-                '--accent-start': '#22d3ee',
-                '--accent-end': '#3b82f6',
-                '--warm-start': '#f59e0b',
-                '--warm-end': '#f97316'
+                '--primary-start': '#00A699',
+                '--primary-end': '#00C1AE',
+                '--accent-start': '#FF385C',
+                '--accent-end': '#FF5A5F',
+                '--warm-start': '#FF8A3D',
+                '--warm-end': '#FFB457'
                 }
               },
               space: {
                 style: {
                 background: 'radial-gradient(circle at top, #eef2ff 0%, #f5f3ff 35%, #e0f2fe 100%)',
-                '--primary-start': '#6366f1',
-                '--primary-end': '#3b82f6',
-                '--accent-start': '#22d3ee',
-                '--accent-end': '#38bdf8',
-                '--warm-start': '#f59e0b',
-                '--warm-end': '#f97316'
+                '--primary-start': '#3D5AFE',
+                '--primary-end': '#4F7CFF',
+                '--accent-start': '#FF385C',
+                '--accent-end': '#FF5A5F',
+                '--warm-start': '#FF8A3D',
+                '--warm-end': '#FFB457'
                 }
               },
               ocean: {
                 style: {
                 background: 'linear-gradient(145deg, #e0f7fa 0%, #e0fbff 40%, #e0f2fe 100%)',
-                '--primary-start': '#0ea5e9',
-                '--primary-end': '#38bdf8',
-                '--accent-start': '#10b981',
-                '--accent-end': '#22c55e',
-                '--warm-start': '#f59e0b',
-                '--warm-end': '#f97316'
+                '--primary-start': '#007A87',
+                '--primary-end': '#00A699',
+                '--accent-start': '#FF385C',
+                '--accent-end': '#FF5A5F',
+                '--warm-start': '#FF8A3D',
+                '--warm-end': '#FFB457'
                 }
               },
               candy: {
                 style: {
                 background: 'linear-gradient(135deg, #fff1f2 0%, #fef3c7 40%, #e0f2fe 100%)',
-                '--primary-start': '#f472b6',
-                '--primary-end': '#fb7185',
-                '--accent-start': '#38bdf8',
-                '--accent-end': '#60a5fa',
-                '--warm-start': '#f59e0b',
-                '--warm-end': '#f97316'
+                '--primary-start': '#FF385C',
+                '--primary-end': '#FF5A5F',
+                '--accent-start': '#00A699',
+                '--accent-end': '#00C1AE',
+                '--warm-start': '#FF8A3D',
+                '--warm-end': '#FFB457'
                 }
               },
               storybook: {
                 style: {
                 background: 'linear-gradient(135deg, #fef3c7 0%, #fde68a 45%, #fecaca 100%)',
-                '--primary-start': '#f59e0b',
-                '--primary-end': '#f97316',
-                '--accent-start': '#22c55e',
-                '--accent-end': '#10b981',
-                '--warm-start': '#ef4444',
-                '--warm-end': '#f97316'
+                '--primary-start': '#FF7A59',
+                '--primary-end': '#FF9A62',
+                '--accent-start': '#00A699',
+                '--accent-end': '#00C1AE',
+                '--warm-start': '#FF385C',
+                '--warm-end': '#FF5A5F'
                 }
               },
               sunset: {
                 style: {
                 background: 'linear-gradient(160deg, #fef3c7 0%, #ffedd5 40%, #e0f2fe 100%)',
-                '--primary-start': '#f59e0b',
-                '--primary-end': '#f97316',
-                '--accent-start': '#22c55e',
-                '--accent-end': '#10b981',
-                '--warm-start': '#fb7185',
-                '--warm-end': '#f472b6'
+                '--primary-start': '#FF385C',
+                '--primary-end': '#FF5A5F',
+                '--accent-start': '#00A699',
+                '--accent-end': '#00C1AE',
+                '--warm-start': '#FF8A3D',
+                '--warm-end': '#FFB457'
                 }
               }
             };
