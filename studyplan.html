@@ -235,12 +235,27 @@
     }
 
     .glass-btn {
-      background: rgba(255, 255, 255, 0.45);
+      background: linear-gradient(
+        135deg,
+        color-mix(in srgb, var(--primary-start) 18%, #ffffff 82%) 0%,
+        color-mix(in srgb, var(--primary-end) 18%, #ffffff 82%) 100%
+      );
       color: #0f172a;
-      border: 1px solid rgba(148, 163, 184, 0.3);
+      border: 1px solid color-mix(in srgb, var(--primary-start) 25%, #ffffff 75%);
       box-shadow: inset 0 1px 1px rgba(255,255,255,0.7), 0 8px 18px rgba(15,23,42,0.12);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
+    }
+    button:not(.icon-btn) {
+      border-radius: 999px;
+      min-height: 40px;
+      padding: 10px 16px;
+    }
+    .pill-btn {
+      border-radius: 999px;
+      min-height: 44px;
+      padding: 12px 18px;
+      font-size: 15px;
     }
     body.mature-mode::before {
       opacity: 0.4;
@@ -1279,7 +1294,7 @@
          class="fixed inset-0 z-30 flex items-center justify-center bg-black/40">
       <div class="bg-white rounded-3xl shadow-2xl max-w-md w-[90%] p-5 glass relative max-h-[80vh] overflow-y-auto">
         <button
-          class="absolute right-3 top-3 text-slate-400 hover:text-slate-600 text-sm"
+          class="icon-btn absolute right-3 top-3 text-slate-400 hover:text-slate-600 text-sm"
           @click="showTemplateManager = false">
           ✕
         </button>
@@ -1392,7 +1407,7 @@
         <div class="bg-white rounded-3xl shadow-2xl max-w-md w-[90%] p-5 relative"
              @click.stop>
           <button
-            class="absolute right-4 top-4 text-slate-400 hover:text-slate-600 text-lg font-bold z-10"
+            class="icon-btn absolute right-4 top-4 text-slate-400 hover:text-slate-600 text-lg font-bold z-10"
             @click="showAddTodayModal = false">
             ✕
           </button>
@@ -1513,7 +1528,7 @@
              @click.stop>
         <button
           type="button"
-          class="absolute right-4 top-4 text-slate-400 hover:text-slate-600 text-lg font-bold z-10"
+          class="icon-btn absolute right-4 top-4 text-slate-400 hover:text-slate-600 text-lg font-bold z-10"
           @click.stop="closeMemoryManager">
           ✕
         </button>
@@ -1673,16 +1688,95 @@
          class="settings-overlay fixed inset-0 z-40 flex items-center justify-center bg-black/40">
     <div class="settings-modal bg-white rounded-3xl shadow-2xl max-w-lg w-[92%] p-5 relative glass">
         <button
-          class="absolute right-3 top-3 text-slate-400 hover:text-slate-600 text-sm"
+          class="icon-btn absolute right-3 top-3 text-slate-400 hover:text-slate-600 text-sm"
           @click="closeSettings">
           ✕
         </button>
         <div class="text-center mb-4">
           <h2 class="text-lg font-bold text-slate-800">⚙️ 设置中心</h2>
-          <p class="text-xs text-slate-500 mt-1">家长管理与孩子档案</p>
+          <p class="text-xs text-slate-500 mt-1">按菜单进入设置，保存会自动生效</p>
         </div>
 
-        <div class="space-y-4">
+        <div class="space-y-4" v-if="settingsSection === 'home'">
+          <button class="w-full text-left bg-white/80 border border-slate-200 rounded-3xl p-3 lift"
+                  @click="settingsSection = 'parent'">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-sm font-semibold text-slate-800">家长授权</p>
+                <p class="text-[11px] text-slate-500">PIN 与家长授权管理</p>
+              </div>
+              <span class="text-xs text-slate-400">进入</span>
+            </div>
+          </button>
+          <button class="w-full text-left bg-white/80 border border-slate-200 rounded-3xl p-3 lift"
+                  @click="settingsSection = 'profiles'">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-sm font-semibold text-slate-800">孩子档案</p>
+                <p class="text-[11px] text-slate-500">添加与切换孩子</p>
+              </div>
+              <span class="text-xs text-slate-400">进入</span>
+            </div>
+          </button>
+          <button class="w-full text-left bg-white/80 border border-slate-200 rounded-3xl p-3 lift"
+                  @click="settingsSection = 'theme'">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-sm font-semibold text-slate-800">外观与皮肤</p>
+                <p class="text-[11px] text-slate-500">主题与按钮颜色</p>
+              </div>
+              <span class="text-xs text-slate-400">进入</span>
+            </div>
+          </button>
+          <button class="w-full text-left bg-white/80 border border-slate-200 rounded-3xl p-3 lift"
+                  @click="settingsSection = 'parent-tools'">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-sm font-semibold text-slate-800">家长工具</p>
+                <p class="text-[11px] text-slate-500">表扬信等家长功能</p>
+              </div>
+              <span class="text-xs text-slate-400">进入</span>
+            </div>
+          </button>
+          <button class="w-full text-left bg-white/80 border border-slate-200 rounded-3xl p-3 lift"
+                  @click="settingsSection = 'stats'">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-sm font-semibold text-slate-800">统计报表</p>
+                <p class="text-[11px] text-slate-500">查看学习数据</p>
+              </div>
+              <span class="text-xs text-slate-400">进入</span>
+            </div>
+          </button>
+          <button class="w-full text-left bg-white/80 border border-slate-200 rounded-3xl p-3 lift"
+                  @click="settingsSection = 'install'">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-sm font-semibold text-slate-800">安装与设备</p>
+                <p class="text-[11px] text-slate-500">安装到桌面与说明</p>
+              </div>
+              <span class="text-xs text-slate-400">进入</span>
+            </div>
+          </button>
+          <button class="w-full text-left bg-white/80 border border-rose-200 rounded-3xl p-3 lift"
+                  @click="settingsSection = 'danger'">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-sm font-semibold text-rose-700">危险操作</p>
+                <p class="text-[11px] text-rose-500">清空全部数据</p>
+              </div>
+              <span class="text-xs text-rose-400">进入</span>
+            </div>
+          </button>
+        </div>
+
+        <div v-else class="space-y-4">
+          <button class="glass-btn w-full text-sm font-semibold"
+                  @click="settingsSection = 'home'">
+            ← 返回设置菜单
+          </button>
+
+          <div v-if="settingsSection === 'parent'" class="space-y-4">
           <div class="bg-slate-50 rounded-2xl p-3 border border-slate-200">
             <p class="text-sm font-semibold text-slate-800 mb-2">家长授权</p>
             <div class="flex items-center gap-2 mb-2">
@@ -1712,7 +1806,9 @@
               10 岁以下设置与管理需家长 PIN；10 岁以上也需家长授权。
             </p>
           </div>
+          </div>
 
+          <div v-if="settingsSection === 'profiles'" class="space-y-4">
           <div class="bg-slate-50 rounded-2xl p-3 border border-slate-200">
             <p class="text-sm font-semibold text-slate-800 mb-2">孩子档案</p>
             <div class="space-y-2">
@@ -1748,7 +1844,9 @@
               点击“使用”即可切换当前档案。
             </p>
           </div>
+          </div>
 
+          <div v-if="settingsSection === 'theme'" class="space-y-4">
           <div class="bg-slate-50 rounded-2xl p-3 border border-slate-200">
             <p class="text-sm font-semibold text-slate-800 mb-2">外观与皮肤</p>
             <div class="flex flex-wrap gap-2">
@@ -1767,7 +1865,9 @@
               主题会同步改变按钮颜色与整体氛围。
             </p>
           </div>
+          </div>
 
+          <div v-if="settingsSection === 'parent-tools'" class="space-y-4">
           <div class="bg-slate-50 rounded-2xl p-3 border border-slate-200">
             <div class="flex items-center justify-between mb-2">
               <p class="text-sm font-semibold text-slate-800">家长工具</p>
@@ -1784,7 +1884,9 @@
               生成本月表扬信
             </button>
           </div>
+          </div>
 
+          <div v-if="settingsSection === 'stats'" class="space-y-4">
           <div class="bg-slate-50 rounded-2xl p-3 border border-slate-200">
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-2">
@@ -1911,7 +2013,9 @@
               </div>
             </div>
           </div>
+          </div>
 
+          <div v-if="settingsSection === 'install'" class="space-y-4">
           <div class="bg-slate-50 rounded-2xl p-3 border border-slate-200">
             <p class="text-sm font-semibold text-slate-800 mb-2">安装与设备</p>
             <div class="flex flex-col gap-2">
@@ -1926,16 +2030,20 @@
               </div>
             </div>
           </div>
+          </div>
 
-        <div class="danger-area bg-rose-50 rounded-2xl p-3 border border-rose-200">
-          <p class="danger-title text-sm font-semibold text-rose-700 mb-2">危险操作</p>
-          <div class="flex items-center gap-2">
-            <button
-              @click="handleResetClick"
-              class="danger-btn px-3 py-1.5 rounded-xl bg-rose-500 text-white text-xs font-semibold">
-              ⚠ 清空全部数据
-            </button>
-            <span class="text-[11px] text-rose-500">需要三次确认</span>
+          <div v-if="settingsSection === 'danger'" class="space-y-4">
+            <div class="danger-area bg-rose-50 rounded-2xl p-3 border border-rose-200">
+              <p class="danger-title text-sm font-semibold text-rose-700 mb-2">危险操作</p>
+              <div class="flex items-center gap-2">
+                <button
+                  @click="handleResetClick"
+                  class="danger-btn px-3 py-1.5 rounded-xl bg-rose-500 text-white text-xs font-semibold">
+                  ⚠ 清空全部数据
+                </button>
+                <span class="text-[11px] text-rose-500">需要三次确认</span>
+              </div>
+            </div>
           </div>
         </div>
         </div>
@@ -2048,6 +2156,7 @@
           newProfileName: '',
           newProfileAge: 8,
           showSettings: false,
+          settingsSection: 'home',
           isParentUnlocked: false,
           parentPinSet: false,
           deferredPrompt: null,
@@ -4066,6 +4175,7 @@
         openSettings() {
           if (!this.requireParentIfNeeded(true)) return;
           this.showSettings = true;
+          this.settingsSection = 'home';
         },
         closeSettings() {
           this.showSettings = false;
