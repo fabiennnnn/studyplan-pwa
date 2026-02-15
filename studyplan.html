@@ -501,6 +501,13 @@
       border-color: rgba(15, 23, 42, 0.12);
       box-shadow: 0 10px 22px rgba(15, 23, 42, 0.12);
     }
+    .theme-accent-text { color: var(--accent-start) !important; }
+    .theme-accent-bg { background: color-mix(in srgb, var(--accent-start) 18%, #ffffff 82%) !important; }
+    .theme-primary-text { color: var(--primary-start) !important; }
+    .theme-primary-bg { background: color-mix(in srgb, var(--primary-start) 18%, #ffffff 82%) !important; }
+    .theme-warm-text { color: var(--warm-start) !important; }
+    .theme-warm-bg { background: color-mix(in srgb, var(--warm-start) 18%, #ffffff 82%) !important; }
+    .theme-border { border-color: color-mix(in srgb, var(--primary-start) 40%, #0f172a 60%) !important; }
 
     .icon-badge {
       width: 36px;
@@ -816,8 +823,8 @@
         </div>
 
         <!-- 等级 / XP -->
-        <div class="flex items-center gap-2 text-xs sm:text-sm bg-white/70 rounded-full px-3 py-1 soft-shadow">
-          <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 text-[11px] sm:text-xs font-semibold">
+        <div class="flex items-center gap-2 text-xs sm:text-sm bg-white/70 rounded-full px-3 py-1 soft-shadow theme-border">
+          <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 text-[11px] sm:text-xs font-semibold theme-primary-bg theme-primary-text">
             {{ levelDisplay.title }}
           </span>
           <span class="text-slate-600">
@@ -836,7 +843,7 @@
       <!-- 左侧：Tabs + 内容 -->
       <section class="flex-1 flex flex-col">
         <!-- 今日鼓励（顶部） -->
-        <div class="glass bg-white/80 rounded-3xl soft-shadow p-3 sm:p-4 mb-3 lift">
+        <div class="glass bg-white/80 rounded-3xl soft-shadow p-3 sm:p-4 mb-3 lift theme-border">
           <div class="flex items-center justify-between">
             <span class="text-sm font-semibold text-slate-800 flex items-center gap-2">
               <span v-if="!isOlderKid" class="icon-badge bg-amber-100 text-amber-700" style="width:32px;height:32px">
@@ -851,7 +858,7 @@
               换一句
             </button>
           </div>
-          <p class="text-sm text-emerald-700 leading-snug mt-2">
+          <p class="text-sm text-emerald-700 leading-snug mt-2 theme-accent-text">
             “{{ currentQuote }}”
           </p>
         </div>
@@ -859,13 +866,13 @@
         <div class="mobile-tabs flex rounded-2xl bg-white/85 soft-shadow overflow-hidden mb-3 text-sm lift">
           <button
             class="flex-1 py-2.5 sm:py-3 font-semibold transition"
-            :class="activeTab === 'daily' ? 'bg-emerald-100 text-emerald-700' : 'bg-transparent text-slate-500 hover:bg-slate-100'"
+            :class="activeTab === 'daily' ? 'theme-primary-bg theme-primary-text' : 'bg-transparent text-slate-500 hover:bg-slate-100'"
             @click="activeTab = 'daily'">
             今日大冒险
           </button>
           <button
             class="flex-1 py-2.5 sm:py-3 font-semibold transition"
-            :class="activeTab === 'memory' ? 'bg-sky-100 text-sky-700' : 'bg-transparent text-slate-500 hover:bg-slate-100'"
+            :class="activeTab === 'memory' ? 'theme-warm-bg theme-warm-text' : 'bg-transparent text-slate-500 hover:bg-slate-100'"
             @click="activeTab = 'memory'">
             记忆挑战
           </button>
@@ -886,16 +893,16 @@
                   <p class="text-[11px] text-slate-500">完成每一个小任务，就是升级的一步</p>
                 </div>
               </div>
-              <span class="text-[11px] px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-600 border border-emerald-200">每日计划</span>
+              <span class="text-[11px] px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-600 border border-emerald-200 theme-primary-bg theme-primary-text theme-border">每日计划</span>
             </div>
 
             <!-- 今日进度仪表盘 -->
-            <div class="relative mb-3 rounded-2xl bg-white/90 border border-emerald-100 px-3 py-2 flex items-center justify-between">
+            <div class="relative mb-3 rounded-2xl bg-white/90 border border-emerald-100 px-3 py-2 flex items-center justify-between theme-border">
               <div class="flex items-center gap-3">
                 <svg class="w-14 h-14" viewBox="0 0 80 80">
                   <circle cx="40" cy="40" r="28" stroke="#e2e8f0" stroke-width="10" fill="none"></circle>
                   <circle
-                    cx="40" cy="40" r="28" stroke="#10b981" stroke-width="10" fill="none"
+                    cx="40" cy="40" r="28" stroke="var(--primary-start)" stroke-width="10" fill="none"
                     stroke-linecap="round"
                     :stroke-dasharray="progressRing.circumference"
                     :stroke-dashoffset="progressRing.offset"
@@ -909,7 +916,7 @@
                 </div>
               </div>
               <div class="text-right">
-                <p class="text-xl font-bold text-emerald-600">{{ todayProgress.percent }}%</p>
+                <p class="text-xl font-bold text-emerald-600 theme-primary-text">{{ todayProgress.percent }}%</p>
                 <p class="text-[11px] text-slate-400">完成率</p>
               </div>
 
@@ -932,14 +939,14 @@
               <button
                 @click="openTemplateManager"
                 class="text-[11px] sm:text-xs px-2 py-1 rounded-full border border-blue-200
-                       bg-blue-50 text-blue-700 hover:bg-blue-100 transition">
+                       bg-blue-50 text-blue-700 hover:bg-blue-100 transition theme-primary-bg theme-primary-text theme-border">
                   📋 管理模板
                 </button>
                 <select
                   v-model="selectedTemplateId"
                   @change="applyTemplate"
                 class="text-[11px] sm:text-xs px-2 py-1 rounded-full border border-emerald-200
-                       bg-emerald-50 text-emerald-700 hover:bg-emerald-100 transition">
+                       bg-emerald-50 text-emerald-700 hover:bg-emerald-100 transition theme-primary-bg theme-primary-text theme-border">
                   <option value="">选择模板...</option>
                   <option v-for="tpl in templates" :key="tpl.id" :value="tpl.id">
                     {{ tpl.name }}
