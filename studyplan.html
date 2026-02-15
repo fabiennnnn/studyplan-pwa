@@ -237,12 +237,12 @@
     .glass-btn {
       background: linear-gradient(
         135deg,
-        color-mix(in srgb, var(--primary-start) 18%, #ffffff 82%) 0%,
-        color-mix(in srgb, var(--primary-end) 18%, #ffffff 82%) 100%
+        color-mix(in srgb, var(--primary-start) 14%, #ffffff 86%) 0%,
+        color-mix(in srgb, var(--primary-end) 14%, #ffffff 86%) 100%
       );
-      color: #0f172a;
-      border: 1px solid color-mix(in srgb, var(--primary-start) 25%, #ffffff 75%);
-      box-shadow: inset 0 1px 1px rgba(255,255,255,0.7), 0 8px 18px rgba(15,23,42,0.12);
+      color: color-mix(in srgb, var(--primary-start) 70%, #0f172a 30%);
+      border: 1px solid color-mix(in srgb, var(--primary-start) 22%, #ffffff 78%);
+      box-shadow: inset 0 1px 1px rgba(255,255,255,0.75), 0 8px 18px rgba(15,23,42,0.12);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
     }
@@ -250,6 +250,25 @@
       border-radius: 999px;
       min-height: 40px;
       padding: 10px 16px;
+      background: linear-gradient(
+        135deg,
+        color-mix(in srgb, var(--primary-start) 22%, #ffffff 78%) 0%,
+        color-mix(in srgb, var(--primary-end) 22%, #ffffff 78%) 100%
+      );
+      color: color-mix(in srgb, var(--primary-start) 80%, #0f172a 20%);
+      border: 1px solid color-mix(in srgb, var(--primary-start) 30%, #ffffff 70%);
+      box-shadow:
+        inset 0 1px 1px rgba(255,255,255,0.75),
+        0 12px 24px color-mix(in srgb, var(--primary-start) 22%, transparent);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+    button:not(.icon-btn):hover {
+      filter: brightness(1.02);
+    }
+    button:not(.icon-btn):disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
     }
     .pill-btn {
       border-radius: 999px;
@@ -300,15 +319,16 @@
     .btn-primary {
       background: linear-gradient(
         135deg,
-        color-mix(in srgb, var(--primary-start) 88%, #ffffff 12%) 0%,
-        color-mix(in srgb, var(--primary-end) 88%, #ffffff 12%) 100%
+        color-mix(in srgb, var(--primary-start) 28%, #ffffff 72%) 0%,
+        color-mix(in srgb, var(--primary-end) 28%, #ffffff 72%) 100%
       );
-      border: 1px solid rgba(255, 255, 255, 0.7);
+      color: color-mix(in srgb, var(--primary-start) 85%, #0f172a 15%);
+      border: 1px solid color-mix(in srgb, var(--primary-start) 35%, #ffffff 65%);
       box-shadow:
-        inset 0 1px 1px rgba(255,255,255,0.6),
-        0 10px 18px color-mix(in srgb, var(--primary-start) 30%, transparent);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+        inset 0 1px 1px rgba(255,255,255,0.7),
+        0 12px 24px color-mix(in srgb, var(--primary-start) 25%, transparent);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
     }
 
     .btn-primary:hover {
@@ -318,29 +338,31 @@
     .btn-accent {
       background: linear-gradient(
         135deg,
-        color-mix(in srgb, var(--accent-start) 88%, #ffffff 12%) 0%,
-        color-mix(in srgb, var(--accent-end) 88%, #ffffff 12%) 100%
+        color-mix(in srgb, var(--accent-start) 28%, #ffffff 72%) 0%,
+        color-mix(in srgb, var(--accent-end) 28%, #ffffff 72%) 100%
       );
-      border: 1px solid rgba(255, 255, 255, 0.7);
+      color: color-mix(in srgb, var(--accent-start) 85%, #0f172a 15%);
+      border: 1px solid color-mix(in srgb, var(--accent-start) 35%, #ffffff 65%);
       box-shadow:
-        inset 0 1px 1px rgba(255,255,255,0.6),
-        0 10px 18px color-mix(in srgb, var(--accent-start) 30%, transparent);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+        inset 0 1px 1px rgba(255,255,255,0.7),
+        0 12px 24px color-mix(in srgb, var(--accent-start) 25%, transparent);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
     }
 
     .btn-warm {
       background: linear-gradient(
         135deg,
-        color-mix(in srgb, var(--warm-start) 88%, #ffffff 12%) 0%,
-        color-mix(in srgb, var(--warm-end) 88%, #ffffff 12%) 100%
+        color-mix(in srgb, var(--warm-start) 28%, #ffffff 72%) 0%,
+        color-mix(in srgb, var(--warm-end) 28%, #ffffff 72%) 100%
       );
-      border: 1px solid rgba(255, 255, 255, 0.7);
+      color: color-mix(in srgb, var(--warm-start) 85%, #0f172a 15%);
+      border: 1px solid color-mix(in srgb, var(--warm-start) 35%, #ffffff 65%);
       box-shadow:
-        inset 0 1px 1px rgba(255,255,255,0.6),
-        0 10px 18px color-mix(in srgb, var(--warm-start) 30%, transparent);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+        inset 0 1px 1px rgba(255,255,255,0.7),
+        0 12px 24px color-mix(in srgb, var(--warm-start) 25%, transparent);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
     }
 
     .btn-main {
