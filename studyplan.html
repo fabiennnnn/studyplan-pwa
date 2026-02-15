@@ -2851,8 +2851,8 @@
         },
         toggleTask(task) {
           if (!task.startTime && !task.done) {
-            // 如果还没开始，先自动开始
-            this.startTask(task);
+            alert('请先点击“开始”再完成任务。');
+            return;
           }
           const wasDone = task.done;
           task.done = !task.done;
