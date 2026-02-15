@@ -235,33 +235,23 @@
     }
 
     .glass-btn {
-      background: linear-gradient(
-        135deg,
-        color-mix(in srgb, var(--primary-start) 14%, #ffffff 86%) 0%,
-        color-mix(in srgb, var(--primary-end) 14%, #ffffff 86%) 100%
-      );
-      color: color-mix(in srgb, var(--primary-start) 70%, #0f172a 30%);
-      border: 1px solid color-mix(in srgb, var(--primary-start) 22%, #ffffff 78%);
-      box-shadow: inset 0 1px 1px rgba(255,255,255,0.75), 0 8px 18px rgba(15,23,42,0.12);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      background: rgba(255, 255, 255, 0.45);
+      color: #0f172a;
+      border: 1px solid #0f172a;
+      box-shadow: none;
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
     }
     button:not(.icon-btn) {
       border-radius: 999px;
       min-height: 40px;
       padding: 10px 16px;
-      background: linear-gradient(
-        135deg,
-        color-mix(in srgb, var(--primary-start) 22%, #ffffff 78%) 0%,
-        color-mix(in srgb, var(--primary-end) 22%, #ffffff 78%) 100%
-      );
-      color: color-mix(in srgb, var(--primary-start) 80%, #0f172a 20%);
-      border: 1px solid color-mix(in srgb, var(--primary-start) 30%, #ffffff 70%);
-      box-shadow:
-        inset 0 1px 1px rgba(255,255,255,0.75),
-        0 12px 24px color-mix(in srgb, var(--primary-start) 22%, transparent);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      background: rgba(255, 255, 255, 0.45);
+      color: #0f172a;
+      border: 1px solid #0f172a;
+      box-shadow: none;
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
     }
     button:not(.icon-btn):hover {
       filter: brightness(1.02);
@@ -317,18 +307,12 @@
     }
 
     .btn-primary {
-      background: linear-gradient(
-        135deg,
-        color-mix(in srgb, var(--primary-start) 28%, #ffffff 72%) 0%,
-        color-mix(in srgb, var(--primary-end) 28%, #ffffff 72%) 100%
-      );
-      color: color-mix(in srgb, var(--primary-start) 85%, #0f172a 15%);
-      border: 1px solid color-mix(in srgb, var(--primary-start) 35%, #ffffff 65%);
-      box-shadow:
-        inset 0 1px 1px rgba(255,255,255,0.7),
-        0 12px 24px color-mix(in srgb, var(--primary-start) 25%, transparent);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      background: rgba(255, 255, 255, 0.45);
+      color: #0f172a;
+      border: 1px solid #0f172a;
+      box-shadow: none;
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
     }
 
     .btn-primary:hover {
@@ -336,33 +320,21 @@
     }
 
     .btn-accent {
-      background: linear-gradient(
-        135deg,
-        color-mix(in srgb, var(--accent-start) 28%, #ffffff 72%) 0%,
-        color-mix(in srgb, var(--accent-end) 28%, #ffffff 72%) 100%
-      );
-      color: color-mix(in srgb, var(--accent-start) 85%, #0f172a 15%);
-      border: 1px solid color-mix(in srgb, var(--accent-start) 35%, #ffffff 65%);
-      box-shadow:
-        inset 0 1px 1px rgba(255,255,255,0.7),
-        0 12px 24px color-mix(in srgb, var(--accent-start) 25%, transparent);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      background: rgba(255, 255, 255, 0.45);
+      color: #0f172a;
+      border: 1px solid #0f172a;
+      box-shadow: none;
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
     }
 
     .btn-warm {
-      background: linear-gradient(
-        135deg,
-        color-mix(in srgb, var(--warm-start) 28%, #ffffff 72%) 0%,
-        color-mix(in srgb, var(--warm-end) 28%, #ffffff 72%) 100%
-      );
-      color: color-mix(in srgb, var(--warm-start) 85%, #0f172a 15%);
-      border: 1px solid color-mix(in srgb, var(--warm-start) 35%, #ffffff 65%);
-      box-shadow:
-        inset 0 1px 1px rgba(255,255,255,0.7),
-        0 12px 24px color-mix(in srgb, var(--warm-start) 25%, transparent);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      background: rgba(255, 255, 255, 0.45);
+      color: #0f172a;
+      border: 1px solid #0f172a;
+      box-shadow: none;
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
     }
 
     .btn-main {
@@ -2089,10 +2061,7 @@
           themeOptions: [
             { value: 'candy', label: '糖果梦', icon: '🍬', swatch: 'linear-gradient(135deg, #fbcfe8 0%, #fde68a 45%, #bfdbfe 100%)' },
             { value: 'forest', label: '森林探险', icon: '🌳', swatch: 'linear-gradient(135deg, #d1fae5 0%, #f0fdf4 40%, #bbf7d0 100%)' },
-            { value: 'storybook', label: '故事书', icon: '📖', swatch: 'linear-gradient(135deg, #fef3c7 0%, #fde68a 50%, #fca5a5 100%)' },
             { value: 'ocean', label: '深海蓝', icon: '🐠', swatch: 'linear-gradient(135deg, #bae6fd 0%, #7dd3fc 45%, #a5f3fc 100%)' },
-            { value: 'space', label: '星际', icon: '🚀', swatch: 'radial-gradient(circle at top, #e0e7ff 0%, #ddd6fe 40%, #bfdbfe 100%)' },
-            { value: 'sunset', label: '夕阳草地', icon: '🌇', swatch: 'linear-gradient(160deg, #fde68a 0%, #fdba74 40%, #bfdbfe 100%)' },
           ],
 
           // Tabs
@@ -2261,19 +2230,10 @@
               forest: {
                 style: {
                 background: 'linear-gradient(135deg, #e8f2ea 0%, #f3f7f0 45%, #d8e9d5 100%)',
+                backgroundImage: 'radial-gradient(circle at 12% 18%, rgba(16, 185, 129, 0.22), transparent 40%), radial-gradient(circle at 82% 12%, rgba(34, 197, 94, 0.18), transparent 36%), repeating-linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0 10px, transparent 10px 20px)',
+                backgroundBlendMode: 'soft-light',
                 '--primary-start': '#00A699',
                 '--primary-end': '#00C1AE',
-                '--accent-start': '#FF385C',
-                '--accent-end': '#FF5A5F',
-                '--warm-start': '#FF8A3D',
-                '--warm-end': '#FFB457'
-                }
-              },
-              space: {
-                style: {
-                background: 'radial-gradient(circle at top, #eef2ff 0%, #f5f3ff 35%, #e0f2fe 100%)',
-                '--primary-start': '#3D5AFE',
-                '--primary-end': '#4F7CFF',
                 '--accent-start': '#FF385C',
                 '--accent-end': '#FF5A5F',
                 '--warm-start': '#FF8A3D',
@@ -2283,6 +2243,8 @@
               ocean: {
                 style: {
                 background: 'linear-gradient(145deg, #e0f7fa 0%, #e0fbff 40%, #e0f2fe 100%)',
+                backgroundImage: 'radial-gradient(circle at 20% 15%, rgba(59, 130, 246, 0.22), transparent 42%), radial-gradient(circle at 75% 22%, rgba(14, 165, 233, 0.18), transparent 38%), repeating-linear-gradient(0deg, rgba(14, 165, 233, 0.08) 0 8px, transparent 8px 18px)',
+                backgroundBlendMode: 'soft-light',
                 '--primary-start': '#007A87',
                 '--primary-end': '#00A699',
                 '--accent-start': '#FF385C',
@@ -2294,6 +2256,8 @@
               candy: {
                 style: {
                 background: 'linear-gradient(135deg, #fff1f2 0%, #fef3c7 40%, #e0f2fe 100%)',
+                backgroundImage: 'radial-gradient(circle at 15% 20%, rgba(244, 114, 182, 0.18), transparent 40%), radial-gradient(circle at 80% 10%, rgba(59, 130, 246, 0.16), transparent 36%), repeating-linear-gradient(135deg, rgba(244, 114, 182, 0.08) 0 12px, transparent 12px 24px)',
+                backgroundBlendMode: 'soft-light',
                 '--primary-start': '#FF385C',
                 '--primary-end': '#FF5A5F',
                 '--accent-start': '#00A699',
@@ -2302,28 +2266,6 @@
                 '--warm-end': '#FFB457'
                 }
               },
-              storybook: {
-                style: {
-                background: 'linear-gradient(135deg, #fef3c7 0%, #fde68a 45%, #fecaca 100%)',
-                '--primary-start': '#FF7A59',
-                '--primary-end': '#FF9A62',
-                '--accent-start': '#00A699',
-                '--accent-end': '#00C1AE',
-                '--warm-start': '#FF385C',
-                '--warm-end': '#FF5A5F'
-                }
-              },
-              sunset: {
-                style: {
-                background: 'linear-gradient(160deg, #fef3c7 0%, #ffedd5 40%, #e0f2fe 100%)',
-                '--primary-start': '#FF385C',
-                '--primary-end': '#FF5A5F',
-                '--accent-start': '#00A699',
-                '--accent-end': '#00C1AE',
-                '--warm-start': '#FF8A3D',
-                '--warm-end': '#FFB457'
-                }
-              }
             };
           return map[this.theme] || map.forest;
         },
