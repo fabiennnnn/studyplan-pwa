@@ -340,6 +340,13 @@
       transform: translateY(-1px);
       box-shadow: 0 10px 22px rgba(15, 23, 42, 0.12);
     }
+    .app-shell {
+      background: var(--theme-bg);
+      background-blend-mode: soft-light;
+      background-size: cover;
+      background-repeat: no-repeat;
+      border-radius: 0;
+    }
 
     .btn-primary {
       background: rgba(255, 255, 255, 0.35);
@@ -794,7 +801,7 @@
   <div id="app"
        :style="themeConfig.style"
        :class="{ 'mature-ui': isOlderKid }"
-       class="min-h-screen flex flex-col items-center py-4 px-3 sm:px-6 lg:px-10 transition-colors duration-300">
+       class="app-shell min-h-screen flex flex-col items-center py-4 px-3 sm:px-6 lg:px-10 transition-colors duration-300">
 
     <!-- 顶部栏：标题 + 档案 + 等级信息 -->
     <header class="app-header w-full max-w-5xl flex items-center justify-between mb-3 sm:mb-4">
@@ -2270,11 +2277,9 @@
             const map = {
               forest: {
                 style: {
-                background: 'linear-gradient(135deg, #e8f2ea 0%, #f3f7f0 45%, #d8e9d5 100%)',
-                backgroundImage: 'radial-gradient(18px 10px at 12% 22%, rgba(34, 197, 94, 0.18) 40%, transparent 41%), radial-gradient(22px 12px at 22% 35%, rgba(16, 185, 129, 0.16) 40%, transparent 41%), radial-gradient(16px 10px at 38% 18%, rgba(34, 197, 94, 0.14) 40%, transparent 41%), radial-gradient(20px 12px at 66% 22%, rgba(16, 185, 129, 0.16) 40%, transparent 41%), radial-gradient(18px 10px at 78% 36%, rgba(34, 197, 94, 0.14) 40%, transparent 41%), repeating-linear-gradient(135deg, rgba(16, 185, 129, 0.06) 0 14px, transparent 14px 28px)',
-                backgroundBlendMode: 'soft-light',
-                '--theme-border': 'rgba(0, 166, 153, 0.55)',
-                '--theme-tint': '#c9f7e5',
+                '--theme-bg': 'linear-gradient(135deg, #bff7d0 0%, #e8fff2 45%, #b7f2ad 100%), radial-gradient(20px 12px at 12% 22%, rgba(34, 197, 94, 0.25) 40%, transparent 41%), radial-gradient(24px 14px at 22% 35%, rgba(16, 185, 129, 0.22) 40%, transparent 41%), radial-gradient(18px 12px at 38% 18%, rgba(34, 197, 94, 0.2) 40%, transparent 41%), radial-gradient(22px 14px at 66% 22%, rgba(16, 185, 129, 0.22) 40%, transparent 41%), radial-gradient(20px 12px at 78% 36%, rgba(34, 197, 94, 0.2) 40%, transparent 41%), repeating-linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0 16px, transparent 16px 32px)',
+                '--theme-border': 'rgba(16, 185, 129, 0.65)',
+                '--theme-tint': '#d8ffe8',
                 '--primary-start': '#00A699',
                 '--primary-end': '#00C1AE',
                 '--accent-start': '#FF385C',
@@ -2285,11 +2290,9 @@
               },
               ocean: {
                 style: {
-                background: 'linear-gradient(145deg, #e0f7fa 0%, #e0fbff 40%, #e0f2fe 100%)',
-                backgroundImage: 'radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.18) 0 6px, transparent 7px), radial-gradient(circle at 35% 35%, rgba(14, 165, 233, 0.16) 0 5px, transparent 6px), radial-gradient(circle at 70% 18%, rgba(59, 130, 246, 0.14) 0 7px, transparent 8px), radial-gradient(circle at 80% 40%, rgba(14, 165, 233, 0.14) 0 5px, transparent 6px), repeating-linear-gradient(0deg, rgba(14, 165, 233, 0.08) 0 8px, transparent 8px 18px)',
-                backgroundBlendMode: 'soft-light',
-                '--theme-border': 'rgba(0, 122, 135, 0.55)',
-                '--theme-tint': '#cfeffd',
+                '--theme-bg': 'linear-gradient(145deg, #a7e7ff 0%, #d9f7ff 45%, #8acbff 100%), radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.25) 0 7px, transparent 8px), radial-gradient(circle at 35% 35%, rgba(14, 165, 233, 0.22) 0 6px, transparent 7px), radial-gradient(circle at 70% 18%, rgba(59, 130, 246, 0.2) 0 8px, transparent 9px), radial-gradient(circle at 80% 40%, rgba(14, 165, 233, 0.2) 0 6px, transparent 7px), repeating-linear-gradient(0deg, rgba(14, 165, 233, 0.12) 0 10px, transparent 10px 22px)',
+                '--theme-border': 'rgba(14, 165, 233, 0.65)',
+                '--theme-tint': '#d6f4ff',
                 '--primary-start': '#007A87',
                 '--primary-end': '#00A699',
                 '--accent-start': '#FF385C',
@@ -2300,11 +2303,9 @@
               },
               candy: {
                 style: {
-                background: 'linear-gradient(135deg, #fff1f2 0%, #fef3c7 40%, #e0f2fe 100%)',
-                backgroundImage: 'radial-gradient(circle at 16% 18%, rgba(244, 114, 182, 0.2) 0 6px, transparent 7px), radial-gradient(circle at 28% 32%, rgba(251, 191, 36, 0.18) 0 5px, transparent 6px), radial-gradient(circle at 72% 20%, rgba(59, 130, 246, 0.16) 0 6px, transparent 7px), radial-gradient(circle at 82% 38%, rgba(244, 114, 182, 0.16) 0 5px, transparent 6px), repeating-conic-gradient(from 45deg, rgba(244, 114, 182, 0.06) 0 10deg, transparent 10deg 20deg)',
-                backgroundBlendMode: 'soft-light',
-                '--theme-border': 'rgba(255, 56, 92, 0.55)',
-                '--theme-tint': '#ffe0e8',
+                '--theme-bg': 'linear-gradient(135deg, #ffd0e6 0%, #ffe9a8 45%, #cfe4ff 100%), radial-gradient(circle at 16% 18%, rgba(244, 114, 182, 0.26) 0 7px, transparent 8px), radial-gradient(circle at 28% 32%, rgba(251, 191, 36, 0.24) 0 6px, transparent 7px), radial-gradient(circle at 72% 20%, rgba(59, 130, 246, 0.22) 0 7px, transparent 8px), radial-gradient(circle at 82% 38%, rgba(244, 114, 182, 0.22) 0 6px, transparent 7px), repeating-conic-gradient(from 45deg, rgba(244, 114, 182, 0.12) 0 12deg, transparent 12deg 24deg)',
+                '--theme-border': 'rgba(255, 56, 92, 0.7)',
+                '--theme-tint': '#ffe4ef',
                 '--primary-start': '#FF385C',
                 '--primary-end': '#FF5A5F',
                 '--accent-start': '#00A699',
@@ -2315,10 +2316,8 @@
               },
               buddy: {
                 style: {
-                background: 'linear-gradient(145deg, #e0f2fe 0%, #dbeafe 40%, #bfdbfe 100%)',
-                backgroundImage: 'radial-gradient(circle at 22% 22%, rgba(59, 130, 246, 0.2) 0 9px, transparent 10px), radial-gradient(circle at 76% 18%, rgba(14, 165, 233, 0.18) 0 7px, transparent 8px), radial-gradient(circle at 68% 40%, rgba(59, 130, 246, 0.14) 0 5px, transparent 6px), repeating-radial-gradient(circle, rgba(59, 130, 246, 0.08) 0 6px, transparent 6px 18px)',
-                backgroundBlendMode: 'soft-light',
-                '--theme-border': 'rgba(59, 130, 246, 0.55)',
+                '--theme-bg': 'linear-gradient(145deg, #b4d9ff 0%, #e1efff 45%, #8bb9ff 100%), radial-gradient(circle at 22% 22%, rgba(59, 130, 246, 0.26) 0 10px, transparent 11px), radial-gradient(circle at 76% 18%, rgba(14, 165, 233, 0.24) 0 8px, transparent 9px), radial-gradient(circle at 68% 40%, rgba(59, 130, 246, 0.22) 0 6px, transparent 7px), repeating-radial-gradient(circle, rgba(59, 130, 246, 0.12) 0 7px, transparent 7px 20px)',
+                '--theme-border': 'rgba(59, 130, 246, 0.7)',
                 '--theme-tint': '#dbeafe',
                 '--primary-start': '#3B82F6',
                 '--primary-end': '#60A5FA',
@@ -4113,10 +4112,10 @@
         // 根据主题直接修改 body 背景，让变化更明显
         applyBodyTheme() {
           const map = {
-            forest: 'linear-gradient(135deg, #e8f2ea 0%, #f3f7f0 45%, #d8e9d5 100%), radial-gradient(18px 10px at 12% 22%, rgba(34, 197, 94, 0.18) 40%, transparent 41%), radial-gradient(22px 12px at 22% 35%, rgba(16, 185, 129, 0.16) 40%, transparent 41%), radial-gradient(16px 10px at 38% 18%, rgba(34, 197, 94, 0.14) 40%, transparent 41%), radial-gradient(20px 12px at 66% 22%, rgba(16, 185, 129, 0.16) 40%, transparent 41%), radial-gradient(18px 10px at 78% 36%, rgba(34, 197, 94, 0.14) 40%, transparent 41%), repeating-linear-gradient(135deg, rgba(16, 185, 129, 0.06) 0 14px, transparent 14px 28px)',
-            ocean: 'linear-gradient(145deg, #e0f7fa 0%, #e0fbff 40%, #e0f2fe 100%), radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.18) 0 6px, transparent 7px), radial-gradient(circle at 35% 35%, rgba(14, 165, 233, 0.16) 0 5px, transparent 6px), radial-gradient(circle at 70% 18%, rgba(59, 130, 246, 0.14) 0 7px, transparent 8px), radial-gradient(circle at 80% 40%, rgba(14, 165, 233, 0.14) 0 5px, transparent 6px), repeating-linear-gradient(0deg, rgba(14, 165, 233, 0.08) 0 8px, transparent 8px 18px)',
-            candy: 'linear-gradient(135deg, #fff1f2 0%, #fef3c7 40%, #e0f2fe 100%), radial-gradient(circle at 16% 18%, rgba(244, 114, 182, 0.2) 0 6px, transparent 7px), radial-gradient(circle at 28% 32%, rgba(251, 191, 36, 0.18) 0 5px, transparent 6px), radial-gradient(circle at 72% 20%, rgba(59, 130, 246, 0.16) 0 6px, transparent 7px), radial-gradient(circle at 82% 38%, rgba(244, 114, 182, 0.16) 0 5px, transparent 6px), repeating-conic-gradient(from 45deg, rgba(244, 114, 182, 0.06) 0 10deg, transparent 10deg 20deg)',
-            buddy: 'linear-gradient(145deg, #e0f2fe 0%, #dbeafe 40%, #bfdbfe 100%), radial-gradient(circle at 22% 22%, rgba(59, 130, 246, 0.2) 0 9px, transparent 10px), radial-gradient(circle at 76% 18%, rgba(14, 165, 233, 0.18) 0 7px, transparent 8px), radial-gradient(circle at 68% 40%, rgba(59, 130, 246, 0.14) 0 5px, transparent 6px), repeating-radial-gradient(circle, rgba(59, 130, 246, 0.08) 0 6px, transparent 6px 18px)'
+            forest: 'linear-gradient(135deg, #bff7d0 0%, #e8fff2 45%, #b7f2ad 100%), radial-gradient(20px 12px at 12% 22%, rgba(34, 197, 94, 0.25) 40%, transparent 41%), radial-gradient(24px 14px at 22% 35%, rgba(16, 185, 129, 0.22) 40%, transparent 41%), radial-gradient(18px 12px at 38% 18%, rgba(34, 197, 94, 0.2) 40%, transparent 41%), radial-gradient(22px 14px at 66% 22%, rgba(16, 185, 129, 0.22) 40%, transparent 41%), radial-gradient(20px 12px at 78% 36%, rgba(34, 197, 94, 0.2) 40%, transparent 41%), repeating-linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0 16px, transparent 16px 32px)',
+            ocean: 'linear-gradient(145deg, #a7e7ff 0%, #d9f7ff 45%, #8acbff 100%), radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.25) 0 7px, transparent 8px), radial-gradient(circle at 35% 35%, rgba(14, 165, 233, 0.22) 0 6px, transparent 7px), radial-gradient(circle at 70% 18%, rgba(59, 130, 246, 0.2) 0 8px, transparent 9px), radial-gradient(circle at 80% 40%, rgba(14, 165, 233, 0.2) 0 6px, transparent 7px), repeating-linear-gradient(0deg, rgba(14, 165, 233, 0.12) 0 10px, transparent 10px 22px)',
+            candy: 'linear-gradient(135deg, #ffd0e6 0%, #ffe9a8 45%, #cfe4ff 100%), radial-gradient(circle at 16% 18%, rgba(244, 114, 182, 0.26) 0 7px, transparent 8px), radial-gradient(circle at 28% 32%, rgba(251, 191, 36, 0.24) 0 6px, transparent 7px), radial-gradient(circle at 72% 20%, rgba(59, 130, 246, 0.22) 0 7px, transparent 8px), radial-gradient(circle at 82% 38%, rgba(244, 114, 182, 0.22) 0 6px, transparent 7px), repeating-conic-gradient(from 45deg, rgba(244, 114, 182, 0.12) 0 12deg, transparent 12deg 24deg)',
+            buddy: 'linear-gradient(145deg, #b4d9ff 0%, #e1efff 45%, #8bb9ff 100%), radial-gradient(circle at 22% 22%, rgba(59, 130, 246, 0.26) 0 10px, transparent 11px), radial-gradient(circle at 76% 18%, rgba(14, 165, 233, 0.24) 0 8px, transparent 9px), radial-gradient(circle at 68% 40%, rgba(59, 130, 246, 0.22) 0 6px, transparent 7px), repeating-radial-gradient(circle, rgba(59, 130, 246, 0.12) 0 7px, transparent 7px 20px)'
           };
           const bg = map[this.theme] || map.forest;
           document.body.style.backgroundImage = bg;
