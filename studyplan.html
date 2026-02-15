@@ -252,7 +252,7 @@
         rgba(255, 255, 255, 0.35) 100%
       );
       color: #0f172a;
-      border: 1px solid rgba(15, 23, 42, 0.35);
+      border: 1px solid var(--theme-border);
       box-shadow: none;
       backdrop-filter: blur(18px);
       -webkit-backdrop-filter: blur(18px);
@@ -267,7 +267,7 @@
         rgba(255, 255, 255, 0.35) 100%
       );
       color: #0f172a !important;
-      border: 1px solid rgba(15, 23, 42, 0.35) !important;
+      border: 1px solid var(--theme-border) !important;
       box-shadow: none !important;
       backdrop-filter: blur(18px);
       -webkit-backdrop-filter: blur(18px);
@@ -502,12 +502,16 @@
       box-shadow: 0 10px 22px rgba(15, 23, 42, 0.12);
     }
     .theme-accent-text { color: var(--accent-start) !important; }
-    .theme-accent-bg { background: color-mix(in srgb, var(--accent-start) 18%, #ffffff 82%) !important; }
+    .theme-accent-bg { background: color-mix(in srgb, var(--accent-start) 22%, #ffffff 78%) !important; }
     .theme-primary-text { color: var(--primary-start) !important; }
-    .theme-primary-bg { background: color-mix(in srgb, var(--primary-start) 18%, #ffffff 82%) !important; }
+    .theme-primary-bg { background: color-mix(in srgb, var(--primary-start) 22%, #ffffff 78%) !important; }
     .theme-warm-text { color: var(--warm-start) !important; }
-    .theme-warm-bg { background: color-mix(in srgb, var(--warm-start) 18%, #ffffff 82%) !important; }
-    .theme-border { border-color: color-mix(in srgb, var(--primary-start) 40%, #0f172a 60%) !important; }
+    .theme-warm-bg { background: color-mix(in srgb, var(--warm-start) 22%, #ffffff 78%) !important; }
+    .theme-border { border-color: var(--theme-border) !important; }
+    .theme-card {
+      border-color: var(--theme-border) !important;
+      background: color-mix(in srgb, var(--theme-tint) 18%, #ffffff 82%) !important;
+    }
 
     .icon-badge {
       width: 36px;
@@ -843,7 +847,7 @@
       <!-- 左侧：Tabs + 内容 -->
       <section class="flex-1 flex flex-col">
         <!-- 今日鼓励（顶部） -->
-        <div class="glass bg-white/80 rounded-3xl soft-shadow p-3 sm:p-4 mb-3 lift theme-border">
+        <div class="glass bg-white/80 rounded-3xl soft-shadow p-3 sm:p-4 mb-3 lift theme-card theme-border">
           <div class="flex items-center justify-between">
             <span class="text-sm font-semibold text-slate-800 flex items-center gap-2">
               <span v-if="!isOlderKid" class="icon-badge bg-amber-100 text-amber-700" style="width:32px;height:32px">
@@ -863,7 +867,7 @@
           </p>
         </div>
         <!-- 标签页 -->
-        <div class="mobile-tabs flex rounded-2xl bg-white/85 soft-shadow overflow-hidden mb-3 text-sm lift">
+        <div class="mobile-tabs flex rounded-2xl bg-white/85 soft-shadow overflow-hidden mb-3 text-sm lift theme-border">
           <button
             class="flex-1 py-2.5 sm:py-3 font-semibold transition"
             :class="activeTab === 'daily' ? 'theme-primary-bg theme-primary-text' : 'bg-transparent text-slate-500 hover:bg-slate-100'"
@@ -879,7 +883,7 @@
         </div>
 
         <!-- 内容卡片 -->
-        <div class="flex-1 glass rounded-3xl bg-white/80 soft-shadow p-3 sm:p-4 lg:p-5 flex flex-col overflow-hidden lift">
+        <div class="flex-1 glass rounded-3xl bg-white/80 soft-shadow p-3 sm:p-4 lg:p-5 flex flex-col overflow-hidden lift theme-card theme-border">
           <!-- 今日大冒险：每日计划 + 打卡 -->
           <div v-if="activeTab === 'daily'" class="flex-1 flex flex-col fade-slide">
             <!-- 模块标题 -->
@@ -897,7 +901,7 @@
             </div>
 
             <!-- 今日进度仪表盘 -->
-            <div class="relative mb-3 rounded-2xl bg-white/90 border border-emerald-100 px-3 py-2 flex items-center justify-between theme-border">
+            <div class="relative mb-3 rounded-2xl bg-white/90 border border-emerald-100 px-3 py-2 flex items-center justify-between theme-card theme-border">
               <div class="flex items-center gap-3">
                 <svg class="w-14 h-14" viewBox="0 0 80 80">
                   <circle cx="40" cy="40" r="28" stroke="#e2e8f0" stroke-width="10" fill="none"></circle>
@@ -2269,6 +2273,8 @@
                 background: 'linear-gradient(135deg, #e8f2ea 0%, #f3f7f0 45%, #d8e9d5 100%)',
                 backgroundImage: 'radial-gradient(18px 10px at 12% 22%, rgba(34, 197, 94, 0.18) 40%, transparent 41%), radial-gradient(22px 12px at 22% 35%, rgba(16, 185, 129, 0.16) 40%, transparent 41%), radial-gradient(16px 10px at 38% 18%, rgba(34, 197, 94, 0.14) 40%, transparent 41%), radial-gradient(20px 12px at 66% 22%, rgba(16, 185, 129, 0.16) 40%, transparent 41%), radial-gradient(18px 10px at 78% 36%, rgba(34, 197, 94, 0.14) 40%, transparent 41%), repeating-linear-gradient(135deg, rgba(16, 185, 129, 0.06) 0 14px, transparent 14px 28px)',
                 backgroundBlendMode: 'soft-light',
+                '--theme-border': 'rgba(0, 166, 153, 0.55)',
+                '--theme-tint': '#c9f7e5',
                 '--primary-start': '#00A699',
                 '--primary-end': '#00C1AE',
                 '--accent-start': '#FF385C',
@@ -2282,6 +2288,8 @@
                 background: 'linear-gradient(145deg, #e0f7fa 0%, #e0fbff 40%, #e0f2fe 100%)',
                 backgroundImage: 'radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.18) 0 6px, transparent 7px), radial-gradient(circle at 35% 35%, rgba(14, 165, 233, 0.16) 0 5px, transparent 6px), radial-gradient(circle at 70% 18%, rgba(59, 130, 246, 0.14) 0 7px, transparent 8px), radial-gradient(circle at 80% 40%, rgba(14, 165, 233, 0.14) 0 5px, transparent 6px), repeating-linear-gradient(0deg, rgba(14, 165, 233, 0.08) 0 8px, transparent 8px 18px)',
                 backgroundBlendMode: 'soft-light',
+                '--theme-border': 'rgba(0, 122, 135, 0.55)',
+                '--theme-tint': '#cfeffd',
                 '--primary-start': '#007A87',
                 '--primary-end': '#00A699',
                 '--accent-start': '#FF385C',
@@ -2295,6 +2303,8 @@
                 background: 'linear-gradient(135deg, #fff1f2 0%, #fef3c7 40%, #e0f2fe 100%)',
                 backgroundImage: 'radial-gradient(circle at 16% 18%, rgba(244, 114, 182, 0.2) 0 6px, transparent 7px), radial-gradient(circle at 28% 32%, rgba(251, 191, 36, 0.18) 0 5px, transparent 6px), radial-gradient(circle at 72% 20%, rgba(59, 130, 246, 0.16) 0 6px, transparent 7px), radial-gradient(circle at 82% 38%, rgba(244, 114, 182, 0.16) 0 5px, transparent 6px), repeating-conic-gradient(from 45deg, rgba(244, 114, 182, 0.06) 0 10deg, transparent 10deg 20deg)',
                 backgroundBlendMode: 'soft-light',
+                '--theme-border': 'rgba(255, 56, 92, 0.55)',
+                '--theme-tint': '#ffe0e8',
                 '--primary-start': '#FF385C',
                 '--primary-end': '#FF5A5F',
                 '--accent-start': '#00A699',
@@ -2308,6 +2318,8 @@
                 background: 'linear-gradient(145deg, #e0f2fe 0%, #dbeafe 40%, #bfdbfe 100%)',
                 backgroundImage: 'radial-gradient(circle at 22% 22%, rgba(59, 130, 246, 0.2) 0 9px, transparent 10px), radial-gradient(circle at 76% 18%, rgba(14, 165, 233, 0.18) 0 7px, transparent 8px), radial-gradient(circle at 68% 40%, rgba(59, 130, 246, 0.14) 0 5px, transparent 6px), repeating-radial-gradient(circle, rgba(59, 130, 246, 0.08) 0 6px, transparent 6px 18px)',
                 backgroundBlendMode: 'soft-light',
+                '--theme-border': 'rgba(59, 130, 246, 0.55)',
+                '--theme-tint': '#dbeafe',
                 '--primary-start': '#3B82F6',
                 '--primary-end': '#60A5FA',
                 '--accent-start': '#06B6D4',
