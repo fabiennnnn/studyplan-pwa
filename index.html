@@ -2074,6 +2074,12 @@
                 class="px-3 py-2 rounded-xl text-white text-sm font-semibold btn-primary btn-compact">
                 安装到桌面
               </button>
+              <button
+                type="button"
+                @click="clearAppCache"
+                class="px-3 py-2 rounded-xl text-slate-800 text-sm font-semibold btn-compact">
+                一键清缓存
+              </button>
               <div v-if="showIosInstallHint" class="text-xs text-slate-600 leading-snug bg-white/70 rounded-xl p-2 border border-slate-200">
                 iPhone 请用 Safari 打开后，点击底部“分享”图标，再选择“添加到主屏幕”。
               </div>
@@ -2623,6 +2629,25 @@
           this.theme = value;
           localStorage.setItem(this.getStorageKey('theme'), value);
           this.applyBodyTheme();
+        },
+
+        // 一键清缓存（Service Worker + Cache Storage）
+        clearAppCache() {
+          const confirmed = confirm('将清除离线缓存并刷新页面，确定继续吗？');
+          if (!confirmed) return;
+          if ('caches' in window) {
+            caches.keys()
+              .then(keys => Promise.all(keys.map(key => caches.delete(key))))
+              .then(() => {
+                if (navigator.serviceWorker && navigator.serviceWorker.controller) {
+                  navigator.serviceWorker.controller.postMessage({ type: 'SKIP_WAITING' });
+                }
+                location.reload();
+              })
+              .catch(() => location.reload());
+          } else {
+            location.reload();
+          }
         },
 
         // 加载今日任务
