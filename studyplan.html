@@ -71,13 +71,23 @@
     }
 
     @media (max-width: 640px) {
+      body {
+        font-size: 16px;
+        letter-spacing: 0.25px;
+      }
+      .text-xs {
+        font-size: 12px;
+      }
+      .text-sm {
+        font-size: 14px;
+      }
       .app-header {
         flex-direction: column;
         align-items: flex-start;
         gap: 10px;
       }
       .app-title {
-        font-size: 22px;
+        font-size: 24px;
         white-space: nowrap;
         width: 100%;
       }
@@ -167,8 +177,8 @@
         padding: 16px 12px 24px;
       }
       .mobile-tabs button {
-        font-size: 15px;
-        padding: 12px 0;
+        font-size: 16px;
+        padding: 14px 0;
       }
       .mobile-full {
         width: 100%;
@@ -236,9 +246,13 @@
     }
 
     .glass-btn {
-      background: rgba(255, 255, 255, 0.35);
+      background: linear-gradient(
+        145deg,
+        rgba(255, 255, 255, 0.75) 0%,
+        rgba(255, 255, 255, 0.35) 100%
+      );
       color: #0f172a;
-      border: 1px solid #0f172a;
+      border: 1px solid rgba(15, 23, 42, 0.35);
       box-shadow: none;
       backdrop-filter: blur(18px);
       -webkit-backdrop-filter: blur(18px);
@@ -247,9 +261,13 @@
       border-radius: 999px;
       min-height: 40px;
       padding: 10px 16px;
-      background: rgba(255, 255, 255, 0.35);
+      background: linear-gradient(
+        145deg,
+        rgba(255, 255, 255, 0.75) 0%,
+        rgba(255, 255, 255, 0.35) 100%
+      );
       color: #0f172a !important;
-      border: 1px solid #0f172a !important;
+      border: 1px solid rgba(15, 23, 42, 0.35) !important;
       box-shadow: none !important;
       backdrop-filter: blur(18px);
       -webkit-backdrop-filter: blur(18px);
@@ -2063,6 +2081,7 @@
             { value: 'candy', label: '糖果梦', icon: '🍬', swatch: 'linear-gradient(135deg, #fbcfe8 0%, #fde68a 45%, #bfdbfe 100%)' },
             { value: 'forest', label: '森林探险', icon: '🌳', swatch: 'linear-gradient(135deg, #d1fae5 0%, #f0fdf4 40%, #bbf7d0 100%)' },
             { value: 'ocean', label: '深海蓝', icon: '🐠', swatch: 'linear-gradient(135deg, #bae6fd 0%, #7dd3fc 45%, #a5f3fc 100%)' },
+            { value: 'buddy', label: '蓝色伙伴', icon: '🤖', swatch: 'linear-gradient(135deg, #bfdbfe 0%, #e0f2fe 45%, #93c5fd 100%)' },
           ],
 
           // Tabs
@@ -2206,21 +2225,13 @@
               book: 'icon-forest-book', map: 'icon-forest-map', brain: 'icon-forest-brain',
               chart: 'icon-forest-chart', mic: 'icon-forest-mic', star: 'icon-forest-star', award: 'icon-forest-award'
             },
-            storybook: {
-              book: 'icon-storybook-book', map: 'icon-storybook-map', brain: 'icon-storybook-brain',
-              chart: 'icon-storybook-chart', mic: 'icon-storybook-mic', star: 'icon-storybook-star', award: 'icon-storybook-award'
-            },
             ocean: {
               book: 'icon-ocean-book', map: 'icon-ocean-map', brain: 'icon-ocean-brain',
               chart: 'icon-ocean-chart', mic: 'icon-ocean-mic', star: 'icon-ocean-star', award: 'icon-ocean-award'
             },
-            space: {
-              book: 'icon-space-book', map: 'icon-space-map', brain: 'icon-space-brain',
-              chart: 'icon-space-chart', mic: 'icon-space-mic', star: 'icon-space-star', award: 'icon-space-award'
-            },
-            sunset: {
-              book: 'icon-sunset-book', map: 'icon-sunset-map', brain: 'icon-sunset-brain',
-              chart: 'icon-sunset-chart', mic: 'icon-sunset-mic', star: 'icon-sunset-star', award: 'icon-sunset-award'
+            buddy: {
+              book: 'icon-ocean-book', map: 'icon-ocean-map', brain: 'icon-ocean-brain',
+              chart: 'icon-ocean-chart', mic: 'icon-ocean-mic', star: 'icon-ocean-star', award: 'icon-ocean-award'
             }
           };
           return map[this.theme] || map.forest;
@@ -3625,6 +3636,20 @@
               } catch (e) {
                 alert('读取归档文件失败：' + e.message);
               }
+              ,
+              buddy: {
+                style: {
+                background: 'linear-gradient(145deg, #e0f2fe 0%, #dbeafe 40%, #bfdbfe 100%)',
+                backgroundImage: 'radial-gradient(circle at 18% 20%, rgba(59, 130, 246, 0.22), transparent 40%), radial-gradient(circle at 80% 15%, rgba(14, 165, 233, 0.18), transparent 36%), repeating-radial-gradient(circle, rgba(59, 130, 246, 0.08) 0 6px, transparent 6px 16px)',
+                backgroundBlendMode: 'soft-light',
+                '--primary-start': '#3B82F6',
+                '--primary-end': '#60A5FA',
+                '--accent-start': '#06B6D4',
+                '--accent-end': '#22D3EE',
+                '--warm-start': '#FF8A3D',
+                '--warm-end': '#FFB457'
+                }
+              }
             };
             reader.readAsText(file);
           };
@@ -4055,6 +4080,7 @@
             forest: 'linear-gradient(135deg, #e8f2ea 0%, #f3f7f0 45%, #d8e9d5 100%), radial-gradient(circle at 12% 18%, rgba(16, 185, 129, 0.22), transparent 40%), radial-gradient(circle at 82% 12%, rgba(34, 197, 94, 0.18), transparent 36%), repeating-linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0 10px, transparent 10px 20px)',
             ocean: 'linear-gradient(145deg, #e0f7fa 0%, #e0fbff 40%, #e0f2fe 100%), radial-gradient(circle at 20% 15%, rgba(59, 130, 246, 0.22), transparent 42%), radial-gradient(circle at 75% 22%, rgba(14, 165, 233, 0.18), transparent 38%), repeating-linear-gradient(0deg, rgba(14, 165, 233, 0.08) 0 8px, transparent 8px 18px)',
             candy: 'linear-gradient(135deg, #fff1f2 0%, #fef3c7 40%, #e0f2fe 100%), radial-gradient(circle at 15% 20%, rgba(244, 114, 182, 0.18), transparent 40%), radial-gradient(circle at 80% 10%, rgba(59, 130, 246, 0.16), transparent 36%), repeating-linear-gradient(135deg, rgba(244, 114, 182, 0.08) 0 12px, transparent 12px 24px)'
+            ,buddy: 'linear-gradient(145deg, #e0f2fe 0%, #dbeafe 40%, #bfdbfe 100%), radial-gradient(circle at 18% 20%, rgba(59, 130, 246, 0.22), transparent 40%), radial-gradient(circle at 80% 15%, rgba(14, 165, 233, 0.18), transparent 36%), repeating-radial-gradient(circle, rgba(59, 130, 246, 0.08) 0 6px, transparent 6px 16px)'
           };
           const bg = map[this.theme] || map.forest;
           document.body.style.backgroundImage = bg;
