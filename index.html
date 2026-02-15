@@ -1068,7 +1068,8 @@
                     </button>
                 <button
                   @click="removeTask(index)"
-                  class="text-[10px] sm:text-xs px-2 py-1 rounded-full bg-rose-50 text-rose-500 hover:bg-rose-100">
+                  :disabled="!isParentUnlocked"
+                  class="text-[10px] sm:text-xs px-2 py-1 rounded-full bg-rose-50 text-rose-500 hover:bg-rose-100 disabled:opacity-40 disabled:cursor-not-allowed">
                   删除
                 </button>
                   </div>
@@ -2844,6 +2845,7 @@
           this.saveTodayTasks();
         },
         removeTask(index) {
+          if (!this.requireParentIfNeeded(true)) return;
           this.tasks.splice(index, 1);
           this.saveTodayTasks();
         },
