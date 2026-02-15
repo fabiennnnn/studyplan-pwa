@@ -1698,8 +1698,10 @@
 
     <!-- 设置中心 -->
     <div v-if="showSettings"
+         @click.self="closeSettings"
+         @keyup.esc="closeSettings"
          class="settings-overlay fixed inset-0 z-40 flex items-center justify-center bg-black/40">
-    <div class="settings-modal bg-white rounded-3xl shadow-2xl max-w-lg w-[92%] p-5 relative glass">
+    <div class="settings-modal bg-white rounded-3xl shadow-2xl max-w-lg w-[92%] p-5 relative glass" @click.stop>
         <button
           class="icon-btn absolute right-3 top-3 text-slate-400 hover:text-slate-600 text-sm"
           @click="closeSettings">
@@ -4168,6 +4170,7 @@
         },
         closeSettings() {
           this.showSettings = false;
+          this.settingsSection = 'home';
         },
         handleInstall() {
           if (!this.deferredPrompt) return;
