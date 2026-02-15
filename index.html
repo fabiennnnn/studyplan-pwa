@@ -285,6 +285,22 @@
       padding: 12px 18px;
       font-size: 15px;
     }
+    .btn-compact {
+      min-height: 30px;
+      padding: 6px 10px;
+      font-size: 12px;
+    }
+    .btn-chip {
+      min-height: 26px;
+      padding: 4px 10px;
+      font-size: 11px;
+    }
+    .settings-menu-btn {
+      display: block;
+      width: 100%;
+      min-height: 56px;
+      padding: 14px 16px;
+    }
     body.mature-mode::before {
       opacity: 0.4;
     }
@@ -1713,7 +1729,7 @@
         </div>
 
         <div class="space-y-4" v-if="settingsSection === 'home'">
-          <button class="w-full text-left bg-white/80 border border-slate-200 rounded-3xl p-3 lift"
+          <button class="settings-menu-btn text-left bg-white/80 border border-slate-200 rounded-3xl lift"
                   @click="settingsSection = 'parent'">
             <div class="flex items-center justify-between">
               <div>
@@ -1723,7 +1739,7 @@
               <span class="text-xs text-slate-400">进入</span>
             </div>
           </button>
-          <button class="w-full text-left bg-white/80 border border-slate-200 rounded-3xl p-3 lift"
+          <button class="settings-menu-btn text-left bg-white/80 border border-slate-200 rounded-3xl lift"
                   @click="settingsSection = 'profiles'">
             <div class="flex items-center justify-between">
               <div>
@@ -1733,7 +1749,7 @@
               <span class="text-xs text-slate-400">进入</span>
             </div>
           </button>
-          <button class="w-full text-left bg-white/80 border border-slate-200 rounded-3xl p-3 lift"
+          <button class="settings-menu-btn text-left bg-white/80 border border-slate-200 rounded-3xl lift"
                   @click="settingsSection = 'theme'">
             <div class="flex items-center justify-between">
               <div>
@@ -1743,7 +1759,7 @@
               <span class="text-xs text-slate-400">进入</span>
             </div>
           </button>
-          <button class="w-full text-left bg-white/80 border border-slate-200 rounded-3xl p-3 lift"
+          <button class="settings-menu-btn text-left bg-white/80 border border-slate-200 rounded-3xl lift"
                   @click="settingsSection = 'parent-tools'">
             <div class="flex items-center justify-between">
               <div>
@@ -1753,7 +1769,7 @@
               <span class="text-xs text-slate-400">进入</span>
             </div>
           </button>
-          <button class="w-full text-left bg-white/80 border border-slate-200 rounded-3xl p-3 lift"
+          <button class="settings-menu-btn text-left bg-white/80 border border-slate-200 rounded-3xl lift"
                   @click="settingsSection = 'stats'">
             <div class="flex items-center justify-between">
               <div>
@@ -1763,7 +1779,7 @@
               <span class="text-xs text-slate-400">进入</span>
             </div>
           </button>
-          <button class="w-full text-left bg-white/80 border border-slate-200 rounded-3xl p-3 lift"
+          <button class="settings-menu-btn text-left bg-white/80 border border-slate-200 rounded-3xl lift"
                   @click="settingsSection = 'install'">
             <div class="flex items-center justify-between">
               <div>
@@ -1773,7 +1789,7 @@
               <span class="text-xs text-slate-400">进入</span>
             </div>
           </button>
-          <button class="w-full text-left bg-white/80 border border-rose-200 rounded-3xl p-3 lift"
+          <button class="settings-menu-btn text-left bg-white/80 border border-rose-200 rounded-3xl lift"
                   @click="settingsSection = 'danger'">
             <div class="flex items-center justify-between">
               <div>
@@ -1786,7 +1802,7 @@
         </div>
 
         <div v-else class="space-y-4">
-          <button class="glass-btn w-full text-sm font-semibold"
+          <button class="glass-btn w-full text-sm font-semibold btn-compact"
                   @click="settingsSection = 'home'">
             ← 返回设置菜单
           </button>
@@ -1807,12 +1823,12 @@
             </div>
           <div class="pin-actions flex gap-2">
             <button
-              class="flex-1 px-3 py-2 rounded-xl text-white text-xs font-semibold btn-primary"
+              class="flex-1 px-3 py-2 rounded-xl text-white text-xs font-semibold btn-primary btn-compact"
               @click="setParentPin">
               设置/修改 PIN
             </button>
             <button
-              class="flex-1 px-3 py-2 rounded-xl text-slate-700 text-xs font-semibold bg-slate-100"
+              class="flex-1 px-3 py-2 rounded-xl text-slate-700 text-xs font-semibold bg-slate-100 btn-compact"
               @click="resetParentPin">
               重置 PIN
             </button>
@@ -1834,9 +1850,9 @@
                          class="profile-age rounded-lg border border-slate-200 px-2 py-2 text-sm text-center" />
                 </div>
                 <div class="profile-actions flex items-center gap-2">
-                  <button class="px-3 py-2 text-xs rounded-full bg-emerald-50 text-emerald-700"
+                  <button class="px-3 py-2 text-xs rounded-full bg-emerald-50 text-emerald-700 btn-compact"
                           @click="setActiveProfile(p.id)">使用</button>
-                  <button class="px-3 py-2 text-xs rounded-full bg-rose-50 text-rose-600"
+                  <button class="px-3 py-2 text-xs rounded-full bg-rose-50 text-rose-600 btn-compact"
                           @click="removeProfile(p.id)">删除</button>
                 </div>
               </div>
@@ -1848,7 +1864,7 @@
                 <input v-model.number="newProfileAge" type="number" min="3" max="18"
                        class="profile-age rounded-lg border border-slate-200 px-2 py-2 text-sm text-center" />
               </div>
-              <button class="px-3 py-2 rounded-lg bg-blue-500 text-white text-sm disabled:bg-slate-300"
+              <button class="px-3 py-2 rounded-lg bg-blue-500 text-white text-sm disabled:bg-slate-300 btn-compact"
                       :disabled="!newProfileName.trim()"
                       @click="addProfile">确认添加</button>
             </div>
@@ -1869,7 +1885,7 @@
                 v-for="opt in themeOptions"
                 :key="opt.value"
                 @click="setTheme(opt.value)"
-                class="px-3 py-1.5 rounded-full border text-[11px] sm:text-xs font-medium transition flex items-center gap-1"
+                class="px-3 py-1.5 rounded-full border text-[11px] sm:text-xs font-medium transition flex items-center gap-1 btn-chip"
                 :class="theme === opt.value ? 'theme-pill-active' : 'bg-white/70 text-slate-700 border-transparent hover:bg-white/90'"
                 :style="theme === opt.value ? { background: opt.swatch } : {}">
                 <span v-if="opt.icon">{{ opt.icon }}</span>
@@ -1894,7 +1910,7 @@
             <button
               type="button"
               @click="openMonthlyReport"
-              class="mt-2 px-3 py-2 rounded-2xl text-white font-semibold w-full
+              class="mt-2 px-3 py-2 rounded-2xl text-white font-semibold w-full btn-compact
                      active:scale-95 transition btn-warm">
               生成本月表扬信
             </button>
@@ -1918,13 +1934,13 @@
             <div class="flex items-center gap-2 mt-3">
               <button
                 @click="statsViewMode = 'daily'"
-                class="px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition glass-btn"
+                class="px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition glass-btn btn-chip"
                 :class="statsViewMode === 'daily' ? 'text-purple-700 border-purple-200' : 'text-slate-600 border-slate-200'">
                 每日统计
               </button>
               <button
                 @click="statsViewMode = 'task'"
-                class="px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition glass-btn"
+                class="px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition glass-btn btn-chip"
                 :class="statsViewMode === 'task' ? 'text-purple-700 border-purple-200' : 'text-slate-600 border-slate-200'">
                 任务统计
               </button>
@@ -2012,13 +2028,13 @@
               <div class="space-y-3">
                 <button
                   @click="archiveOldData"
-                  class="w-full px-4 py-2.5 rounded-xl text-white text-sm font-semibold
+                  class="w-full px-4 py-2.5 rounded-xl text-white text-sm font-semibold btn-compact
                          active:scale-95 transition shadow-md btn-accent">
                   📦 清理旧数据（归档3个月前的数据）
                 </button>
                 <button
                   @click="importArchive"
-                  class="w-full px-4 py-2.5 rounded-xl text-white text-sm font-semibold
+                  class="w-full px-4 py-2.5 rounded-xl text-white text-sm font-semibold btn-compact
                          active:scale-95 transition shadow-md btn-warm">
                   📥 导入历史归档
                 </button>
@@ -2037,7 +2053,7 @@
               <button
                 v-if="showInstall"
                 @click="handleInstall"
-                class="px-3 py-2 rounded-xl text-white text-sm font-semibold btn-primary">
+                class="px-3 py-2 rounded-xl text-white text-sm font-semibold btn-primary btn-compact">
                 安装到桌面
               </button>
               <div v-if="showIosInstallHint" class="text-xs text-slate-600 leading-snug bg-white/70 rounded-xl p-2 border border-slate-200">
@@ -2053,7 +2069,7 @@
               <div class="flex items-center gap-2">
                 <button
                   @click="handleResetClick"
-                  class="danger-btn px-3 py-1.5 rounded-xl bg-rose-500 text-white text-xs font-semibold">
+                  class="danger-btn px-3 py-1.5 rounded-xl bg-rose-500 text-white text-xs font-semibold btn-compact">
                   ⚠ 清空全部数据
                 </button>
                 <span class="text-[11px] text-rose-500">需要三次确认</span>
@@ -4271,9 +4287,16 @@
         },
         loadThemeAndXp() {
           const theme = localStorage.getItem(this.getStorageKey('theme'));
-          if (theme) this.theme = theme;
+          const allowedThemes = this.themeOptions.map(opt => opt.value);
+          if (theme && allowedThemes.includes(theme)) {
+            this.theme = theme;
+          } else {
+            this.theme = 'forest';
+            localStorage.setItem(this.getStorageKey('theme'), 'forest');
+          }
           const storedXp = localStorage.getItem(this.getStorageKey('xp'));
           if (storedXp) this.xp = parseInt(storedXp, 10) || 0;
+          this.applyBodyTheme();
         },
 
         // 工具
