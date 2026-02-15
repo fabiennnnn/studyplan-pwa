@@ -34,12 +34,12 @@
   <link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&family=ZCOOL+XiaoWei&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --ink-900: #1f2937;
-      --ink-700: #374151;
-      --glass: rgba(255, 255, 255, 0.7);
-      --shadow-soft: 0 16px 40px rgba(15, 23, 42, 0.08);
-      --shadow-card: 0 12px 30px rgba(15, 23, 42, 0.12);
-      --border-soft: rgba(148, 163, 184, 0.35);
+      --ink-900: #0f172a;
+      --ink-700: #1f2937;
+      --glass: rgba(255, 255, 255, 0.6);
+      --shadow-soft: 0 10px 24px rgba(15, 23, 42, 0.08);
+      --shadow-card: 0 8px 18px rgba(15, 23, 42, 0.1);
+      --border-soft: rgba(15, 23, 42, 0.18);
       --primary-start: #10b981;
       --primary-end: #22c55e;
       --accent-start: #38bdf8;
@@ -49,10 +49,11 @@
     }
 
     body {
-      font-family: "Noto Sans SC", "ZCOOL XiaoWei", "ZCOOL KuaiLe", sans-serif;
+      font-family: "PingFang SC", "SF Pro Text", "SF Pro Display", "Noto Sans SC", sans-serif;
       font-size: 15px;
-      letter-spacing: 0.15px;
+      letter-spacing: 0.2px;
       background-color: #f8fafc;
+      color: var(--ink-900);
       padding-bottom: env(safe-area-inset-bottom);
     }
 
@@ -65,7 +66,7 @@
         radial-gradient(circle at 12% 8%, rgba(56, 189, 248, 0.25), transparent 38%),
         radial-gradient(circle at 88% 16%, rgba(16, 185, 129, 0.25), transparent 40%),
         radial-gradient(circle at 80% 84%, rgba(251, 191, 36, 0.25), transparent 42%);
-      opacity: 0.7;
+      opacity: 0.45;
       z-index: -1;
     }
 
@@ -235,7 +236,7 @@
     }
 
     .glass-btn {
-      background: rgba(255, 255, 255, 0.45);
+      background: rgba(255, 255, 255, 0.35);
       color: #0f172a;
       border: 1px solid #0f172a;
       box-shadow: none;
@@ -246,10 +247,10 @@
       border-radius: 999px;
       min-height: 40px;
       padding: 10px 16px;
-      background: rgba(255, 255, 255, 0.45);
-      color: #0f172a;
-      border: 1px solid #0f172a;
-      box-shadow: none;
+      background: rgba(255, 255, 255, 0.35);
+      color: #0f172a !important;
+      border: 1px solid #0f172a !important;
+      box-shadow: none !important;
       backdrop-filter: blur(18px);
       -webkit-backdrop-filter: blur(18px);
     }
@@ -302,12 +303,12 @@
     }
 
     .lift:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 18px 38px rgba(15, 23, 42, 0.14);
+      transform: translateY(-1px);
+      box-shadow: 0 10px 22px rgba(15, 23, 42, 0.12);
     }
 
     .btn-primary {
-      background: rgba(255, 255, 255, 0.45);
+      background: rgba(255, 255, 255, 0.35);
       color: #0f172a;
       border: 1px solid #0f172a;
       box-shadow: none;
@@ -320,7 +321,7 @@
     }
 
     .btn-accent {
-      background: rgba(255, 255, 255, 0.45);
+      background: rgba(255, 255, 255, 0.35);
       color: #0f172a;
       border: 1px solid #0f172a;
       box-shadow: none;
@@ -329,7 +330,7 @@
     }
 
     .btn-warm {
-      background: rgba(255, 255, 255, 0.45);
+      background: rgba(255, 255, 255, 0.35);
       color: #0f172a;
       border: 1px solid #0f172a;
       box-shadow: none;
@@ -4051,12 +4052,9 @@
         // 根据主题直接修改 body 背景，让变化更明显
         applyBodyTheme() {
           const map = {
-            forest: 'linear-gradient(135deg, #d0f4de 0%, #e8f2ea 40%, #c4e3c1 100%)',
-            space: 'radial-gradient(circle at top, #1f2937 0%, #020617 45%, #000000 100%)',
-            ocean: 'linear-gradient(145deg, #0ea5e9 0%, #38bdf8 40%, #e0f2fe 100%)',
-            candy: 'linear-gradient(135deg, #fecaca 0%, #fef3c7 40%, #e0f2fe 100%)',
-            storybook: 'linear-gradient(135deg, #fde68a 0%, #fecaca 40%, #fef3c7 100%)',
-            sunset: 'linear-gradient(160deg, #fed7aa 0%, #fb923c 40%, #1e293b 100%)'
+            forest: 'linear-gradient(135deg, #e8f2ea 0%, #f3f7f0 45%, #d8e9d5 100%), radial-gradient(circle at 12% 18%, rgba(16, 185, 129, 0.22), transparent 40%), radial-gradient(circle at 82% 12%, rgba(34, 197, 94, 0.18), transparent 36%), repeating-linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0 10px, transparent 10px 20px)',
+            ocean: 'linear-gradient(145deg, #e0f7fa 0%, #e0fbff 40%, #e0f2fe 100%), radial-gradient(circle at 20% 15%, rgba(59, 130, 246, 0.22), transparent 42%), radial-gradient(circle at 75% 22%, rgba(14, 165, 233, 0.18), transparent 38%), repeating-linear-gradient(0deg, rgba(14, 165, 233, 0.08) 0 8px, transparent 8px 18px)',
+            candy: 'linear-gradient(135deg, #fff1f2 0%, #fef3c7 40%, #e0f2fe 100%), radial-gradient(circle at 15% 20%, rgba(244, 114, 182, 0.18), transparent 40%), radial-gradient(circle at 80% 10%, rgba(59, 130, 246, 0.16), transparent 36%), repeating-linear-gradient(135deg, rgba(244, 114, 182, 0.08) 0 12px, transparent 12px 24px)'
           };
           const bg = map[this.theme] || map.forest;
           document.body.style.backgroundImage = bg;
@@ -4064,6 +4062,7 @@
           document.body.style.backgroundRepeat = 'no-repeat';
           document.body.style.backgroundAttachment = 'fixed';
           document.body.style.backgroundSize = 'cover';
+          document.body.style.backgroundBlendMode = 'soft-light';
           document.body.style.transition = 'background-image 0.4s ease, background-color 0.4s ease';
         },
 
