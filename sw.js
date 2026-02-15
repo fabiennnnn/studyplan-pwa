@@ -1,4 +1,4 @@
-const CACHE_NAME = 'studyplan-v25';
+const CACHE_NAME = 'studyplan-v26';
 const CORE_ASSETS = [
   './',
   './index.html',

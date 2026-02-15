@@ -40,6 +40,9 @@
       --shadow-soft: 0 10px 24px rgba(15, 23, 42, 0.08);
       --shadow-card: 0 8px 18px rgba(15, 23, 42, 0.1);
       --border-soft: rgba(15, 23, 42, 0.18);
+      --theme-bg: linear-gradient(135deg, #bff7d0 0%, #e8fff2 45%, #b7f2ad 100%);
+      --theme-border: rgba(16, 185, 129, 0.65);
+      --theme-tint: #d8ffe8;
       --primary-start: #10b981;
       --primary-end: #22c55e;
       --accent-start: #38bdf8;
@@ -4134,22 +4137,25 @@
           });
         },
 
-        // 根据主题直接修改 body 背景，让变化更明显
+        // 根据主题应用全局 CSS 变量与背景
         applyBodyTheme() {
-          const map = {
-            forest: 'linear-gradient(135deg, #bff7d0 0%, #e8fff2 45%, #b7f2ad 100%), radial-gradient(20px 12px at 12% 22%, rgba(34, 197, 94, 0.25) 40%, transparent 41%), radial-gradient(24px 14px at 22% 35%, rgba(16, 185, 129, 0.22) 40%, transparent 41%), radial-gradient(18px 12px at 38% 18%, rgba(34, 197, 94, 0.2) 40%, transparent 41%), radial-gradient(22px 14px at 66% 22%, rgba(16, 185, 129, 0.22) 40%, transparent 41%), radial-gradient(20px 12px at 78% 36%, rgba(34, 197, 94, 0.2) 40%, transparent 41%), repeating-linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0 16px, transparent 16px 32px)',
-            ocean: 'linear-gradient(145deg, #a7e7ff 0%, #d9f7ff 45%, #8acbff 100%), radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.25) 0 7px, transparent 8px), radial-gradient(circle at 35% 35%, rgba(14, 165, 233, 0.22) 0 6px, transparent 7px), radial-gradient(circle at 70% 18%, rgba(59, 130, 246, 0.2) 0 8px, transparent 9px), radial-gradient(circle at 80% 40%, rgba(14, 165, 233, 0.2) 0 6px, transparent 7px), repeating-linear-gradient(0deg, rgba(14, 165, 233, 0.12) 0 10px, transparent 10px 22px)',
-            candy: 'linear-gradient(135deg, #ffd0e6 0%, #ffe9a8 45%, #cfe4ff 100%), radial-gradient(circle at 16% 18%, rgba(244, 114, 182, 0.26) 0 7px, transparent 8px), radial-gradient(circle at 28% 32%, rgba(251, 191, 36, 0.24) 0 6px, transparent 7px), radial-gradient(circle at 72% 20%, rgba(59, 130, 246, 0.22) 0 7px, transparent 8px), radial-gradient(circle at 82% 38%, rgba(244, 114, 182, 0.22) 0 6px, transparent 7px), repeating-conic-gradient(from 45deg, rgba(244, 114, 182, 0.12) 0 12deg, transparent 12deg 24deg)',
-            buddy: 'linear-gradient(145deg, #b4d9ff 0%, #e1efff 45%, #8bb9ff 100%), radial-gradient(circle at 22% 22%, rgba(59, 130, 246, 0.26) 0 10px, transparent 11px), radial-gradient(circle at 76% 18%, rgba(14, 165, 233, 0.24) 0 8px, transparent 9px), radial-gradient(circle at 68% 40%, rgba(59, 130, 246, 0.22) 0 6px, transparent 7px), repeating-radial-gradient(circle, rgba(59, 130, 246, 0.12) 0 7px, transparent 7px 20px)'
-          };
-          const bg = map[this.theme] || map.forest;
-          document.body.style.backgroundImage = bg;
-          document.body.style.backgroundColor = '#ffffff';
-          document.body.style.backgroundRepeat = 'no-repeat';
-          document.body.style.backgroundAttachment = 'fixed';
-          document.body.style.backgroundSize = 'cover';
-          document.body.style.backgroundBlendMode = 'soft-light';
-          document.body.style.transition = 'background-image 0.4s ease, background-color 0.4s ease';
+          const style = (this.themeConfig && this.themeConfig.style) ? this.themeConfig.style : {};
+          const root = document.documentElement;
+          Object.keys(style).forEach(key => {
+            if (key.startsWith('--')) {
+              root.style.setProperty(key, style[key]);
+            }
+          });
+          const themeBg = style['--theme-bg'] || style.background || root.style.getPropertyValue('--theme-bg');
+          if (themeBg) {
+            document.body.style.backgroundImage = themeBg;
+            document.body.style.backgroundColor = '#ffffff';
+            document.body.style.backgroundRepeat = 'no-repeat';
+            document.body.style.backgroundAttachment = 'fixed';
+            document.body.style.backgroundSize = 'cover';
+            document.body.style.backgroundBlendMode = 'soft-light';
+            document.body.style.transition = 'background-image 0.4s ease, background-color 0.4s ease';
+          }
         },
 
         updateBodyMode() {
