@@ -50,6 +50,50 @@
       --warm-start: #f59e0b;
       --warm-end: #f97316;
     }
+    .theme-forest {
+      --theme-bg: linear-gradient(135deg, #c9f7dc 0%, #ecfff4 45%, #c1f2b6 100%), radial-gradient(120px 80px at 12% 18%, rgba(34, 197, 94, 0.14), transparent 60%), radial-gradient(140px 90px at 85% 12%, rgba(16, 185, 129, 0.12), transparent 62%), radial-gradient(120px 80px at 78% 78%, rgba(34, 197, 94, 0.12), transparent 60%);
+      --theme-border: rgba(16, 185, 129, 0.65);
+      --theme-tint: #d8ffe8;
+      --primary-start: #00A699;
+      --primary-end: #00C1AE;
+      --accent-start: #FF385C;
+      --accent-end: #FF5A5F;
+      --warm-start: #FF8A3D;
+      --warm-end: #FFB457;
+    }
+    .theme-ocean {
+      --theme-bg: linear-gradient(145deg, #b5ecff 0%, #e3f7ff 45%, #9ccfff 100%), radial-gradient(140px 90px at 18% 20%, rgba(59, 130, 246, 0.14), transparent 62%), radial-gradient(160px 100px at 82% 18%, rgba(14, 165, 233, 0.12), transparent 62%), radial-gradient(140px 90px at 80% 78%, rgba(59, 130, 246, 0.12), transparent 60%);
+      --theme-border: rgba(14, 165, 233, 0.65);
+      --theme-tint: #d6f4ff;
+      --primary-start: #007A87;
+      --primary-end: #00A699;
+      --accent-start: #FF385C;
+      --accent-end: #FF5A5F;
+      --warm-start: #FF8A3D;
+      --warm-end: #FFB457;
+    }
+    .theme-candy {
+      --theme-bg: linear-gradient(135deg, #ffd9ea 0%, #fff1c8 45%, #d7e9ff 100%), radial-gradient(140px 90px at 16% 18%, rgba(244, 114, 182, 0.16), transparent 62%), radial-gradient(160px 100px at 82% 16%, rgba(59, 130, 246, 0.12), transparent 62%), radial-gradient(140px 90px at 78% 78%, rgba(251, 191, 36, 0.12), transparent 62%);
+      --theme-border: rgba(255, 56, 92, 0.7);
+      --theme-tint: #ffe4ef;
+      --primary-start: #FF385C;
+      --primary-end: #FF5A5F;
+      --accent-start: #00A699;
+      --accent-end: #00C1AE;
+      --warm-start: #FF8A3D;
+      --warm-end: #FFB457;
+    }
+    .theme-buddy {
+      --theme-bg: linear-gradient(145deg, #bedaff 0%, #e7f1ff 45%, #9cc1ff 100%), radial-gradient(150px 100px at 22% 20%, rgba(59, 130, 246, 0.16), transparent 62%), radial-gradient(170px 110px at 78% 18%, rgba(14, 165, 233, 0.14), transparent 62%), radial-gradient(150px 100px at 72% 78%, rgba(59, 130, 246, 0.12), transparent 60%);
+      --theme-border: rgba(59, 130, 246, 0.7);
+      --theme-tint: #dbeafe;
+      --primary-start: #3B82F6;
+      --primary-end: #60A5FA;
+      --accent-start: #06B6D4;
+      --accent-end: #22D3EE;
+      --warm-start: #FF8A3D;
+      --warm-end: #FFB457;
+    }
 
     body {
       font-family: "PingFang SC", "SF Pro Text", "SF Pro Display", "Noto Sans SC", sans-serif;
@@ -803,7 +847,7 @@
   </svg>
   <div id="app"
        :style="themeConfig.style"
-       :class="{ 'mature-ui': isOlderKid }"
+       :class="[`theme-${theme}`, { 'mature-ui': isOlderKid }]"
        class="app-shell min-h-screen flex flex-col items-center py-4 px-3 sm:px-6 lg:px-10 transition-colors duration-300">
 
     <!-- 顶部栏：标题 + 档案 + 等级信息 -->
@@ -4141,14 +4185,15 @@
 
         // 根据主题应用全局 CSS 变量与背景
         applyBodyTheme() {
-          const style = (this.themeConfig && this.themeConfig.style) ? this.themeConfig.style : {};
+          const appEl = document.getElementById('app');
           const root = document.documentElement;
-          Object.keys(style).forEach(key => {
-            if (key.startsWith('--')) {
-              root.style.setProperty(key, style[key]);
-            }
+          const source = appEl ? getComputedStyle(appEl) : getComputedStyle(root);
+          const vars = ['--theme-bg', '--theme-border', '--theme-tint', '--primary-start', '--primary-end', '--accent-start', '--accent-end', '--warm-start', '--warm-end'];
+          vars.forEach(v => {
+            const val = source.getPropertyValue(v).trim();
+            if (val) root.style.setProperty(v, val);
           });
-          const themeBg = style['--theme-bg'] || style.background || root.style.getPropertyValue('--theme-bg');
+          const themeBg = root.style.getPropertyValue('--theme-bg').trim();
           if (themeBg) {
             document.body.style.backgroundImage = themeBg;
             document.body.style.backgroundColor = '#ffffff';
