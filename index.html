@@ -1024,6 +1024,13 @@
             @click="activeTab = 'memory'">
             记忆挑战
           </button>
+          <button
+            v-if="ageGroup === 'senior'"
+            class="flex-1 py-2.5 sm:py-3 font-semibold transition"
+            :class="activeTab === 'stats' ? 'theme-accent-bg theme-accent-text' : 'bg-transparent text-slate-500 hover:bg-slate-100'"
+            @click="activeTab = 'stats'">
+            统计分析
+          </button>
         </div>
 
         <!-- 内容卡片 -->
@@ -1499,6 +1506,135 @@
             </div>
             </div>
 
+          <div v-else-if="activeTab === 'stats' && ageGroup === 'senior'" class="flex-1 flex flex-col gap-3 text-xs sm:text-sm overflow-hidden fade-slide">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="icon-badge bg-indigo-100 text-indigo-700">
+                  <svg class="icon icon-anim"><use :href="`#${iconSet.chart}`" :xlink:href="`#${iconSet.chart}`"></use></svg>
+                </span>
+                <div>
+                  <p class="text-sm font-semibold text-slate-800">统计分析</p>
+                  <p class="text-[11px] text-slate-500">仅 Senior 可见的数据洞察</p>
+                </div>
+              </div>
+              <span class="text-[11px] px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-600 border border-indigo-200">Senior</span>
+            </div>
+
+            <div class="flex items-center gap-2 bg-white/85 rounded-xl p-1 border border-slate-200 w-fit">
+              <button
+                @click="seniorStatsRange = 'today'"
+                class="px-3 py-1.5 rounded-lg text-xs font-semibold transition"
+                :class="seniorStatsRange === 'today' ? 'bg-indigo-100 text-indigo-700' : 'text-slate-600 hover:bg-slate-100'">
+                Today
+              </button>
+              <button
+                @click="seniorStatsRange = 'week'"
+                class="px-3 py-1.5 rounded-lg text-xs font-semibold transition"
+                :class="seniorStatsRange === 'week' ? 'bg-indigo-100 text-indigo-700' : 'text-slate-600 hover:bg-slate-100'">
+                This Week
+              </button>
+            </div>
+
+            <div v-if="seniorStatsRange === 'today'" class="grid grid-cols-2 gap-2">
+              <div class="bg-white/90 border border-slate-200 rounded-2xl p-3">
+                <p class="text-[11px] text-slate-500">完成率</p>
+                <p class="text-base font-bold text-slate-800 mt-1">{{ seniorTodaySummary.completedCount }} / {{ seniorTodaySummary.totalCount }}</p>
+                <p class="text-[11px] text-indigo-600 mt-0.5">{{ seniorTodaySummary.completionRate }}%</p>
+              </div>
+              <div class="bg-white/90 border border-slate-200 rounded-2xl p-3">
+                <p class="text-[11px] text-slate-500">专注分钟</p>
+                <p class="text-base font-bold text-slate-800 mt-1">{{ seniorTodaySummary.focusMinutes }}</p>
+                <p class="text-[11px] text-slate-500 mt-0.5">分钟</p>
+              </div>
+              <div class="bg-white/90 border border-slate-200 rounded-2xl p-3">
+                <p class="text-[11px] text-slate-500">今日 XP 增量</p>
+                <p class="text-base font-bold text-slate-800 mt-1">+{{ seniorTodaySummary.xpGained }}</p>
+                <p class="text-[11px] text-slate-500 mt-0.5">fallback 估算</p>
+              </div>
+              <div class="bg-white/90 border border-slate-200 rounded-2xl p-3">
+                <p class="text-[11px] text-slate-500">复习达标率</p>
+                <p class="text-base font-bold text-slate-800 mt-1">{{ seniorTodaySummary.reviewDoneCount }} / {{ seniorTodaySummary.reviewTotalCount }}</p>
+                <p class="text-[11px] text-emerald-600 mt-0.5">{{ seniorTodaySummary.reviewRate }}%</p>
+              </div>
+            </div>
+
+            <div v-else class="grid grid-cols-2 gap-2">
+              <div class="bg-white/90 border border-slate-200 rounded-2xl p-3">
+                <p class="text-[11px] text-slate-500">本周完成率</p>
+                <p class="text-base font-bold text-slate-800 mt-1">{{ seniorWeekSummary.completionRate }}%</p>
+                <p class="text-[11px] text-slate-500 mt-0.5">{{ seniorWeekSummary.completedCount }} / {{ seniorWeekSummary.totalCount }}</p>
+              </div>
+              <div class="bg-white/90 border border-slate-200 rounded-2xl p-3">
+                <p class="text-[11px] text-slate-500">本周专注分钟</p>
+                <p class="text-base font-bold text-slate-800 mt-1">{{ seniorWeekSummary.focusMinutes }}</p>
+                <p class="text-[11px] text-slate-500 mt-0.5">分钟</p>
+              </div>
+              <div class="bg-white/90 border border-slate-200 rounded-2xl p-3">
+                <p class="text-[11px] text-slate-500">本周连续天数</p>
+                <p class="text-base font-bold text-slate-800 mt-1">{{ seniorWeekSummary.streak }}</p>
+                <p class="text-[11px] text-slate-500 mt-0.5">天（完成≥1）</p>
+              </div>
+              <div class="bg-white/90 border border-slate-200 rounded-2xl p-3">
+                <p class="text-[11px] text-slate-500">本周复习达标率</p>
+                <p class="text-base font-bold text-slate-800 mt-1">{{ seniorWeekSummary.reviewRate }}%</p>
+                <p class="text-[11px] text-slate-500 mt-0.5">{{ seniorWeekSummary.reviewDoneCount }} / {{ seniorWeekSummary.reviewTotalCount }}</p>
+              </div>
+            </div>
+
+            <div class="bg-white/90 border border-slate-200 rounded-2xl p-3">
+              <div class="flex items-center justify-between mb-2">
+                <p class="text-sm font-semibold text-slate-800">7 天游程</p>
+                <p class="text-[11px] text-slate-500">折线=完成率 / 柱=专注分钟</p>
+              </div>
+              <svg viewBox="0 0 360 190" class="w-full h-48">
+                <line x1="34" y1="16" x2="34" y2="144" stroke="#cbd5e1" stroke-width="1"></line>
+                <line x1="34" y1="144" x2="346" y2="144" stroke="#cbd5e1" stroke-width="1"></line>
+                <line x1="34" y1="16" x2="346" y2="16" stroke="#e2e8f0" stroke-dasharray="4 3" stroke-width="1"></line>
+                <text x="6" y="20" font-size="10" fill="#64748b">100%</text>
+                <text x="14" y="147" font-size="10" fill="#64748b">0%</text>
+
+                <rect
+                  v-for="bar in seniorChartModel.bars"
+                  :key="bar.key"
+                  :x="bar.x"
+                  :y="bar.y"
+                  :width="bar.width"
+                  :height="bar.height"
+                  rx="2"
+                  fill="#93c5fd"
+                  opacity="0.8"></rect>
+
+                <polyline
+                  :points="seniorChartModel.linePoints"
+                  fill="none"
+                  stroke="#4f46e5"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"></polyline>
+
+                <circle
+                  v-for="pt in seniorChartModel.points"
+                  :key="`pt-${pt.key}`"
+                  :cx="pt.x"
+                  :cy="pt.y"
+                  r="3"
+                  fill="#4f46e5"></circle>
+
+                <text
+                  v-for="label in seniorChartModel.labels"
+                  :key="`lb-${label.key}`"
+                  :x="label.x"
+                  y="162"
+                  text-anchor="middle"
+                  font-size="10"
+                  fill="#64748b">
+                  {{ label.text }}
+                </text>
+              </svg>
+              <p class="text-[11px] text-slate-500 mt-1">专注分钟上限：{{ seniorChartModel.maxFocus }} 分钟</p>
+            </div>
+          </div>
+
         </div>
       </section>
     </main>
@@ -1512,6 +1648,7 @@
       <template v-else>
         <button @click="activeTab = 'daily'" :class="activeTab === 'daily' ? 'theme-primary-bg theme-primary-text' : ''">今日</button>
         <button @click="activeTab = 'memory'" :class="activeTab === 'memory' ? 'theme-warm-bg theme-warm-text' : ''">记忆</button>
+        <button @click="activeTab = 'stats'" :class="activeTab === 'stats' ? 'theme-accent-bg theme-accent-text' : ''">统计</button>
         <button @click="openTemplateManager">模板</button>
         <button @click="openSettings">设置</button>
       </template>
@@ -1980,7 +2117,7 @@
               <span class="text-xs text-slate-400">进入</span>
             </div>
           </button>
-          <button class="settings-menu-btn text-left bg-white/80 border border-slate-200 rounded-3xl lift"
+          <button v-if="ageGroup === 'senior'" class="settings-menu-btn text-left bg-white/80 border border-slate-200 rounded-3xl lift"
                   @click="settingsSection = 'stats'">
             <div class="flex items-center justify-between">
               <div>
@@ -2131,105 +2268,26 @@
           </div>
           </div>
 
-          <div v-if="settingsSection === 'stats'" class="space-y-4">
+          <div v-if="settingsSection === 'stats' && ageGroup === 'senior'" class="space-y-4">
           <div class="bg-slate-50 rounded-2xl p-3 border border-slate-200">
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-2">
-                <span v-if="!isOlderKid" class="icon-badge bg-purple-100 text-purple-700">
+                <span class="icon-badge bg-purple-100 text-purple-700">
                   <svg class="icon icon-anim"><use :href="`#${iconSet.chart}`" :xlink:href="`#${iconSet.chart}`"></use></svg>
                 </span>
                 <div>
                   <p class="text-sm font-semibold text-slate-800">统计报表</p>
-                  <p class="text-[11px] text-slate-500">把努力变成清晰的数据</p>
+                  <p class="text-[11px] text-slate-500">Senior 模式下可从主页面查看 Today / This Week</p>
                 </div>
               </div>
               <span class="text-[11px] px-2 py-0.5 rounded-full bg-purple-50 text-purple-600 border border-purple-200">数据面板</span>
             </div>
-            <div class="flex items-center gap-2 mt-3">
-              <button
-                @click="statsViewMode = 'daily'"
-                class="px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition glass-btn btn-chip"
-                :class="statsViewMode === 'daily' ? 'text-purple-700 border-purple-200' : 'text-slate-600 border-slate-200'">
-                每日统计
-              </button>
-              <button
-                @click="statsViewMode = 'task'"
-                class="px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition glass-btn btn-chip"
-                :class="statsViewMode === 'task' ? 'text-purple-700 border-purple-200' : 'text-slate-600 border-slate-200'">
-                任务统计
-              </button>
-            </div>
-
-            <div v-if="statsViewMode === 'daily'" class="space-y-4 mt-3">
-              <div class="bg-purple-50/80 border border-purple-100 rounded-2xl px-3 py-2">
-                <p class="font-semibold text-purple-700 mb-1 text-sm">每日学习时间统计</p>
-                <p class="text-xs text-slate-600">查看每天学习总时长</p>
-              </div>
-              <div class="bg-white/90 rounded-2xl p-3 sm:p-4 shadow-sm">
-                <canvas id="dailyChart" class="w-full" style="max-height: 260px;"></canvas>
-              </div>
-              <div class="bg-white/90 rounded-2xl p-3 sm:p-4 shadow-sm overflow-x-auto">
-                <table class="w-full text-xs sm:text-sm">
-                  <thead>
-                    <tr class="border-b border-slate-200">
-                      <th class="text-left py-2 px-2 font-semibold text-slate-700">日期</th>
-                      <th class="text-left py-2 px-2 font-semibold text-slate-700">完成任务数</th>
-                      <th class="text-right py-2 px-2 font-semibold text-slate-700">总时长</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr v-for="day in dailyStats" :key="day.date"
-                        class="border-b border-slate-100 hover:bg-purple-50/50">
-                      <td class="py-2 px-2 text-slate-800">{{ day.dateLabel }}</td>
-                      <td class="py-2 px-2 text-slate-600">{{ day.taskCount }} 个</td>
-                      <td class="py-2 px-2 text-right font-semibold text-purple-700">{{ day.totalTime }}</td>
-                    </tr>
-                    <tr v-if="dailyStats.length === 0">
-                      <td colspan="3" class="py-4 text-center text-slate-400">暂无统计数据</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
-            <div v-else class="space-y-4 mt-3">
-              <div class="bg-purple-50/80 border border-purple-100 rounded-2xl px-3 py-2">
-                <p class="font-semibold text-purple-700 mb-1 text-sm">各任务学习时间统计</p>
-                <p class="text-xs text-slate-600">查看每个任务累计学习时长</p>
-              </div>
-              <div class="bg-white/90 rounded-2xl p-3 sm:p-4 shadow-sm">
-                <canvas id="taskChart" class="w-full" style="max-height: 260px;"></canvas>
-              </div>
-              <div class="bg-white/90 rounded-2xl p-3 sm:p-4 shadow-sm overflow-x-auto">
-                <table class="w-full text-xs sm:text-sm">
-                  <thead>
-                    <tr class="border-b border-slate-200">
-                      <th class="text-left py-2 px-2 font-semibold text-slate-700">任务名称</th>
-                      <th class="text-left py-2 px-2 font-semibold text-slate-700">完成次数</th>
-                      <th class="text-right py-2 px-2 font-semibold text-slate-700">累计时长</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr v-for="(task, idx) in taskStats" :key="task.title"
-                        class="border-b border-slate-100 hover:bg-purple-50/50">
-                      <td class="py-2 px-2">
-                        <div class="flex items-center gap-2">
-                          <span class="inline-block w-3 h-3 rounded-full"
-                                :style="{ backgroundColor: task.color }"></span>
-                          <span class="text-slate-800">{{ task.title }}</span>
-                        </div>
-                      </td>
-                      <td class="py-2 px-2 text-slate-600">{{ task.count }} 次</td>
-                      <td class="py-2 px-2 text-right font-semibold"
-                          :style="{ color: task.color }">{{ task.totalTime }}</td>
-                    </tr>
-                    <tr v-if="taskStats.length === 0">
-                      <td colspan="3" class="py-4 text-center text-slate-400">暂无统计数据</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
+            <button
+              type="button"
+              @click="openSeniorStats"
+              class="mt-3 w-full px-3 py-2 rounded-xl text-white text-sm font-semibold btn-primary btn-compact">
+              打开 Senior 统计页
+            </button>
 
             <div class="mt-4 bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-200 rounded-2xl p-4 shadow-sm">
               <div class="flex items-center gap-2 mb-3">
@@ -2411,12 +2469,9 @@
           deferredPrompt: null,
           showInstall: false,
           showIosInstallHint: false,
-          // 统计相关
-          statsViewMode: 'daily', // 'daily' 或 'task'
-          dailyStats: [],
-          taskStats: [],
-          dailyChart: null,
-          taskChart: null,
+          // Senior 统计视图状态
+          seniorStatsRange: 'today', // 'today' | 'week'
+          seniorStatsTick: 0,
           rewardToast: {
             visible: false,
             title: '',
@@ -2436,12 +2491,7 @@
             items: [],
             hintVisible: false,
             latestId: ''
-          },
-          // 任务颜色池（每个任务分配不同颜色）
-          taskColors: [
-            '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#3b82f6',
-            '#ef4444', '#14b8a6', '#f97316', '#a855f7', '#06b6d4'
-          ]
+          }
         };
       },
       computed: {
@@ -2609,6 +2659,111 @@
         latestJuniorSticker() {
           if (!this.juniorStickers.latestId) return null;
           return this.juniorStickers.items.find(item => item.id === this.juniorStickers.latestId) || null;
+        },
+        seniorStatsSource() {
+          // 依赖触发：任务/复习/档案切换后重算
+          const reactiveTick = `${this.activeProfileId}|${this.seniorStatsTick}|${this.tasks.length}|${this.memorySchedule.length}|${this.xp}`;
+          if (!reactiveTick && reactiveTick !== '0') {
+            return { tasksByDay: {}, scheduleByDay: {} };
+          }
+          let tasksByDay = {};
+          const rawTasks = localStorage.getItem(this.getStorageKey('tasks_by_day'));
+          if (rawTasks) {
+            try {
+              const parsed = JSON.parse(rawTasks);
+              tasksByDay = parsed && typeof parsed === 'object' ? parsed : {};
+            } catch (e) {
+              tasksByDay = {};
+            }
+          }
+
+          const scheduleByDay = {};
+          const rawSchedule = localStorage.getItem(this.getStorageKey('memory_schedule'));
+          if (rawSchedule) {
+            try {
+              const parsedSchedule = JSON.parse(rawSchedule);
+              if (Array.isArray(parsedSchedule)) {
+                parsedSchedule.forEach(item => {
+                  if (!item || !item.dayKey) return;
+                  if (!scheduleByDay[item.dayKey]) {
+                    scheduleByDay[item.dayKey] = [];
+                  }
+                  scheduleByDay[item.dayKey].push(item);
+                });
+              }
+            } catch (e) {
+              // ignore parse error and use empty schedule
+            }
+          }
+          return { tasksByDay, scheduleByDay };
+        },
+        seniorTodaySummary() {
+          return this.getSeniorSummaryByDay(this.todayKey);
+        },
+        seniorWeekDayKeys() {
+          return this.getCurrentWeekDayKeys();
+        },
+        seniorWeekSummary() {
+          const weekToDateKeys = this.seniorWeekDayKeys.filter(dayKey => dayKey <= this.todayKey);
+          const summary = this.getSeniorRangeSummary(weekToDateKeys);
+          return {
+            ...summary,
+            streak: this.getSeniorWeekStreak(weekToDateKeys)
+          };
+        },
+        seniorSevenDayStats() {
+          return this.getRecentDayKeys(7).map(dayKey => {
+            const summary = this.getSeniorSummaryByDay(dayKey);
+            return {
+              dayKey,
+              label: this.getShortDayLabel(dayKey),
+              completionRate: summary.completionRate,
+              focusMinutes: summary.focusMinutes
+            };
+          });
+        },
+        seniorChartModel() {
+          const days = this.seniorSevenDayStats;
+          const width = 360;
+          const height = 190;
+          const left = 34;
+          const right = 14;
+          const top = 16;
+          const bottom = 46;
+          const plotW = width - left - right;
+          const plotH = height - top - bottom;
+          const maxFocus = Math.max(1, ...days.map(d => d.focusMinutes || 0));
+          const step = days.length > 1 ? plotW / (days.length - 1) : plotW;
+          const barW = Math.min(22, Math.max(10, step * 0.5));
+
+          const points = days.map((d, idx) => {
+            const x = left + step * idx;
+            const y = top + plotH - (Math.max(0, Math.min(100, d.completionRate)) / 100) * plotH;
+            return { key: d.dayKey, x, y };
+          });
+          const bars = days.map((d, idx) => {
+            const centerX = left + step * idx;
+            const barH = Math.max(1, (Math.max(0, d.focusMinutes) / maxFocus) * plotH);
+            return {
+              key: d.dayKey,
+              x: centerX - barW / 2,
+              y: top + plotH - barH,
+              width: barW,
+              height: barH
+            };
+          });
+          const labels = days.map((d, idx) => ({
+            key: d.dayKey,
+            x: left + step * idx,
+            text: d.label
+          }));
+          return {
+            maxFocus,
+            points,
+            bars,
+            labels,
+            linePoints: points.map(p => `${p.x},${p.y}`).join(' ')
+          };
         },
         memoryCategoryLabel() {
           const map = {
@@ -2856,10 +3011,25 @@
         },
         onAgeGroupChanged() {
           this.updateBodyMode();
-          if (this.activeTab !== 'daily' && this.activeTab !== 'memory') {
+          this.ensureActiveTabForAgeGroup();
+          this.applyBodyTheme();
+        },
+        ensureActiveTabForAgeGroup() {
+          const allowedTabs = this.ageGroup === 'senior'
+            ? ['daily', 'memory', 'stats']
+            : ['daily', 'memory'];
+          if (!allowedTabs.includes(this.activeTab)) {
             this.activeTab = 'daily';
           }
-          this.applyBodyTheme();
+          if (this.ageGroup !== 'senior' && this.settingsSection === 'stats') {
+            this.settingsSection = 'home';
+          }
+        },
+        openSeniorStats() {
+          if (this.ageGroup !== 'senior') return;
+          this.activeTab = 'stats';
+          this.showSettings = false;
+          this.settingsSection = 'home';
         },
 
         // 一键清缓存（Service Worker + Cache Storage）
@@ -4207,6 +4377,114 @@
           window.print();
         },
 
+        getRecentDayKeys(days) {
+          const result = [];
+          for (let i = days - 1; i >= 0; i -= 1) {
+            const date = new Date();
+            date.setDate(date.getDate() - i);
+            result.push(this.toLocalDateKey(date));
+          }
+          return result;
+        },
+        getCurrentWeekDayKeys() {
+          const today = new Date();
+          const day = today.getDay();
+          const diffToMonday = day === 0 ? -6 : 1 - day;
+          const monday = new Date(today);
+          monday.setDate(today.getDate() + diffToMonday);
+          const keys = [];
+          for (let i = 0; i < 7; i += 1) {
+            const date = new Date(monday);
+            date.setDate(monday.getDate() + i);
+            keys.push(this.toLocalDateKey(date));
+          }
+          return keys;
+        },
+        getShortDayLabel(dayKey) {
+          const [y, m, d] = dayKey.split('-').map(Number);
+          if (!y || !m || !d) return dayKey;
+          return `${m}/${d}`;
+        },
+        getSeniorSummaryByDay(dayKey) {
+          const dayTasks = Array.isArray(this.seniorStatsSource.tasksByDay[dayKey])
+            ? this.seniorStatsSource.tasksByDay[dayKey]
+            : [];
+          const completedCount = dayTasks.filter(task => task && task.done).length;
+          const totalCount = dayTasks.length;
+          const focusMinutes = dayTasks.reduce((sum, task) => {
+            if (task && task.done && task.startTime && task.endTime) {
+              return sum + this.calculateTimeDiff(task.startTime, task.endTime);
+            }
+            return sum;
+          }, 0);
+
+          const reviewItems = Array.isArray(this.seniorStatsSource.scheduleByDay[dayKey])
+            ? this.seniorStatsSource.scheduleByDay[dayKey]
+            : [];
+          const reviewDoneCount = reviewItems.filter(item => !!item.done).length;
+          const reviewTotalCount = reviewItems.length;
+
+          const completionRate = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
+          const reviewRate = reviewTotalCount > 0 ? Math.round((reviewDoneCount / reviewTotalCount) * 100) : 0;
+
+          // XP 历史未单独记录时，采用“完成任务数 * 10”的回退估算，不改现有 XP 结算逻辑。
+          const xpGained = completedCount * 10;
+
+          return {
+            completedCount,
+            totalCount,
+            completionRate,
+            focusMinutes,
+            reviewDoneCount,
+            reviewTotalCount,
+            reviewRate,
+            xpGained
+          };
+        },
+        getSeniorRangeSummary(dayKeys) {
+          const summary = {
+            completedCount: 0,
+            totalCount: 0,
+            focusMinutes: 0,
+            reviewDoneCount: 0,
+            reviewTotalCount: 0,
+            xpGained: 0,
+            completionRate: 0,
+            reviewRate: 0
+          };
+          dayKeys.forEach(dayKey => {
+            const day = this.getSeniorSummaryByDay(dayKey);
+            summary.completedCount += day.completedCount;
+            summary.totalCount += day.totalCount;
+            summary.focusMinutes += day.focusMinutes;
+            summary.reviewDoneCount += day.reviewDoneCount;
+            summary.reviewTotalCount += day.reviewTotalCount;
+            summary.xpGained += day.xpGained;
+          });
+          summary.completionRate = summary.totalCount > 0
+            ? Math.round((summary.completedCount / summary.totalCount) * 100)
+            : 0;
+          summary.reviewRate = summary.reviewTotalCount > 0
+            ? Math.round((summary.reviewDoneCount / summary.reviewTotalCount) * 100)
+            : 0;
+          return summary;
+        },
+        getSeniorWeekStreak(weekDayKeys) {
+          const todayKey = this.todayKey;
+          const todayIndex = weekDayKeys.indexOf(todayKey);
+          if (todayIndex < 0) return 0;
+          let streak = 0;
+          for (let i = todayIndex; i >= 0; i -= 1) {
+            const daySummary = this.getSeniorSummaryByDay(weekDayKeys[i]);
+            if (daySummary.completedCount >= 1) {
+              streak += 1;
+            } else {
+              break;
+            }
+          }
+          return streak;
+        },
+
         // 统计功能：计算时间差（分钟）
         calculateTimeDiff(startTime, endTime) {
           if (!startTime || !endTime) return 0;
@@ -4225,209 +4503,6 @@
           const h = Math.floor(minutes / 60);
           const m = minutes % 60;
           return m > 0 ? `${h} 小时 ${m} 分钟` : `${h} 小时`;
-        },
-
-        // 更新统计数据
-        updateStats() {
-          try {
-            this.calculateDailyStats();
-            this.calculateTaskStats();
-            this.$nextTick(() => {
-              if (typeof Chart !== 'undefined') {
-                this.renderDailyChart();
-                this.renderTaskChart();
-              }
-            });
-          } catch (error) {
-            console.error('更新统计时出错:', error);
-          }
-        },
-
-        // 计算每日统计
-        calculateDailyStats() {
-          const raw = localStorage.getItem(this.getStorageKey('tasks_by_day'));
-          if (!raw) {
-            this.dailyStats = [];
-            return;
-          }
-
-          const byDay = JSON.parse(raw);
-          const stats = [];
-
-          Object.entries(byDay).forEach(([dayKey, tasks]) => {
-            if (!Array.isArray(tasks)) return;
-
-            let totalMinutes = 0;
-            let taskCount = 0;
-
-            tasks.forEach(task => {
-              if (task.done && task.startTime && task.endTime) {
-                const minutes = this.calculateTimeDiff(task.startTime, task.endTime);
-                totalMinutes += minutes;
-                taskCount += 1;
-              }
-            });
-
-            if (taskCount > 0) {
-              const d = new Date(dayKey);
-              const weekNames = ['日', '一', '二', '三', '四', '五', '六'];
-              stats.push({
-                date: dayKey,
-                dateLabel: `${d.getMonth() + 1}/${d.getDate()}（周${weekNames[d.getDay()]}）`,
-                taskCount,
-                totalMinutes,
-                totalTime: this.formatDuration(totalMinutes)
-              });
-            }
-          });
-
-          // 按日期倒序排列（最新的在前）
-          stats.sort((a, b) => b.date.localeCompare(a.date));
-          this.dailyStats = stats.slice(0, 30); // 只显示最近30天
-        },
-
-        // 计算任务统计
-        calculateTaskStats() {
-          const raw = localStorage.getItem(this.getStorageKey('tasks_by_day'));
-          if (!raw) {
-            this.taskStats = [];
-            return;
-          }
-
-          const byDay = JSON.parse(raw);
-          const taskMap = {};
-
-          Object.values(byDay).forEach(tasks => {
-            if (!Array.isArray(tasks)) return;
-
-            tasks.forEach(task => {
-              if (task.done && task.startTime && task.endTime) {
-                const title = task.title;
-                if (!taskMap[title]) {
-                  taskMap[title] = {
-                    title,
-                    count: 0,
-                    totalMinutes: 0,
-                    color: this.taskColors[Object.keys(taskMap).length % this.taskColors.length]
-                  };
-                }
-                taskMap[title].count += 1;
-                taskMap[title].totalMinutes += this.calculateTimeDiff(task.startTime, task.endTime);
-              }
-            });
-          });
-
-          const stats = Object.values(taskMap).map(t => ({
-            ...t,
-            totalTime: this.formatDuration(t.totalMinutes)
-          }));
-
-          // 按累计时长降序排列
-          stats.sort((a, b) => b.totalMinutes - a.totalMinutes);
-          this.taskStats = stats;
-        },
-
-        // 渲染每日统计图表
-        renderDailyChart() {
-          const ctx = document.getElementById('dailyChart');
-          if (!ctx || typeof Chart === 'undefined') return;
-
-          if (this.dailyChart) {
-            this.dailyChart.destroy();
-          }
-
-          const labels = this.dailyStats.map(d => d.dateLabel).reverse();
-          const data = this.dailyStats.map(d => d.totalMinutes).reverse();
-
-          this.dailyChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-              labels,
-              datasets: [{
-                label: '学习时长（分钟）',
-                data,
-                backgroundColor: 'rgba(139, 92, 246, 0.6)',
-                borderColor: 'rgba(139, 92, 246, 1)',
-                borderWidth: 1
-              }]
-            },
-            options: {
-              responsive: true,
-              maintainAspectRatio: false,
-              plugins: {
-                legend: {
-                  display: false
-                },
-                tooltip: {
-                  callbacks: {
-                    label: (context) => {
-                      const minutes = context.parsed.y;
-                      return `学习时长: ${this.formatDuration(minutes)}`;
-                    }
-                  }
-                }
-              },
-              scales: {
-                y: {
-                  beginAtZero: true,
-                  ticks: {
-                    callback: (value) => {
-                      return this.formatDuration(value);
-                    }
-                  }
-                }
-              }
-            }
-          });
-        },
-
-        // 渲染任务统计图表
-        renderTaskChart() {
-          const ctx = document.getElementById('taskChart');
-          if (!ctx || typeof Chart === 'undefined') return;
-
-          if (this.taskChart) {
-            this.taskChart.destroy();
-          }
-
-          const labels = this.taskStats.map(t => t.title);
-          const data = this.taskStats.map(t => t.totalMinutes);
-          const colors = this.taskStats.map(t => t.color);
-
-          this.taskChart = new Chart(ctx, {
-            type: 'doughnut',
-            data: {
-              labels,
-              datasets: [{
-                data,
-                backgroundColor: colors.map(c => c + '80'), // 添加透明度
-                borderColor: colors,
-                borderWidth: 2
-              }]
-            },
-            options: {
-              responsive: true,
-              maintainAspectRatio: false,
-              plugins: {
-                legend: {
-                  position: 'right',
-                  labels: {
-                    boxWidth: 12,
-                    font: { size: 11 },
-                    padding: 8
-                  }
-                },
-                tooltip: {
-                  callbacks: {
-                    label: (context) => {
-                      const minutes = context.parsed;
-                      return `${context.label}: ${this.formatDuration(minutes)}`;
-                    }
-                  }
-                }
-              }
-            }
-          });
         },
 
         // 根据主题应用全局 CSS 变量与背景
@@ -4482,6 +4557,7 @@
           this.migrateOldDataIfNeeded();
           this.saveProfiles();
           this.updateBodyMode();
+          this.ensureActiveTabForAgeGroup();
         },
         saveProfiles() {
           localStorage.setItem('kldx_profiles', JSON.stringify(this.profiles));
@@ -4495,8 +4571,9 @@
           this.loadTemplates();
           this.loadMemoryData();
           this.loadThemeAndXp();
-          this.updateStats();
           this.updateBodyMode();
+          this.ensureActiveTabForAgeGroup();
+          this.seniorStatsTick += 1;
         },
         addProfile() {
           if (!this.requireParentIfNeeded()) return;
@@ -4787,19 +4864,16 @@
 
         // 监听任务变化，自动保存（保险）
         this.$watch('tasks', () => {
+          this.seniorStatsTick += 1;
           if (this.saveTodayTasks) {
             this.saveTodayTasks();
           }
-          if (this.updateStats) {
-            this.updateStats();
-          }
         }, { deep: true });
 
-          // 监听标签页切换，当切换到统计时自动更新
-          // 监听分类切换，清除缓存
-          this.$watch('memoryCategory', () => {
-            this.reviewStatusCache = {};
-          });
+        // 监听分类切换，清除缓存
+        this.$watch('memoryCategory', () => {
+          this.reviewStatusCache = {};
+        });
         
         // 监听记忆数据变化，清除缓存，确保内容更新
         this.$watch('memoryList', () => {
@@ -4807,31 +4881,8 @@
         }, { deep: true });
         this.$watch('memorySchedule', () => {
           this.reviewStatusCache = {};
+          this.seniorStatsTick += 1;
         }, { deep: true });
-
-          // 统计视图切换时重新渲染图表
-          this.$watch('statsViewMode', () => {
-            if (this.updateStats) {
-              this.updateStats();
-            }
-          });
-
-          // 打开设置中心时刷新统计图表
-          this.$watch('showSettings', (isOpen) => {
-            if (isOpen && this.updateStats) {
-              this.updateStats();
-            }
-          });
-          
-          // 如果 Chart.js 还未加载，轮询直到可用
-          const chartReadyTimer = setInterval(() => {
-            if (typeof Chart !== 'undefined') {
-              if (this.updateStats) {
-                this.updateStats();
-              }
-              clearInterval(chartReadyTimer);
-            }
-          }, 200);
           
           // 最后再次确保所有弹窗关闭（防止异步操作打开弹窗）
           // 使用多个延迟确保覆盖所有可能的异步操作
@@ -4864,9 +4915,6 @@
       }
     }
   </script>
-  <!-- Chart.js CDN - 放在最后，确保在 Vue 初始化后加载 -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-  
   <!-- Service Worker Registration -->
   <script>
     // 注册 Service Worker
