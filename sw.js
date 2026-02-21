@@ -1,9 +1,12 @@
-const CACHE_NAME = 'studyplan-v30';
+const CACHE_NAME = 'studyplan-v31';
 const CORE_ASSETS = [
   './',
   './index.html',
   './studyplan.html',
   './manifest.json',
+  './app-icon-192.png',
+  './app-icon-512.png',
+  './apple-touch-icon.png',
   './app-icon.svg',
   './offline.html'
 ];
@@ -33,18 +36,21 @@ self.addEventListener('fetch', event => {
       fetch(request)
         .then(res => {
           const copy = res.clone();
-          caches.open(CACHE_NAME).then(cache => {
-            cache.put('./index.html', copy);
-            cache.put('./studyplan.html', copy);
-          });
+          caches.open(CACHE_NAME).then(cache => cache.put(request, copy));
           return res;
         })
-        .catch(() => caches.match('./offline.html'))
+        .catch(async () => {
+          const cachedRequest = await caches.match(request);
+          if (cachedRequest) return cachedRequest;
+          const cachedIndex = await caches.match('./index.html');
+          if (cachedIndex) return cachedIndex;
+          return caches.match('./offline.html');
+        })
     );
     return;
   }
 
-  if (url.origin === location.origin) {
+  if (request.method === 'GET' && url.origin === location.origin) {
     event.respondWith(
       caches.match(request).then(cached =>
         cached || fetch(request).then(res => {

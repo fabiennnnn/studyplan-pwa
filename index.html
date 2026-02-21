@@ -94,6 +94,24 @@
       --warm-start: #FF8A3D;
       --warm-end: #FFB457;
     }
+    :root {
+      --ui-radius-lg: 20px;
+      --ui-radius-md: 14px;
+      --ui-sat: 1;
+      --ui-motion-scale: 1;
+    }
+    .age-junior {
+      --ui-radius-lg: 24px;
+      --ui-radius-md: 16px;
+      --ui-sat: 1.05;
+      --ui-motion-scale: 1;
+    }
+    .age-senior {
+      --ui-radius-lg: 16px;
+      --ui-radius-md: 12px;
+      --ui-sat: 0.92;
+      --ui-motion-scale: 0.7;
+    }
 
     body {
       font-family: "PingFang SC", "SF Pro Text", "SF Pro Display", "Noto Sans SC", sans-serif;
@@ -393,6 +411,45 @@
       background-size: cover;
       background-repeat: no-repeat;
       border-radius: 0;
+      filter: saturate(var(--ui-sat));
+    }
+    .variant-card {
+      border-radius: var(--ui-radius-lg) !important;
+    }
+    .variant-subcard {
+      border-radius: var(--ui-radius-md) !important;
+    }
+    .bottom-nav {
+      position: sticky;
+      bottom: 10px;
+      width: 100%;
+      max-width: 56rem;
+      display: flex;
+      gap: 8px;
+      padding: 10px;
+      z-index: 20;
+      background: rgba(255,255,255,0.82);
+      border: 1px solid var(--theme-border);
+      border-radius: 999px;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+    .bottom-nav button {
+      flex: 1 1 0%;
+      min-height: 40px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .age-junior .bottom-nav button {
+      min-height: 46px;
+      font-size: 14px;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation: none !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
     }
 
     .btn-primary {
@@ -539,6 +596,39 @@
       animation: confetti-fall var(--dur) ease-out var(--delay) forwards;
       left: var(--x);
       background: var(--color);
+    }
+    .sticker-book-card {
+      border: 1px solid rgba(16, 185, 129, 0.24);
+      background: linear-gradient(135deg, rgba(236, 253, 245, 0.9), rgba(240, 249, 255, 0.86));
+    }
+    .sticker-chip {
+      min-width: 72px;
+      border-radius: 12px;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      background: rgba(255, 255, 255, 0.85);
+      padding: 6px 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      flex-shrink: 0;
+    }
+    @keyframes sticker-chip-pop {
+      0% { transform: scale(0.92); opacity: 0.7; }
+      60% { transform: scale(1.06); opacity: 1; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .sticker-chip-new {
+      animation: sticker-chip-pop 0.32s ease-out;
+      border-color: rgba(16, 185, 129, 0.45);
+      box-shadow: 0 6px 14px rgba(16, 185, 129, 0.2);
+    }
+    @keyframes sticker-hint-pop {
+      0% { transform: translateY(6px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+    .sticker-hint-pop {
+      animation: sticker-hint-pop 0.24s ease-out;
     }
 
     .drag-handle {
@@ -847,7 +937,7 @@
   </svg>
   <div id="app"
        :style="themeConfig.style"
-       :class="[`theme-${theme}`, { 'mature-ui': isOlderKid }]"
+       :class="[`theme-${theme}`, `age-${ageGroup}`, { 'mature-ui': isOlderKid }]"
        class="app-shell min-h-screen flex flex-col items-center py-4 px-3 sm:px-6 lg:px-10 transition-colors duration-300">
 
     <!-- 顶部栏：标题 + 档案 + 等级信息 -->
@@ -937,7 +1027,7 @@
         </div>
 
         <!-- 内容卡片 -->
-        <div class="flex-1 glass rounded-3xl bg-white/80 soft-shadow p-3 sm:p-4 lg:p-5 flex flex-col overflow-hidden lift theme-card theme-border">
+        <div class="flex-1 glass rounded-3xl bg-white/80 soft-shadow p-3 sm:p-4 lg:p-5 flex flex-col overflow-hidden lift theme-card theme-border variant-card">
           <!-- 今日大冒险：每日计划 + 打卡 -->
           <div v-if="activeTab === 'daily'" class="flex-1 flex flex-col fade-slide">
             <!-- 模块标题 -->
@@ -955,7 +1045,7 @@
             </div>
 
             <!-- 今日进度仪表盘 -->
-            <div class="relative mb-3 rounded-2xl bg-white/90 border border-emerald-100 px-3 py-2 flex items-center justify-between theme-card theme-border">
+            <div class="relative mb-3 rounded-2xl bg-white/90 border border-emerald-100 px-3 py-2 flex items-center justify-between theme-card theme-border variant-subcard">
               <div class="flex items-center gap-3">
                 <svg class="w-14 h-14" viewBox="0 0 80 80">
                   <circle cx="40" cy="40" r="28" stroke="#e2e8f0" stroke-width="10" fill="none"></circle>
@@ -1043,6 +1133,39 @@
                   </div>
                   <span class="text-[11px] bg-white/20 px-2 py-0.5 rounded-full">今日全清</span>
                 </div>
+              </div>
+            </transition>
+
+            <div v-if="ageGroup === 'junior'"
+                 class="mb-2 rounded-2xl px-3 py-2 sticker-book-card">
+              <div class="flex items-center justify-between">
+                <div>
+                  <p class="text-sm font-semibold text-slate-800">贴纸册</p>
+                  <p class="text-[11px] text-slate-500">每完成一个新任务，解锁一枚贴纸</p>
+                </div>
+                <div class="text-right">
+                  <p class="text-sm font-bold text-emerald-600">{{ todayJuniorStickers.length }} 枚</p>
+                  <p class="text-[10px] text-slate-500">今日新增</p>
+                </div>
+              </div>
+              <div class="mt-2 flex items-center gap-2 overflow-x-auto pb-1">
+                <div v-for="sticker in todayJuniorStickers"
+                     :key="sticker.id"
+                     class="sticker-chip"
+                     :class="{ 'sticker-chip-new': juniorStickers.hintVisible && juniorStickers.latestId === sticker.id }">
+                  <span class="text-lg leading-none">{{ sticker.emoji }}</span>
+                  <span class="text-[10px] text-slate-600">{{ sticker.name }}</span>
+                </div>
+                <div v-if="todayJuniorStickers.length === 0"
+                     class="text-[11px] text-slate-500 bg-white/70 rounded-xl px-3 py-2 border border-white/60">
+                  先完成一个任务，领取今天第 1 枚贴纸吧。
+                </div>
+              </div>
+            </div>
+            <transition name="fade">
+              <div v-if="ageGroup === 'junior' && juniorStickers.hintVisible && latestJuniorSticker"
+                   class="mb-2 rounded-xl bg-emerald-50 border border-emerald-200 px-3 py-2 text-[12px] text-emerald-700 sticker-hint-pop">
+                🎁 获得新贴纸：{{ latestJuniorSticker.emoji }} {{ latestJuniorSticker.name }}
               </div>
             </transition>
 
@@ -1379,6 +1502,20 @@
         </div>
       </section>
     </main>
+
+    <nav class="bottom-nav mt-3">
+      <template v-if="ageGroup === 'junior'">
+        <button @click="activeTab = 'daily'" :class="activeTab === 'daily' ? 'theme-primary-bg theme-primary-text' : ''">今日</button>
+        <button @click="activeTab = 'memory'" :class="activeTab === 'memory' ? 'theme-warm-bg theme-warm-text' : ''">记忆</button>
+        <button @click="openSettings">设置</button>
+      </template>
+      <template v-else>
+        <button @click="activeTab = 'daily'" :class="activeTab === 'daily' ? 'theme-primary-bg theme-primary-text' : ''">今日</button>
+        <button @click="activeTab = 'memory'" :class="activeTab === 'memory' ? 'theme-warm-bg theme-warm-text' : ''">记忆</button>
+        <button @click="openTemplateManager">模板</button>
+        <button @click="openSettings">设置</button>
+      </template>
+    </nav>
 
     <footer class="w-full max-w-5xl mt-4 text-center text-[11px] text-slate-400">
       © fabien Zhang · 快乐学习大冒险
@@ -1795,6 +1932,14 @@
         </div>
 
         <div class="space-y-4" v-if="settingsSection === 'home'">
+          <div class="bg-white/85 border border-slate-200 rounded-3xl p-3">
+            <p class="text-sm font-semibold text-slate-800">当前模式</p>
+            <p class="text-[12px] text-slate-600 mt-1">
+              {{ activeProfile.name }} · {{ activeProfile.age }} 岁 ·
+              <span class="font-semibold">{{ ageGroup === 'junior' ? 'Junior（童趣模式）' : 'Senior（进阶模式）' }}</span>
+            </p>
+            <p class="text-[11px] text-slate-500 mt-1">修改孩子年龄后，模式会立即切换。</p>
+          </div>
           <button class="settings-menu-btn text-left bg-white/80 border border-slate-200 rounded-3xl lift"
                   @click="settingsSection = 'parent'">
             <div class="flex items-center justify-between">
@@ -1911,8 +2056,11 @@
             <div class="space-y-2">
               <div v-for="p in profiles" :key="p.id" class="profile-item flex items-center gap-2 bg-white rounded-xl p-2 border border-slate-200">
                 <div class="profile-fields w-full">
-                  <input v-model="p.name" class="profile-name rounded-lg border border-slate-200 px-2 py-2 text-sm text-center" />
+                  <input v-model="p.name"
+                         @blur="onProfileEdited(p)"
+                         class="profile-name rounded-lg border border-slate-200 px-2 py-2 text-sm text-center" />
                   <input v-model.number="p.age" type="number" min="3" max="18"
+                         @change="onProfileEdited(p)"
                          class="profile-age rounded-lg border border-slate-200 px-2 py-2 text-sm text-center" />
                 </div>
                 <div class="profile-actions flex items-center gap-2">
@@ -2284,6 +2432,11 @@
           showConfetti: false,
           confettiSeed: 0,
           confettiPieces: 18,
+          juniorStickers: {
+            items: [],
+            hintVisible: false,
+            latestId: ''
+          },
           // 任务颜色池（每个任务分配不同颜色）
           taskColors: [
             '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#3b82f6',
@@ -2302,8 +2455,11 @@
         activeProfile() {
           return this.profiles.find(p => p.id === this.activeProfileId) || { name: '孩子', age: 8 };
         },
+        ageGroup() {
+          return (Number(this.activeProfile.age) || 8) >= 10 ? 'senior' : 'junior';
+        },
         isOlderKid() {
-          return (this.activeProfile.age || 8) >= 10;
+          return this.ageGroup === 'senior';
         },
         iconSet() {
           const map = {
@@ -2446,6 +2602,13 @@
             circumference,
             offset: circumference * (1 - percent)
           };
+        },
+        todayJuniorStickers() {
+          return this.juniorStickers.items.filter(item => item.dayKey === this.todayKey);
+        },
+        latestJuniorSticker() {
+          if (!this.juniorStickers.latestId) return null;
+          return this.juniorStickers.items.find(item => item.id === this.juniorStickers.latestId) || null;
         },
         memoryCategoryLabel() {
           const map = {
@@ -2678,6 +2841,26 @@
           localStorage.setItem(this.getStorageKey('theme'), value);
           this.applyBodyTheme();
         },
+        normalizeAge(age) {
+          const n = Number(age);
+          if (!Number.isFinite(n)) return 8;
+          return Math.max(3, Math.min(18, Math.round(n)));
+        },
+        onProfileEdited(profile) {
+          profile.age = this.normalizeAge(profile.age);
+          profile.name = (profile.name || '').trim() || '孩子';
+          this.saveProfiles();
+          if (profile.id === this.activeProfileId) {
+            this.onAgeGroupChanged();
+          }
+        },
+        onAgeGroupChanged() {
+          this.updateBodyMode();
+          if (this.activeTab !== 'daily' && this.activeTab !== 'memory') {
+            this.activeTab = 'daily';
+          }
+          this.applyBodyTheme();
+        },
 
         // 一键清缓存（Service Worker + Cache Storage）
         clearAppCache() {
@@ -2732,6 +2915,69 @@
           const byDay = raw ? JSON.parse(raw) : {};
           byDay[this.todayKey] = this.tasks;
           localStorage.setItem(this.getStorageKey('tasks_by_day'), JSON.stringify(byDay));
+        },
+        loadJuniorStickers() {
+          const raw = localStorage.getItem(this.getStorageKey('junior_stickers'));
+          if (!raw) {
+            this.juniorStickers.items = [];
+            this.juniorStickers.hintVisible = false;
+            this.juniorStickers.latestId = '';
+            return;
+          }
+          try {
+            const parsed = JSON.parse(raw);
+            this.juniorStickers.items = Array.isArray(parsed) ? parsed : [];
+          } catch (e) {
+            this.juniorStickers.items = [];
+          }
+          this.juniorStickers.hintVisible = false;
+          this.juniorStickers.latestId = '';
+        },
+        saveJuniorStickers() {
+          localStorage.setItem(this.getStorageKey('junior_stickers'), JSON.stringify(this.juniorStickers.items));
+        },
+        pickJuniorSticker(task) {
+          const pool = [
+            { emoji: '⭐', name: '闪亮星' },
+            { emoji: '🚀', name: '冲刺火箭' },
+            { emoji: '🦁', name: '勇气狮子' },
+            { emoji: '🌈', name: '彩虹能量' },
+            { emoji: '🐬', name: '海豚伙伴' },
+            { emoji: '🎯', name: '命中目标' },
+            { emoji: '🍀', name: '幸运四叶草' },
+            { emoji: '🧠', name: '聪明大脑' }
+          ];
+          const seed = `${task.id || ''}-${task.title || ''}-${this.todayKey}`;
+          let hash = 0;
+          for (let i = 0; i < seed.length; i += 1) {
+            hash = (hash * 31 + seed.charCodeAt(i)) | 0;
+          }
+          return pool[Math.abs(hash) % pool.length];
+        },
+        awardJuniorSticker(task) {
+          if (this.ageGroup !== 'junior') return;
+          if (!task || !task.id) return;
+          const alreadyAwarded = this.juniorStickers.items.some(item =>
+            item.taskId === task.id && item.dayKey === this.todayKey
+          );
+          if (alreadyAwarded) return;
+          const sticker = this.pickJuniorSticker(task);
+          const entry = {
+            id: `${task.id}_${Date.now()}`,
+            taskId: task.id,
+            dayKey: this.todayKey,
+            awardedAt: new Date().toISOString(),
+            emoji: sticker.emoji,
+            name: sticker.name
+          };
+          this.juniorStickers.items.push(entry);
+          this.juniorStickers.latestId = entry.id;
+          this.juniorStickers.hintVisible = true;
+          clearTimeout(this._stickerHintTimer);
+          this._stickerHintTimer = setTimeout(() => {
+            this.juniorStickers.hintVisible = false;
+          }, 1600);
+          this.saveJuniorStickers();
         },
 
         // 模板管理
@@ -2904,6 +3150,7 @@
             // XP 奖励（只奖励一次，避免重复刷分）
             if (!task.completedAt) {
               this.gainXp(10);
+              this.awardJuniorSticker(task);
               const doneCount = this.tasks.filter(t => t.done).length;
               if (doneCount === 1) {
                 this.showRewardToast({
@@ -4244,6 +4491,7 @@
           this.activeProfileId = id;
           this.saveProfiles();
           this.loadTodayTasks();
+          this.loadJuniorStickers();
           this.loadTemplates();
           this.loadMemoryData();
           this.loadThemeAndXp();
@@ -4253,7 +4501,7 @@
         addProfile() {
           if (!this.requireParentIfNeeded()) return;
           if (!this.newProfileName.trim()) return;
-          const age = Number(this.newProfileAge) || 8;
+          const age = this.normalizeAge(this.newProfileAge);
           this.profiles.push({ id: this.uuid(), name: this.newProfileName.trim(), age });
           this.newProfileName = '';
           this.newProfileAge = 8;
@@ -4492,6 +4740,7 @@
         
         // 初始化档案与数据
         this.loadProfiles();
+        this.loadJuniorStickers();
         this.loadThemeAndXp();
         this.loadMemoryData();
         if (this.applyBodyTheme) {
