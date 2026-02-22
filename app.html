@@ -99,18 +99,23 @@
       --ui-radius-md: 14px;
       --ui-sat: 1;
       --ui-motion-scale: 1;
+      --header-compact: 108px;
+      --header-compact-gap: 6px;
+      --segmented-height: 38px;
     }
     .age-junior {
       --ui-radius-lg: 24px;
       --ui-radius-md: 16px;
       --ui-sat: 1.05;
       --ui-motion-scale: 1;
+      --header-compact: 114px;
     }
     .age-senior {
       --ui-radius-lg: 16px;
       --ui-radius-md: 12px;
       --ui-sat: 0.92;
       --ui-motion-scale: 0.7;
+      --header-compact: 104px;
     }
 
     body {
@@ -147,25 +152,26 @@
         font-size: 14px;
       }
       .app-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--header-compact-gap);
       }
       .app-title {
-        font-size: 24px;
+        font-size: 18px;
         white-space: nowrap;
-        width: 100%;
+        width: auto;
       }
       .app-header > div:first-child {
-        width: 100%;
+        width: auto;
       }
       .header-right {
-        align-items: flex-start;
-        width: 100%;
-        gap: 8px;
+        align-items: center;
+        width: auto;
+        gap: 6px;
       }
       .profile-row {
-        width: 100%;
+        width: auto;
         justify-content: space-between;
       }
       .settings-modal {
@@ -242,8 +248,8 @@
         padding: 16px 12px 24px;
       }
       .mobile-tabs button {
-        font-size: 16px;
-        padding: 14px 0;
+        font-size: 13px;
+        padding: 8px 0;
       }
       .mobile-full {
         width: 100%;
@@ -259,10 +265,10 @@
         padding: 10px 12px;
       }
       .mobile-tabs {
-        font-size: 14px;
+        font-size: 13px;
       }
       .mobile-tabs button {
-        padding: 10px 0;
+        padding: 8px 0;
       }
       .mobile-chips {
         width: 100%;
@@ -273,9 +279,17 @@
         font-size: 13px;
       }
       .mobile-actions {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 8px;
+        flex-direction: row;
+        align-items: center;
+        gap: 6px;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+      }
+      .ios-compact-header {
+        max-height: var(--header-compact);
+      }
+      .ios-segmented-tabs {
+        top: 0;
       }
     }
 
@@ -413,6 +427,229 @@
       border-radius: 0;
       filter: saturate(var(--ui-sat));
     }
+    .build-debug-tag {
+      position: fixed;
+      top: 8px;
+      right: 8px;
+      z-index: 10001;
+      background: rgba(15, 23, 42, 0.92);
+      color: #ffffff;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.2);
+    }
+    .ios-compact-header {
+      width: 100%;
+      max-width: 56rem;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 8px;
+      padding: 8px 10px;
+      border: 1px solid rgba(15, 23, 42, 0.1);
+      background: rgba(255, 255, 255, 0.82);
+      border-radius: 14px;
+    }
+    .compact-top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .compact-profile-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-width: 0;
+      font-size: 11px;
+      color: #334155;
+      border: 1px solid rgba(15, 23, 42, 0.1);
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 999px;
+      padding: 4px 8px;
+    }
+    .compact-top-row .icon-btn {
+      font-size: 12px;
+      color: #64748b;
+      padding: 2px 6px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      background: rgba(255, 255, 255, 0.8);
+    }
+    .compact-progress-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      min-height: 34px;
+      cursor: pointer;
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      background: rgba(255, 255, 255, 0.84);
+      border-radius: 12px;
+      padding: 5px 8px;
+    }
+    .compact-progress-main {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+    }
+    .compact-progress-ring {
+      width: 30px;
+      height: 30px;
+      flex-shrink: 0;
+    }
+    .compact-progress-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+    }
+    .compact-progress-text strong {
+      font-size: 13px;
+      color: #0f172a;
+    }
+    .compact-progress-text span {
+      font-size: 10px;
+      color: #64748b;
+    }
+    .compact-xp-chip {
+      font-size: 10px;
+      font-weight: 600;
+      color: #0f766e;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      border-radius: 999px;
+      padding: 3px 8px;
+      white-space: nowrap;
+      background: rgba(236, 253, 245, 0.85);
+    }
+    .compact-expand-hint {
+      font-size: 10px;
+      color: #94a3b8;
+      white-space: nowrap;
+    }
+    .compact-progress-detail {
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      background: rgba(255, 255, 255, 0.75);
+      border-radius: 10px;
+      padding: 6px 8px;
+      font-size: 10px;
+      color: #64748b;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .encourage-inline {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      border: 1px solid rgba(15, 23, 42, 0.1);
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 12px;
+      padding: 6px 9px;
+      margin-bottom: 6px;
+    }
+    .encourage-inline-main {
+      flex: 1 1 auto;
+      min-width: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: #334155;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .encourage-inline-main .quote-line {
+      color: #0f766e;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .ios-segmented-tabs {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px;
+      border-radius: 12px;
+      border: 1px solid rgba(15, 23, 42, 0.12);
+      background: rgba(248, 250, 252, 0.92);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      margin-bottom: 6px;
+      min-height: var(--segmented-height);
+    }
+    .ios-segmented-tabs button {
+      flex: 1 1 auto;
+      min-height: 30px;
+      padding: 5px 10px;
+      font-size: 12px;
+      font-weight: 600;
+      border-radius: 9px;
+      border: 1px solid transparent !important;
+      background: transparent !important;
+      color: #64748b !important;
+      box-shadow: none !important;
+    }
+    .ios-segmented-tabs button.segment-active {
+      background: #ffffff !important;
+      color: #0f172a !important;
+      border-color: rgba(15, 23, 42, 0.12) !important;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08) !important;
+    }
+    .daily-tools-inline {
+      margin-top: 8px;
+      margin-bottom: 6px;
+      border: 1px solid rgba(148, 163, 184, 0.26);
+      background: rgba(255, 255, 255, 0.86);
+      border-radius: 11px;
+      padding: 6px 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      white-space: nowrap;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .daily-tools-inline .meta {
+      font-size: 11px;
+      color: #64748b;
+    }
+    .daily-tools-inline .actions {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+    .daily-tools-inline .actions .btn-chip {
+      min-height: 24px;
+      padding: 3px 8px;
+      font-size: 10px;
+    }
+    .daily-tools-inline .actions select {
+      min-height: 24px;
+      border-radius: 999px;
+      padding: 3px 8px;
+      font-size: 10px;
+    }
+    .sticker-inline-hint {
+      margin-bottom: 6px;
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      background: rgba(236, 253, 245, 0.72);
+      border-radius: 10px;
+      padding: 6px 8px;
+      font-size: 11px;
+      color: #0f766e;
+    }
     .variant-card {
       border-radius: var(--ui-radius-lg) !important;
     }
@@ -421,12 +658,12 @@
     }
     .bottom-nav {
       position: sticky;
-      bottom: 10px;
+      bottom: 0;
       width: 100%;
       max-width: 56rem;
       display: flex;
       gap: 8px;
-      padding: 10px;
+      padding: 10px 10px calc(env(safe-area-inset-bottom) + 10px);
       z-index: 20;
       background: rgba(255,255,255,0.82);
       border: 1px solid var(--theme-border);
@@ -720,11 +957,6 @@
   </style>
 </head>
 <body class="min-h-screen text-slate-800">
-  <div
-    id="build-id-tag"
-    style="position:fixed;top:8px;right:8px;z-index:10001;background:#0f172a;color:#ffffff;padding:4px 8px;border-radius:999px;font-size:12px;font-weight:700;letter-spacing:.2px;box-shadow:0 4px 12px rgba(15,23,42,.24);">
-    BUILD 2026-02-21-2355
-  </div>
   <svg aria-hidden="true" class="hidden">
     <!-- candy: fairy tale princess -->
     <symbol id="icon-candy-book" viewBox="0 0 24 24">
@@ -943,175 +1175,121 @@
   <div id="app"
        :style="themeConfig.style"
        :class="[`theme-${theme}`, `age-${ageGroup}`, { 'mature-ui': isOlderKid }]"
-       class="app-shell min-h-screen flex flex-col items-center py-4 px-3 sm:px-6 lg:px-10 transition-colors duration-300">
+       class="app-shell min-h-screen flex flex-col items-center py-2 px-3 sm:px-6 lg:px-10 transition-colors duration-300">
 
-    <!-- 顶部栏：标题 + 档案 + 等级信息 -->
-    <header class="app-header w-full max-w-5xl flex items-center justify-between mb-3 sm:mb-4">
-      <div>
-        <h1 class="app-title text-2xl sm:text-3xl font-extrabold flex items-center gap-2 text-slate-900">
-          <span class="inline-flex items-center justify-center logo-badge diamond-bg diamond-sparkle">
-            <svg class="icon text-sky-400">
+    <div v-if="showBuildTag" class="build-debug-tag">{{ buildLabel }}</div>
+
+    <!-- 顶部栏：iOS 紧凑两行 -->
+    <header class="app-header ios-compact-header">
+      <div class="compact-top-row">
+        <div class="compact-profile-pill">
+          <span class="inline-flex items-center justify-center logo-badge diamond-bg diamond-sparkle" style="width:22px;height:22px;">
+            <svg class="icon text-sky-400" style="width:16px;height:16px;">
               <use href="#icon-diamond"></use>
             </svg>
           </span>
-          快乐学习大冒险
-        </h1>
-        <p class="text-xs sm:text-sm text-slate-600 mt-1">
-          每天一点点，坚持就很棒！💪
-        </p>
+          <span class="truncate">{{ activeProfile.name }} · {{ activeProfile.age }}岁</span>
+        </div>
+        <button @click="openSettings" class="icon-btn" title="设置">⚙️</button>
       </div>
 
-      <div class="header-right flex flex-col items-end gap-2">
-        <!-- 设置/重置按钮 -->
-        <button
-          @click="openSettings"
-          class="text-slate-400 hover:text-slate-600 text-xs px-2 py-1 rounded transition"
-          title="恢复出厂设置">
-          ⚙️ 设置
-        </button>
-        <div class="profile-row flex items-center gap-2 text-[11px] text-slate-600">
-          <span class="px-2 py-0.5 rounded-full bg-white/70 border border-slate-200">
-            👤 {{ activeProfile.name }} · {{ activeProfile.age }}岁
-          </span>
-        </div>
-
-        <!-- 等级 / XP -->
-        <div class="flex items-center gap-2 text-xs sm:text-sm bg-white/70 rounded-full px-3 py-1 soft-shadow theme-border">
-          <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 text-[11px] sm:text-xs font-semibold theme-primary-bg theme-primary-text">
-            {{ levelDisplay.title }}
-          </span>
-          <span class="text-slate-600">
-            Lv. {{ levelDisplay.level }} · XP {{ xp }} / {{ levelDisplay.nextXp }}
-          </span>
-          <div class="w-20 sm:w-32 h-2 bg-emerald-50 rounded-full overflow-hidden">
-            <div class="h-full rounded-full bg-gradient-to-r from-emerald-400 to-lime-400"
-                 :style="{ width: levelDisplay.progress + '%' }"></div>
+      <div class="compact-progress-row" @click="headerDetailExpanded = !headerDetailExpanded">
+        <div class="compact-progress-main">
+          <svg class="compact-progress-ring" viewBox="0 0 40 40" aria-hidden="true">
+            <circle cx="20" cy="20" r="14" stroke="#dbe2ea" stroke-width="4" fill="none"></circle>
+            <circle
+              cx="20"
+              cy="20"
+              r="14"
+              stroke="var(--primary-start)"
+              stroke-width="4"
+              fill="none"
+              stroke-linecap="round"
+              stroke-dasharray="88"
+              :stroke-dashoffset="88 * (1 - todayProgress.percent / 100)"
+              transform="rotate(-90 20 20)"></circle>
+          </svg>
+          <div class="compact-progress-text">
+            <strong>{{ todayProgress.done }}/{{ todayProgress.total }}</strong>
+            <span>今日任务进度</span>
           </div>
         </div>
+        <span class="compact-xp-chip">Lv.{{ levelDisplay.level }} · XP {{ xp }}</span>
+        <span class="compact-expand-hint">{{ headerDetailExpanded ? '收起' : '展开' }}</span>
       </div>
+      <transition name="fade">
+        <div v-if="headerDetailExpanded" class="compact-progress-detail">
+          <span>{{ levelDisplay.title }} · 完成率 {{ todayProgress.percent }}%</span>
+          <span>下一阶 XP {{ levelDisplay.nextXp }}</span>
+        </div>
+      </transition>
     </header>
 
     <!-- 主体卡片：响应式布局，手机竖屏单列，平板横屏可并排 -->
-    <main class="w-full max-w-5xl flex-1 flex flex-col lg:flex-row gap-4 lg:gap-6">
+    <main class="w-full max-w-5xl flex-1 flex flex-col lg:flex-row gap-2 lg:gap-4">
       <!-- 左侧：Tabs + 内容 -->
       <section class="flex-1 flex flex-col">
-        <!-- 今日鼓励（顶部） -->
-        <div class="glass bg-white/80 rounded-3xl soft-shadow p-3 sm:p-4 mb-3 lift theme-card theme-border">
-          <div class="flex items-center justify-between">
-            <span class="text-sm font-semibold text-slate-800 flex items-center gap-2">
-              <span v-if="!isOlderKid" class="icon-badge bg-amber-100 text-amber-700" style="width:32px;height:32px">
-                <svg class="icon icon-anim"><use href="#icon-trophy"></use></svg>
-              </span>
-              今日鼓励
-            </span>
+        <!-- 今日鼓励（默认一行） -->
+        <div class="encourage-inline">
+          <button type="button" class="icon-btn encourage-inline-main" @click="encourageCollapsed = !encourageCollapsed">
+            <span class="text-slate-500">今日鼓励</span>
+            <span class="quote-line">“{{ currentQuote }}”</span>
+          </button>
+          <div class="flex items-center gap-1">
             <button
               type="button"
-              class="text-[11px] px-3 py-1 rounded-full glass-btn"
-              @click="refreshQuote">
+              class="text-[10px] px-2 py-1 rounded-full glass-btn btn-chip"
+              @click.stop="refreshQuote">
               换一句
             </button>
+            <button type="button" class="icon-btn text-[11px] text-slate-500 px-1" @click="encourageCollapsed = !encourageCollapsed">
+              {{ encourageCollapsed ? '展开' : '收起' }}
+            </button>
           </div>
-          <p class="text-sm text-emerald-700 leading-snug mt-2 theme-accent-text">
+        </div>
+        <transition name="fade">
+          <p v-if="!encourageCollapsed" class="text-[12px] text-emerald-700 leading-snug mb-1 px-2 theme-accent-text">
             “{{ currentQuote }}”
           </p>
-        </div>
+        </transition>
+
         <!-- 标签页 -->
-        <div class="mobile-tabs flex rounded-2xl bg-white/85 soft-shadow overflow-hidden mb-3 text-sm lift theme-border">
+        <div class="mobile-tabs ios-segmented-tabs">
           <button
-            class="flex-1 py-2.5 sm:py-3 font-semibold transition"
-            :class="activeTab === 'daily' ? 'theme-primary-bg theme-primary-text' : 'bg-transparent text-slate-500 hover:bg-slate-100'"
+            class="flex-1 transition"
+            :class="activeTab === 'daily' ? 'segment-active' : ''"
             @click="activeTab = 'daily'">
-            今日大冒险
+            今日
           </button>
           <button
-            class="flex-1 py-2.5 sm:py-3 font-semibold transition"
-            :class="activeTab === 'memory' ? 'theme-warm-bg theme-warm-text' : 'bg-transparent text-slate-500 hover:bg-slate-100'"
+            class="flex-1 transition"
+            :class="activeTab === 'memory' ? 'segment-active' : ''"
             @click="activeTab = 'memory'">
-            记忆挑战
+            记忆
           </button>
           <button
             v-if="ageGroup === 'senior'"
-            class="flex-1 py-2.5 sm:py-3 font-semibold transition"
-            :class="activeTab === 'stats' ? 'theme-accent-bg theme-accent-text' : 'bg-transparent text-slate-500 hover:bg-slate-100'"
+            class="flex-1 transition"
+            :class="activeTab === 'stats' ? 'segment-active' : ''"
             @click="activeTab = 'stats'">
-            统计分析
+            统计
           </button>
         </div>
 
         <!-- 内容卡片 -->
-        <div class="flex-1 glass rounded-3xl bg-white/80 soft-shadow p-3 sm:p-4 lg:p-5 flex flex-col overflow-hidden lift theme-card theme-border variant-card">
+        <div class="flex-1 glass rounded-3xl bg-white/80 soft-shadow p-2 sm:p-3 lg:p-4 flex flex-col overflow-hidden lift theme-card theme-border variant-card">
           <!-- 今日大冒险：每日计划 + 打卡 -->
           <div v-if="activeTab === 'daily'" class="flex-1 flex flex-col fade-slide">
-            <!-- 模块标题 -->
-            <div class="flex items-center justify-between mb-3">
-              <div class="flex items-center gap-2">
-                <span v-if="!isOlderKid" class="icon-badge bg-slate-100 text-slate-800">
-                  <svg class="icon icon-anim flag-wave"><use href="#icon-checkered"></use></svg>
-                </span>
-                <div>
-                  <p class="text-sm font-semibold text-slate-800">今日大冒险</p>
-                  <p class="text-[11px] text-slate-500">完成每一个小任务，就是升级的一步</p>
-                </div>
-              </div>
-              <span class="text-[11px] px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-600 border border-emerald-200 theme-primary-bg theme-primary-text theme-border">每日计划</span>
-            </div>
-
-            <!-- 今日进度仪表盘 -->
-            <div class="relative mb-3 rounded-2xl bg-white/90 border border-emerald-100 px-3 py-2 flex items-center justify-between theme-card theme-border variant-subcard">
-              <div class="flex items-center gap-3">
-                <svg class="w-14 h-14" viewBox="0 0 80 80">
-                  <circle cx="40" cy="40" r="28" stroke="#e2e8f0" stroke-width="10" fill="none"></circle>
-                  <circle
-                    cx="40" cy="40" r="28" stroke="var(--primary-start)" stroke-width="10" fill="none"
-                    stroke-linecap="round"
-                    :stroke-dasharray="progressRing.circumference"
-                    :stroke-dashoffset="progressRing.offset"
-                    transform="rotate(-90 40 40)"></circle>
-                </svg>
-                <div>
-                  <p class="text-sm font-semibold text-slate-800">今日进度</p>
-                  <p class="text-[11px] text-slate-500">
-                    已完成 {{ todayProgress.done }} / {{ todayProgress.total }} 个任务
-                  </p>
-                </div>
-              </div>
-              <div class="text-right">
-                <p class="text-xl font-bold text-emerald-600 theme-primary-text">{{ todayProgress.percent }}%</p>
-                <p class="text-[11px] text-slate-400">完成率</p>
-              </div>
-
-              <!-- 彩纸动画 -->
+            <div class="relative mb-2 rounded-xl border border-slate-200/70 bg-white/70 px-2 py-1 flex items-center justify-between">
+              <p class="text-[12px] font-semibold text-slate-700">今日任务</p>
+              <span class="text-[11px] px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
+                完成率 {{ todayProgress.percent }}%
+              </span>
               <div v-if="showConfetti" class="confetti">
                 <span v-for="n in confettiPieces"
                       :key="n"
                       class="confetti-piece"
                       :style="confettiStyle(n)"></span>
-              </div>
-            </div>
-            <!-- 今日信息 + 模板管理 -->
-            <div class="mobile-actions flex items-center justify-between mb-2 sm:mb-3 flex-wrap gap-2">
-              <div>
-                <p class="text-xs text-slate-500">
-                  今天是 <span class="font-semibold text-slate-700">{{ todayLabel }}</span>
-                </p>
-              </div>
-              <div class="flex items-center gap-2">
-              <button
-                @click="openTemplateManager"
-                class="text-[11px] sm:text-xs px-2 py-1 rounded-full border border-blue-200
-                       bg-blue-50 text-blue-700 hover:bg-blue-100 transition theme-primary-bg theme-primary-text theme-border">
-                  📋 管理模板
-                </button>
-                <select
-                  v-model="selectedTemplateId"
-                  @change="applyTemplate"
-                class="text-[11px] sm:text-xs px-2 py-1 rounded-full border border-emerald-200
-                       bg-emerald-50 text-emerald-700 hover:bg-emerald-100 transition theme-primary-bg theme-primary-text theme-border">
-                  <option value="">选择模板...</option>
-                  <option v-for="tpl in templates" :key="tpl.id" :value="tpl.id">
-                    {{ tpl.name }}
-                  </option>
-                </select>
               </div>
             </div>
 
@@ -1145,39 +1323,6 @@
                   </div>
                   <span class="text-[11px] bg-white/20 px-2 py-0.5 rounded-full">今日全清</span>
                 </div>
-              </div>
-            </transition>
-
-            <div v-if="ageGroup === 'junior'"
-                 class="mb-2 rounded-2xl px-3 py-2 sticker-book-card">
-              <div class="flex items-center justify-between">
-                <div>
-                  <p class="text-sm font-semibold text-slate-800">贴纸册</p>
-                  <p class="text-[11px] text-slate-500">每完成一个新任务，解锁一枚贴纸</p>
-                </div>
-                <div class="text-right">
-                  <p class="text-sm font-bold text-emerald-600">{{ todayJuniorStickers.length }} 枚</p>
-                  <p class="text-[10px] text-slate-500">今日新增</p>
-                </div>
-              </div>
-              <div class="mt-2 flex items-center gap-2 overflow-x-auto pb-1">
-                <div v-for="sticker in todayJuniorStickers"
-                     :key="sticker.id"
-                     class="sticker-chip"
-                     :class="{ 'sticker-chip-new': juniorStickers.hintVisible && juniorStickers.latestId === sticker.id }">
-                  <span class="text-lg leading-none">{{ sticker.emoji }}</span>
-                  <span class="text-[10px] text-slate-600">{{ sticker.name }}</span>
-                </div>
-                <div v-if="todayJuniorStickers.length === 0"
-                     class="text-[11px] text-slate-500 bg-white/70 rounded-xl px-3 py-2 border border-white/60">
-                  先完成一个任务，领取今天第 1 枚贴纸吧。
-                </div>
-              </div>
-            </div>
-            <transition name="fade">
-              <div v-if="ageGroup === 'junior' && juniorStickers.hintVisible && latestJuniorSticker"
-                   class="mb-2 rounded-xl bg-emerald-50 border border-emerald-200 px-3 py-2 text-[12px] text-emerald-700 sticker-hint-pop">
-                🎁 获得新贴纸：{{ latestJuniorSticker.emoji }} {{ latestJuniorSticker.name }}
               </div>
             </transition>
 
@@ -1255,6 +1400,55 @@
                 </div>
               </div>
             </div>
+
+            <div class="daily-tools-inline">
+              <p class="meta">今天：<span class="font-semibold text-slate-700">{{ todayLabel }}</span></p>
+              <div class="actions">
+                <button
+                  @click="openTemplateManager"
+                  class="btn-chip rounded-full border border-blue-200 bg-blue-50 text-blue-700 hover:bg-blue-100 transition theme-primary-bg theme-primary-text theme-border">
+                  模板
+                </button>
+                <select
+                  v-model="selectedTemplateId"
+                  @change="applyTemplate"
+                  class="rounded-full border border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 transition theme-primary-bg theme-primary-text theme-border">
+                  <option value="">选择模板...</option>
+                  <option v-for="tpl in templates" :key="tpl.id" :value="tpl.id">
+                    {{ tpl.name }}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <div v-if="ageGroup === 'junior'" class="mb-2 rounded-2xl px-3 py-2 sticker-book-card">
+              <button type="button" class="icon-btn w-full flex items-center justify-between" @click="toggleStickerBook()">
+                <span class="text-sm font-semibold text-slate-800">贴纸册 · 今日 {{ todayJuniorStickers.length }} 枚</span>
+                <span class="text-[11px] text-slate-500">{{ stickerBookCollapsed ? '展开' : '收起' }}</span>
+              </button>
+              <div v-if="stickerBookCollapsed" class="sticker-inline-hint">
+                {{ todayJuniorStickers.length === 0 ? '今天还没有新贴纸，先完成一项任务试试。' : '已折叠，点击展开查看今日贴纸。' }}
+              </div>
+              <div v-else class="mt-2 flex items-center gap-2 overflow-x-auto pb-1">
+                <div v-for="sticker in todayJuniorStickers"
+                     :key="sticker.id"
+                     class="sticker-chip"
+                     :class="{ 'sticker-chip-new': juniorStickers.hintVisible && juniorStickers.latestId === sticker.id }">
+                  <span class="text-lg leading-none">{{ sticker.emoji }}</span>
+                  <span class="text-[10px] text-slate-600">{{ sticker.name }}</span>
+                </div>
+                <div v-if="todayJuniorStickers.length === 0"
+                     class="text-[11px] text-slate-500 bg-white/70 rounded-xl px-3 py-2 border border-white/60">
+                  先完成一个任务，领取今天第 1 枚贴纸吧。
+                </div>
+              </div>
+            </div>
+            <transition name="fade">
+              <div v-if="ageGroup === 'junior' && juniorStickers.hintVisible && latestJuniorSticker"
+                   class="mb-2 rounded-xl bg-emerald-50 border border-emerald-200 px-3 py-2 text-[12px] text-emerald-700 sticker-hint-pop">
+                🎁 获得新贴纸：{{ latestJuniorSticker.emoji }} {{ latestJuniorSticker.name }}
+              </div>
+            </transition>
 
             <!-- 添加任务 -->
             <div class="mt-3 pt-3 border-t border-slate-200/70">
@@ -2339,6 +2533,12 @@
                 class="px-3 py-2 rounded-xl text-slate-800 text-sm font-semibold btn-compact">
                 一键清缓存
               </button>
+              <button
+                type="button"
+                @click="toggleDebugBuild"
+                class="px-3 py-2 rounded-xl text-slate-800 text-sm font-semibold btn-compact">
+                {{ debugBuildEnabled ? '关闭 Debug BUILD 标签' : '开启 Debug BUILD 标签' }}
+              </button>
               <div v-if="showIosInstallHint" class="text-xs text-slate-600 leading-snug bg-white/70 rounded-xl p-2 border border-slate-200">
                 iPhone 请用 Safari 打开后，点击底部“分享”图标，再选择“添加到主屏幕”。
               </div>
@@ -2461,6 +2661,11 @@
             '学习就像升级打怪，你已经闯过好多关啦！'
           ],
           currentQuote: '',
+          encourageCollapsed: true,
+          headerDetailExpanded: false,
+          stickerBookCollapsed: true,
+          debugBuildEnabled: false,
+          buildLabel: 'BUILD 2026-02-22-0001',
 
           // 家长与档案
           profiles: [],
@@ -2506,6 +2711,9 @@
         },
         shouldShowMonthlyReport() {
           return this.showMonthlyReport && this._userInitiatedMonthlyReport;
+        },
+        showBuildTag() {
+          return this.debugBuildEnabled;
         },
         activeProfile() {
           return this.profiles.find(p => p.id === this.activeProfileId) || { name: '孩子', age: 8 };
@@ -3036,6 +3244,36 @@
           this.showSettings = false;
           this.settingsSection = 'home';
         },
+        initDebugMode() {
+          const params = new URLSearchParams(window.location.search);
+          const queryValue = params.get('debug');
+          const stored = localStorage.getItem(this.getStorageKey('debug_build_tag'));
+          if (queryValue === '1') {
+            this.debugBuildEnabled = true;
+            localStorage.setItem(this.getStorageKey('debug_build_tag'), '1');
+            return;
+          }
+          if (queryValue === '0') {
+            this.debugBuildEnabled = false;
+            localStorage.removeItem(this.getStorageKey('debug_build_tag'));
+            return;
+          }
+          this.debugBuildEnabled = stored === '1';
+        },
+        toggleDebugBuild() {
+          this.debugBuildEnabled = !this.debugBuildEnabled;
+          if (this.debugBuildEnabled) {
+            localStorage.setItem(this.getStorageKey('debug_build_tag'), '1');
+          } else {
+            localStorage.removeItem(this.getStorageKey('debug_build_tag'));
+          }
+        },
+        syncStickerBookCollapse() {
+          this.stickerBookCollapsed = this.todayJuniorStickers.length === 0;
+        },
+        toggleStickerBook() {
+          this.stickerBookCollapsed = !this.stickerBookCollapsed;
+        },
 
         // 一键清缓存（Service Worker + Cache Storage）
         clearAppCache() {
@@ -3083,6 +3321,7 @@
             } else {
               this.tasks = [];
           }
+          this.syncStickerBookCollapse();
         },
 
         saveTodayTasks() {
@@ -3148,6 +3387,7 @@
           this.juniorStickers.items.push(entry);
           this.juniorStickers.latestId = entry.id;
           this.juniorStickers.hintVisible = true;
+          this.stickerBookCollapsed = false;
           clearTimeout(this._stickerHintTimer);
           this._stickerHintTimer = setTimeout(() => {
             this.juniorStickers.hintVisible = false;
@@ -4821,6 +5061,7 @@
         });
         
         // 初始化档案与数据
+        this.initDebugMode();
         this.loadProfiles();
         this.loadJuniorStickers();
         this.loadThemeAndXp();
