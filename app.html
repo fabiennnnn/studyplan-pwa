@@ -128,16 +128,7 @@
     }
 
     body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      background:
-        radial-gradient(circle at 12% 8%, rgba(56, 189, 248, 0.25), transparent 38%),
-        radial-gradient(circle at 88% 16%, rgba(16, 185, 129, 0.25), transparent 40%),
-        radial-gradient(circle at 80% 84%, rgba(251, 191, 36, 0.25), transparent 42%);
-      opacity: 0.45;
-      z-index: -1;
+      content: none;
     }
 
     @media (max-width: 640px) {
@@ -420,10 +411,7 @@
       box-shadow: 0 10px 22px rgba(15, 23, 42, 0.12);
     }
     .app-shell {
-      background: var(--theme-bg);
-      background-blend-mode: soft-light;
-      background-size: cover;
-      background-repeat: no-repeat;
+      background: #ffffff;
       border-radius: 0;
       filter: saturate(var(--ui-sat));
     }
@@ -448,10 +436,12 @@
       flex-direction: column;
       gap: 6px;
       margin-bottom: 8px;
-      padding: 8px 10px;
+      padding: 10px 12px;
       border: 1px solid rgba(15, 23, 42, 0.1);
-      background: rgba(255, 255, 255, 0.82);
+      background: linear-gradient(180deg, #def7ea 0%, #ffffff 100%);
       border-radius: 14px;
+      min-height: 104px;
+      max-height: 120px;
     }
     .compact-top-row {
       display: flex;
@@ -653,6 +643,31 @@
     .variant-card {
       border-radius: var(--ui-radius-lg) !important;
     }
+    .content-surface {
+      background: #ffffff !important;
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    }
+    .daily-main-card {
+      background: #ffffff !important;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06) !important;
+    }
+    .daily-task-head {
+      background: #ffffff;
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    }
+    .daily-task-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #0f172a;
+      letter-spacing: 0.1px;
+    }
+    .daily-completion-rate {
+      font-size: 14px;
+      font-weight: 800;
+      color: #047857;
+    }
     .variant-subcard {
       border-radius: var(--ui-radius-md) !important;
     }
@@ -662,24 +677,46 @@
       width: 100%;
       max-width: 56rem;
       display: flex;
-      gap: 8px;
-      padding: 10px 10px calc(env(safe-area-inset-bottom) + 10px);
+      gap: 0;
+      padding: 0 10px calc(env(safe-area-inset-bottom) + 10px);
       z-index: 20;
-      background: rgba(255,255,255,0.82);
-      border: 1px solid var(--theme-border);
-      border-radius: 999px;
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
+      background: rgba(255,255,255,0.98);
+      border: none;
+      border-radius: 0;
+      box-shadow: 0 -6px 18px rgba(15, 23, 42, 0.08);
+      backdrop-filter: saturate(1.1) blur(10px);
+      -webkit-backdrop-filter: saturate(1.1) blur(10px);
     }
     .bottom-nav button {
       flex: 1 1 0%;
-      min-height: 40px;
+      min-height: 56px;
       font-size: 13px;
+      font-weight: 500;
+      border-radius: 0 !important;
+      border: none !important;
+      background: transparent !important;
+      color: #6b7280 !important;
+      box-shadow: none !important;
+      position: relative;
+      padding: 0 6px 8px;
+    }
+    .bottom-nav button.bottom-nav-active {
       font-weight: 700;
+      color: #0f172a !important;
+    }
+    .bottom-nav button.bottom-nav-active::after {
+      content: "";
+      position: absolute;
+      left: 20%;
+      right: 20%;
+      bottom: 4px;
+      height: 2px;
+      border-radius: 999px;
+      background: #16a34a;
     }
     .age-junior .bottom-nav button {
-      min-height: 46px;
-      font-size: 14px;
+      min-height: 56px;
+      font-size: 13px;
     }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
@@ -725,6 +762,18 @@
       border-radius: 999px;
       font-size: 16px;
       letter-spacing: 0.2px;
+    }
+    .add-task-primary {
+      background: #16a34a !important;
+      color: #ffffff !important;
+      border: none !important;
+      box-shadow: 0 6px 16px rgba(22, 163, 74, 0.3) !important;
+      min-height: 52px !important;
+      border-radius: 16px !important;
+      font-weight: 700;
+    }
+    .add-task-primary:hover {
+      filter: brightness(1.03);
     }
 
     .glow-ring {
@@ -1277,12 +1326,13 @@
         </div>
 
         <!-- 内容卡片 -->
-        <div class="flex-1 glass rounded-3xl bg-white/80 soft-shadow p-2 sm:p-3 lg:p-4 flex flex-col overflow-hidden lift theme-card theme-border variant-card">
+        <div class="flex-1 glass rounded-3xl soft-shadow p-2 sm:p-3 lg:p-4 flex flex-col overflow-hidden lift variant-card content-surface"
+             :class="{ 'daily-main-card': activeTab === 'daily' }">
           <!-- 今日大冒险：每日计划 + 打卡 -->
           <div v-if="activeTab === 'daily'" class="flex-1 flex flex-col fade-slide">
-            <div class="relative mb-2 rounded-xl border border-slate-200/70 bg-white/70 px-2 py-1 flex items-center justify-between">
-              <p class="text-[12px] font-semibold text-slate-700">今日任务</p>
-              <span class="text-[11px] px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
+            <div class="daily-task-head relative mb-2 rounded-xl px-3 py-2 flex items-center justify-between">
+              <p class="daily-task-title">今日任务</p>
+              <span class="daily-completion-rate px-2 py-0.5 rounded-full bg-emerald-50 border border-emerald-200">
                 完成率 {{ todayProgress.percent }}%
               </span>
               <div v-if="showConfetti" class="confetti">
@@ -1461,8 +1511,8 @@
                               focus:outline-none focus:ring-2 focus:ring-emerald-300 focus:border-emerald-400 bg-white/90" />
                 <button
                   type="submit"
-                  class="mobile-btn px-4 py-2 rounded-2xl text-white text-xs sm:text-sm font-semibold
-                         shadow active:scale-95 transition btn-primary btn-main">
+                  class="mobile-btn px-4 py-2 text-xs sm:text-sm font-semibold
+                         active:scale-95 transition btn-main add-task-primary">
                   + 添加任务
                 </button>
                 </div>
@@ -1840,14 +1890,14 @@
 
     <nav class="bottom-nav mt-3">
       <template v-if="ageGroup === 'junior'">
-        <button @click="activeTab = 'daily'" :class="activeTab === 'daily' ? 'theme-primary-bg theme-primary-text' : ''">今日</button>
-        <button @click="activeTab = 'memory'" :class="activeTab === 'memory' ? 'theme-warm-bg theme-warm-text' : ''">记忆</button>
+        <button @click="activeTab = 'daily'" :class="activeTab === 'daily' ? 'bottom-nav-active' : ''">今日</button>
+        <button @click="activeTab = 'memory'" :class="activeTab === 'memory' ? 'bottom-nav-active' : ''">记忆</button>
         <button @click="openSettings">设置</button>
       </template>
       <template v-else>
-        <button @click="activeTab = 'daily'" :class="activeTab === 'daily' ? 'theme-primary-bg theme-primary-text' : ''">今日</button>
-        <button @click="activeTab = 'memory'" :class="activeTab === 'memory' ? 'theme-warm-bg theme-warm-text' : ''">记忆</button>
-        <button @click="activeTab = 'stats'" :class="activeTab === 'stats' ? 'theme-accent-bg theme-accent-text' : ''">统计</button>
+        <button @click="activeTab = 'daily'" :class="activeTab === 'daily' ? 'bottom-nav-active' : ''">今日</button>
+        <button @click="activeTab = 'memory'" :class="activeTab === 'memory' ? 'bottom-nav-active' : ''">记忆</button>
+        <button @click="activeTab = 'stats'" :class="activeTab === 'stats' ? 'bottom-nav-active' : ''">统计</button>
         <button @click="openTemplateManager">模板</button>
         <button @click="openSettings">设置</button>
       </template>
