@@ -102,6 +102,13 @@
       --header-compact: 108px;
       --header-compact-gap: 6px;
       --segmented-height: 38px;
+      --accent: #14b8a6;
+      --accent-2: #2dd4bf;
+      --accent-soft: #ecfeff;
+      --shadow-soft: 0 6px 16px rgba(20, 184, 166, 0.22);
+      --border-soft: rgba(20, 184, 166, 0.28);
+      --task-border-soft: rgba(148, 163, 184, 0.18);
+      --task-shadow-soft: 0 2px 8px rgba(15, 23, 42, 0.04);
     }
     .age-junior {
       --ui-radius-lg: 24px;
@@ -109,6 +116,11 @@
       --ui-sat: 1.05;
       --ui-motion-scale: 1;
       --header-compact: 114px;
+      --accent: #22c7b8;
+      --accent-2: #5eead4;
+      --accent-soft: #ecfffb;
+      --shadow-soft: 0 8px 18px rgba(45, 212, 191, 0.24);
+      --border-soft: rgba(45, 212, 191, 0.3);
     }
     .age-senior {
       --ui-radius-lg: 16px;
@@ -116,6 +128,11 @@
       --ui-sat: 0.92;
       --ui-motion-scale: 0.7;
       --header-compact: 104px;
+      --accent: #0f766e;
+      --accent-2: #2a9d8f;
+      --accent-soft: #f0fdfa;
+      --shadow-soft: 0 5px 12px rgba(15, 118, 110, 0.16);
+      --border-soft: rgba(15, 118, 110, 0.24);
     }
 
     body {
@@ -590,6 +607,17 @@
       display: inline-block;
       max-width: 100%;
     }
+    .encourage-inline.encourage-collapsed {
+      min-height: 32px;
+      padding-top: 3px;
+      padding-bottom: 3px;
+    }
+    .encourage-inline.encourage-collapsed .encourage-inline-main {
+      font-size: 11px;
+    }
+    .encourage-inline.encourage-collapsed .text-slate-500 {
+      font-size: 10px;
+    }
     .encourage-inline-main {
       flex: 1 1 auto;
       min-width: 0;
@@ -701,6 +729,11 @@
     .daily-main-card {
       background: #ffffff !important;
       box-shadow: 0 4px 12px rgba(0,0,0,0.06) !important;
+    }
+    .daily-task-item {
+      border-color: var(--task-border-soft) !important;
+      box-shadow: var(--task-shadow-soft);
+      background: rgba(255, 255, 255, 0.97) !important;
     }
     .daily-task-head {
       background: #ffffff;
@@ -814,62 +847,65 @@
       letter-spacing: 0.2px;
     }
     .add-task-primary {
-      background: #16a34a !important;
+      background: linear-gradient(160deg, var(--accent-2) 0%, var(--accent) 100%) !important;
       color: #ffffff !important;
-      border: none !important;
-      box-shadow: 0 6px 16px rgba(22, 163, 74, 0.3) !important;
+      border: 1px solid var(--border-soft) !important;
+      box-shadow: var(--shadow-soft) !important;
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.18);
       min-height: 52px !important;
       border-radius: 16px !important;
       font-weight: 700;
     }
     .add-task-primary:hover {
-      filter: brightness(1.03);
+      filter: brightness(1.02);
+      box-shadow: 0 10px 20px rgba(15, 118, 110, 0.2) !important;
     }
     @media (max-width: 430px) {
       .app-shell {
-        padding-top: calc(env(safe-area-inset-top) + 2px) !important;
+        padding-top: calc(env(safe-area-inset-top) + 1px) !important;
         padding-left: 10px !important;
         padding-right: 10px !important;
       }
       .ios-compact-header {
-        margin-bottom: 4px;
-        padding: 6px 8px;
-        border-radius: 12px;
+        margin-bottom: 2px;
+        padding: 4px 7px;
+        border-radius: 10px;
       }
       .header-collapsed.ios-compact-header {
-        min-height: 50px;
-        max-height: 58px;
+        min-height: 44px;
+        max-height: 52px;
       }
       .compact-top-row {
-        gap: 6px;
+        gap: 5px;
       }
       .compact-profile-pill {
-        font-size: 10px;
-        padding: 3px 7px;
-      }
-      .compact-top-row .icon-btn {
-        padding: 2px 5px;
-        font-size: 11px;
-      }
-      .compact-mini-stats {
         font-size: 9px;
         padding: 2px 6px;
       }
+      .compact-top-row .icon-btn {
+        padding: 1px 5px;
+        font-size: 10px;
+      }
+      .compact-mini-stats {
+        font-size: 9px;
+        padding: 1px 6px;
+      }
       .btn-ghost.btn-mini {
-        min-height: 22px !important;
-        padding: 2px 7px !important;
+        min-height: 20px !important;
+        padding: 1px 6px !important;
+        font-size: 9px !important;
       }
       .header-expanded .compact-progress-row {
-        min-height: 30px;
-        padding: 4px 6px;
+        min-height: 28px;
+        padding: 3px 6px;
         margin-top: 2px;
       }
       .header-expanded .compact-progress-ring {
-        width: 24px;
-        height: 24px;
+        width: 22px;
+        height: 22px;
       }
       .header-expanded .compact-progress-text strong {
-        font-size: 12px;
+        font-size: 11px;
       }
       .header-expanded .compact-progress-text span {
         font-size: 9px;
@@ -886,25 +922,25 @@
         font-size: 9px;
       }
       .encourage-inline {
-        margin-bottom: 4px;
+        margin-bottom: 2px;
         border-radius: 10px;
-        padding: 4px 7px;
+        padding: 3px 7px;
       }
       .encourage-inline-main {
-        font-size: 11px;
+        font-size: 10px;
       }
       .ios-segmented-tabs {
-        min-height: 34px;
-        padding: 2px;
-        margin-bottom: 4px;
+        min-height: 31px;
+        padding: 1px;
+        margin-bottom: 2px;
       }
       .ios-segmented-tabs button {
-        min-height: 28px;
-        font-size: 11px;
+        min-height: 26px;
+        font-size: 10px;
       }
       .mobile-main-lift {
-        margin-top: -4px;
-        gap: 4px !important;
+        margin-top: -12px;
+        gap: 3px !important;
       }
     }
 
@@ -1525,7 +1561,7 @@
 
               <div v-for="(task, index) in tasks"
                    :key="task.id"
-                   class="flex items-center justify-between bg-white/95 rounded-2xl px-3 sm:px-4 py-2 sm:py-2.5 shadow-sm border border-slate-100"
+                   class="daily-task-item flex items-center justify-between bg-white/95 rounded-2xl px-3 sm:px-4 py-2 sm:py-2.5 shadow-sm border border-slate-100"
                    :class="{ dragging: dragIndex === index }"
                    draggable="true"
                    @dragstart="onDragStart(index)"
