@@ -443,6 +443,44 @@
       min-height: 104px;
       max-height: 120px;
     }
+    .compact-top-actions {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+    .compact-mini-stats {
+      display: none;
+      align-items: center;
+      gap: 4px;
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      background: rgba(236, 253, 245, 0.7);
+      border-radius: 999px;
+      padding: 2px 7px;
+      font-size: 10px;
+      color: #0f766e;
+      white-space: nowrap;
+    }
+    .header-collapsed .compact-mini-stats {
+      display: inline-flex;
+    }
+    .header-expanded .compact-mini-stats {
+      display: none;
+    }
+    .header-collapsed .compact-progress-row,
+    .header-collapsed .compact-progress-detail {
+      display: none;
+    }
+    .btn-ghost.btn-mini {
+      min-height: 24px !important;
+      border-radius: 999px !important;
+      padding: 3px 8px !important;
+      font-size: 10px !important;
+      background: rgba(255, 255, 255, 0.84) !important;
+      border: 1px solid rgba(148, 163, 184, 0.35) !important;
+      color: #475569 !important;
+      box-shadow: none !important;
+    }
     .compact-top-row {
       display: flex;
       align-items: center;
@@ -543,6 +581,15 @@
       padding: 6px 9px;
       margin-bottom: 6px;
     }
+    .line-clamp-1 {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .encourage-inline.encourage-collapsed .quote-line {
+      display: inline-block;
+      max-width: 100%;
+    }
     .encourage-inline-main {
       flex: 1 1 auto;
       min-width: 0;
@@ -630,6 +677,9 @@
       border-radius: 999px;
       padding: 3px 8px;
       font-size: 10px;
+    }
+    .mobile-main-lift {
+      padding-bottom: calc(env(safe-area-inset-bottom) + 84px);
     }
     .sticker-inline-hint {
       margin-bottom: 6px;
@@ -774,6 +824,88 @@
     }
     .add-task-primary:hover {
       filter: brightness(1.03);
+    }
+    @media (max-width: 430px) {
+      .app-shell {
+        padding-top: calc(env(safe-area-inset-top) + 2px) !important;
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+      }
+      .ios-compact-header {
+        margin-bottom: 4px;
+        padding: 6px 8px;
+        border-radius: 12px;
+      }
+      .header-collapsed.ios-compact-header {
+        min-height: 50px;
+        max-height: 58px;
+      }
+      .compact-top-row {
+        gap: 6px;
+      }
+      .compact-profile-pill {
+        font-size: 10px;
+        padding: 3px 7px;
+      }
+      .compact-top-row .icon-btn {
+        padding: 2px 5px;
+        font-size: 11px;
+      }
+      .compact-mini-stats {
+        font-size: 9px;
+        padding: 2px 6px;
+      }
+      .btn-ghost.btn-mini {
+        min-height: 22px !important;
+        padding: 2px 7px !important;
+      }
+      .header-expanded .compact-progress-row {
+        min-height: 30px;
+        padding: 4px 6px;
+        margin-top: 2px;
+      }
+      .header-expanded .compact-progress-ring {
+        width: 24px;
+        height: 24px;
+      }
+      .header-expanded .compact-progress-text strong {
+        font-size: 12px;
+      }
+      .header-expanded .compact-progress-text span {
+        font-size: 9px;
+      }
+      .header-expanded .compact-xp-chip {
+        font-size: 9px;
+        padding: 2px 6px;
+      }
+      .header-expanded .compact-expand-hint {
+        display: none;
+      }
+      .header-expanded .compact-progress-detail {
+        padding: 5px 7px;
+        font-size: 9px;
+      }
+      .encourage-inline {
+        margin-bottom: 4px;
+        border-radius: 10px;
+        padding: 4px 7px;
+      }
+      .encourage-inline-main {
+        font-size: 11px;
+      }
+      .ios-segmented-tabs {
+        min-height: 34px;
+        padding: 2px;
+        margin-bottom: 4px;
+      }
+      .ios-segmented-tabs button {
+        min-height: 28px;
+        font-size: 11px;
+      }
+      .mobile-main-lift {
+        margin-top: -4px;
+        gap: 4px !important;
+      }
     }
 
     .glow-ring {
@@ -1229,7 +1361,7 @@
     <div v-if="showBuildTag" class="build-debug-tag">{{ buildLabel }}</div>
 
     <!-- 顶部栏：iOS 紧凑两行 -->
-    <header class="app-header ios-compact-header">
+    <header class="app-header ios-compact-header" :class="[{ 'header-collapsed': !headerExpanded, 'header-expanded': headerExpanded }]">
       <div class="compact-top-row">
         <div class="compact-profile-pill">
           <span class="inline-flex items-center justify-center logo-badge diamond-bg diamond-sparkle" style="width:22px;height:22px;">
@@ -1239,10 +1371,17 @@
           </span>
           <span class="truncate">{{ activeProfile.name }} · {{ activeProfile.age }}岁</span>
         </div>
-        <button @click="openSettings" class="icon-btn" title="设置">⚙️</button>
+        <div class="compact-mini-stats">
+          <span>{{ todayProgress.done }}/{{ todayProgress.total }}</span>
+          <span>XP {{ xp }}</span>
+        </div>
+        <div class="compact-top-actions">
+          <button type="button" class="btn-ghost btn-mini" @click.stop="toggleHeaderExpanded">{{ headerExpanded ? '收起' : '展开' }}</button>
+          <button @click="openSettings" class="icon-btn" title="设置">⚙️</button>
+        </div>
       </div>
 
-      <div class="compact-progress-row" @click="headerDetailExpanded = !headerDetailExpanded">
+      <div class="compact-progress-row" @click="toggleHeaderExpanded">
         <div class="compact-progress-main">
           <svg class="compact-progress-ring" viewBox="0 0 40 40" aria-hidden="true">
             <circle cx="20" cy="20" r="14" stroke="#dbe2ea" stroke-width="4" fill="none"></circle>
@@ -1264,10 +1403,10 @@
           </div>
         </div>
         <span class="compact-xp-chip">Lv.{{ levelDisplay.level }} · XP {{ xp }}</span>
-        <span class="compact-expand-hint">{{ headerDetailExpanded ? '收起' : '展开' }}</span>
+        <span class="compact-expand-hint">{{ headerExpanded ? '收起' : '展开' }}</span>
       </div>
       <transition name="fade">
-        <div v-if="headerDetailExpanded" class="compact-progress-detail">
+        <div v-if="headerExpanded" class="compact-progress-detail">
           <span>{{ levelDisplay.title }} · 完成率 {{ todayProgress.percent }}%</span>
           <span>下一阶 XP {{ levelDisplay.nextXp }}</span>
         </div>
@@ -1275,14 +1414,14 @@
     </header>
 
     <!-- 主体卡片：响应式布局，手机竖屏单列，平板横屏可并排 -->
-    <main class="w-full max-w-5xl flex-1 flex flex-col lg:flex-row gap-2 lg:gap-4">
+    <main class="mobile-main-lift w-full max-w-5xl flex-1 flex flex-col lg:flex-row gap-2 lg:gap-4">
       <!-- 左侧：Tabs + 内容 -->
       <section class="flex-1 flex flex-col">
         <!-- 今日鼓励（默认一行） -->
-        <div class="encourage-inline">
+        <div class="encourage-inline" :class="{ 'encourage-collapsed': encourageCollapsed }">
           <button type="button" class="icon-btn encourage-inline-main" @click="encourageCollapsed = !encourageCollapsed">
             <span class="text-slate-500">今日鼓励</span>
-            <span class="quote-line">“{{ currentQuote }}”</span>
+            <span class="quote-line line-clamp-1">“{{ currentQuote }}”</span>
           </button>
           <div class="flex items-center gap-1">
             <button
@@ -1307,20 +1446,20 @@
           <button
             class="flex-1 transition"
             :class="activeTab === 'daily' ? 'segment-active' : ''"
-            @click="activeTab = 'daily'">
+            @click="activeTab = 'daily'; collapseHeader()">
             今日
           </button>
           <button
             class="flex-1 transition"
             :class="activeTab === 'memory' ? 'segment-active' : ''"
-            @click="activeTab = 'memory'">
+            @click="activeTab = 'memory'; collapseHeader()">
             记忆
           </button>
           <button
             v-if="ageGroup === 'senior'"
             class="flex-1 transition"
             :class="activeTab === 'stats' ? 'segment-active' : ''"
-            @click="activeTab = 'stats'">
+            @click="activeTab = 'stats'; collapseHeader()">
             统计
           </button>
         </div>
@@ -2712,7 +2851,7 @@
           ],
           currentQuote: '',
           encourageCollapsed: true,
-          headerDetailExpanded: false,
+          headerExpanded: false,
           stickerBookCollapsed: true,
           debugBuildEnabled: false,
           buildLabel: 'BUILD 2026-02-22-0001',
@@ -3317,6 +3456,12 @@
           } else {
             localStorage.removeItem(this.getStorageKey('debug_build_tag'));
           }
+        },
+        toggleHeaderExpanded() {
+          this.headerExpanded = !this.headerExpanded;
+        },
+        collapseHeader() {
+          this.headerExpanded = false;
         },
         syncStickerBookCollapse() {
           this.stickerBookCollapsed = this.todayJuniorStickers.length === 0;
