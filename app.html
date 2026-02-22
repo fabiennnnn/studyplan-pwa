@@ -108,13 +108,15 @@
       --text-muted: #66737b;
       --accent: #14b8a6;
       --accent-2: #2dd4bf;
-      --accent-ink: #5B6B8A;
-      --accent-ink-2: #44536E;
-      --accent-mint-a: #8FDAD1;
-      --accent-mint-b: #73C2B8;
+      --accent-ink: #55627A;
+      --accent-ink-2: #3F4A60;
+      --accent-mint-a: #A6E7E2;
+      --accent-mint-b: #86D5CD;
       --accent-muted: #6E7A8F;
       --accent-soft: #ecfeff;
       --accent-sat: 0.9;
+      --accent-main: var(--accent-ink);
+      --accent-main-2: var(--accent-ink-2);
       --cta-h: 42px;
       --cta-radius: 20px;
       --cta-text: #f5f9f9;
@@ -126,6 +128,8 @@
       --ring: rgba(72, 151, 147, 0.2);
       --ring-ink: rgba(76, 90, 120, .20);
       --ring-mint: rgba(84, 167, 156, .16);
+      --pill-bg: var(--surface-2);
+      --pill-border: var(--border);
       --theme-name: "BASE";
       --shadow-soft: 0 6px 16px rgba(20, 184, 166, 0.22);
       --border-soft: rgba(20, 184, 166, 0.28);
@@ -140,14 +144,16 @@
       --header-compact: 114px;
       --accent-sat: 0.98;
       --cta-radius: 20px;
+      --accent-main: color-mix(in srgb, var(--accent-mint-b) 78%, #0f172a 22%);
+      --accent-main-2: color-mix(in srgb, var(--accent-mint-b) 88%, #0f172a 12%);
       --cta-bg-a: var(--accent-mint-a);
       --cta-bg-b: var(--accent-mint-b);
       --theme-name: "MINT";
       --cta-border: rgba(84, 167, 156, .22);
       --ring: var(--ring-mint);
       --accent-muted: #6A8F8C;
-      --accent: #22c7b8;
-      --accent-2: #5eead4;
+      --accent: #4fb6ad;
+      --accent-2: #73cfc5;
       --accent-soft: #ecfffb;
       --shadow-soft: 0 8px 18px rgba(45, 212, 191, 0.24);
       --border-soft: rgba(45, 212, 191, 0.3);
@@ -159,21 +165,23 @@
       --ui-motion-scale: 0.7;
       --header-compact: 104px;
       --accent-sat: 0.74;
-      --cta-radius: 18px;
       --theme-name: "INK";
+      --accent-main: color-mix(in srgb, var(--accent-ink) 82%, #0f172a 18%);
+      --accent-main-2: color-mix(in srgb, var(--accent-ink-2) 88%, #0f172a 12%);
+      --cta-radius: 18px;
       --cta-bg-a: color-mix(in srgb, var(--accent-ink) 86%, #ffffff 14%);
       --cta-bg-b: color-mix(in srgb, var(--accent-ink-2) 86%, #ffffff 14%);
       --cta-text: rgba(245, 248, 248, 0.92);
-      --cta-border: rgba(68,83,110,.26);
+      --cta-border: rgba(63,74,96,.22);
       --cta-shadow: 0 9px 16px -14px rgba(41, 61, 67, 0.22);
       --ring: var(--ring-ink);
       --text-muted: #5f6a71;
       --accent-muted: #66708A;
-      --accent: #0f766e;
-      --accent-2: #2a9d8f;
-      --accent-soft: #f0fdfa;
-      --shadow-soft: 0 5px 12px rgba(15, 118, 110, 0.16);
-      --border-soft: rgba(15, 118, 110, 0.24);
+      --accent: #55627A;
+      --accent-2: #3F4A60;
+      --accent-soft: #f3f5f9;
+      --shadow-soft: 0 5px 12px rgba(63, 74, 96, 0.14);
+      --border-soft: rgba(63, 74, 96, 0.2);
     }
 
     body {
@@ -188,12 +196,12 @@
     body::before {
       content: none;
     }
-    body::after {
+    #app::after {
       content: "THEME";
       position: fixed;
-      top: calc(env(safe-area-inset-top) + 8px);
-      right: 8px;
-      z-index: 60;
+      top: calc(env(safe-area-inset-top) + 10px);
+      right: 10px;
+      z-index: 9999;
       padding: 3px 8px;
       border-radius: 999px;
       font-size: 10px;
@@ -206,8 +214,8 @@
       -webkit-backdrop-filter: blur(6px);
       pointer-events: none;
     }
-    body:has(#app.age-junior)::after { content: "JUNIOR · MINT"; }
-    body:has(#app.age-senior)::after { content: "SENIOR · INK"; }
+    #app.age-junior::after { content: "JUNIOR · MINT"; }
+    #app.age-senior::after { content: "SENIOR · INK"; }
 
     @media (max-width: 640px) {
       body {
@@ -728,7 +736,7 @@
     .ios-segmented-tabs button.segment-active {
       background: #ffffff !important;
       color: #0f172a !important;
-      border-color: var(--cta-bg-b) !important;
+      border-color: color-mix(in srgb, var(--accent-main-2) 36%, var(--border) 64%) !important;
       box-shadow: 0 1px 4px rgba(15, 23, 42, 0.05), inset 0 0 0 1px color-mix(in srgb, var(--ring) 38%, transparent 62%) !important;
     }
     .daily-tools-inline {
@@ -813,10 +821,15 @@
       color: var(--accent-muted);
     }
     .daily-task-head .daily-completion-rate {
-      background: var(--surface-2) !important;
-      border-color: var(--border) !important;
-      color: var(--text-muted) !important;
+      background: var(--pill-bg) !important;
+      border-color: var(--pill-border) !important;
+      color: var(--accent-muted) !important;
       box-shadow: none !important;
+    }
+    .daily-task-item .inline-flex.items-center.px-1\.5.py-0\.5.rounded-full {
+      background: var(--pill-bg) !important;
+      border-color: var(--pill-border) !important;
+      color: var(--accent-muted) !important;
     }
     .variant-subcard {
       border-radius: var(--ui-radius-md) !important;
@@ -852,7 +865,7 @@
     }
     .bottom-nav button.bottom-nav-active {
       font-weight: 700;
-      color: var(--cta-bg-b) !important;
+      color: color-mix(in srgb, var(--accent-main) 70%, #0f172a 30%) !important;
     }
     .bottom-nav button.bottom-nav-active::after {
       content: "";
@@ -862,7 +875,7 @@
       bottom: 4px;
       height: 2px;
       border-radius: 999px;
-      background: var(--cta-bg-b);
+      background: var(--accent-main-2);
     }
     .age-junior .bottom-nav button {
       min-height: 56px;
@@ -916,8 +929,8 @@
     .add-task-primary {
       background: linear-gradient(
         180deg,
-        color-mix(in srgb, var(--cta-bg-a) 33%, var(--surface) 67%),
-        color-mix(in srgb, var(--cta-bg-b) 35%, var(--surface) 65%)
+        color-mix(in srgb, var(--cta-bg-a) 30%, var(--surface) 70%),
+        color-mix(in srgb, var(--cta-bg-b) 32%, var(--surface) 68%)
       ) !important;
       color: var(--cta-text) !important;
       border: 1px solid color-mix(in srgb, var(--cta-border) 65%, rgba(255, 255, 255, 0.35) 35%) !important;
