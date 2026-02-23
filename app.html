@@ -135,6 +135,15 @@
       --border-soft: rgba(20, 184, 166, 0.28);
       --task-border-soft: rgba(148, 163, 184, 0.18);
       --task-shadow-soft: 0 2px 8px rgba(15, 23, 42, 0.04);
+      --r-cover: 24px;
+      --r-tile: 15px;
+      --shadow-cover: 0 16px 30px -20px rgba(15, 23, 42, 0.28), 0 2px 8px rgba(15, 23, 42, 0.08);
+      --border-cover: rgba(15, 23, 42, 0.14);
+      --ink-a: #8792A8;
+      --ink-b: #69758E;
+      --mint-a: #C8F2EE;
+      --mint-b: #A4E2DA;
+      --metal-gloss: 0.12;
     }
     .age-junior {
       --ui-radius-lg: 24px;
@@ -157,6 +166,13 @@
       --accent-soft: #ecfffb;
       --shadow-soft: 0 8px 18px rgba(45, 212, 191, 0.24);
       --border-soft: rgba(45, 212, 191, 0.3);
+      --r-cover: 28px;
+      --r-tile: 16px;
+      --shadow-cover: 0 14px 28px -18px rgba(38, 137, 130, 0.24), 0 2px 8px rgba(38, 137, 130, 0.09);
+      --border-cover: rgba(93, 167, 160, 0.22);
+      --mint-a: #D8F7F3;
+      --mint-b: #AFE8E1;
+      --metal-gloss: 0.1;
     }
     .age-senior {
       --ui-radius-lg: 16px;
@@ -186,6 +202,13 @@
       --accent-soft: #f3f5f9;
       --shadow-soft: 0 5px 12px rgba(63, 74, 96, 0.14);
       --border-soft: rgba(63, 74, 96, 0.2);
+      --r-cover: 20px;
+      --r-tile: 12px;
+      --shadow-cover: 0 15px 26px -20px rgba(15, 23, 42, 0.38), 0 3px 10px rgba(36, 45, 63, 0.16);
+      --border-cover: rgba(71, 85, 105, 0.32);
+      --ink-a: #7D889E;
+      --ink-b: #5D6A84;
+      --metal-gloss: 0.26;
     }
 
     body {
@@ -253,7 +276,7 @@
 
     /* 4) bottom-nav active underline follows theme */
     .bottom-nav button.bottom-nav-active::after {
-      background: var(--accent-main-2) !important;
+      background: var(--cta-bg-b) !important;
     }
 
     /* 5) CTA more glazed, less slab */
@@ -832,6 +855,336 @@
     .mobile-main-lift {
       padding-bottom: calc(env(safe-area-inset-bottom) + 84px);
     }
+    .book {
+      width: 100%;
+      max-width: 56rem;
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      perspective: 1400px;
+    }
+    .book-page {
+      width: 100%;
+      flex: 1 1 auto;
+      min-width: 0;
+      transform-origin: left center;
+      backface-visibility: hidden;
+      transform-style: preserve-3d;
+    }
+    .page-enter,
+    .page-leave {
+      transition: transform 360ms cubic-bezier(0.24, 0.72, 0.2, 1), opacity 320ms ease, filter 320ms ease;
+      will-change: transform, opacity, filter;
+    }
+    .page-from {
+      opacity: 0;
+      filter: blur(1px);
+      transform: rotateY(-12deg) translateX(20px) scale(0.988);
+    }
+    .page-to {
+      opacity: 0;
+      filter: blur(1px);
+      transform: rotateY(10deg) translateX(-16px) scale(0.988);
+    }
+    .cover-wrap {
+      min-height: 72vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px;
+    }
+    .cover-card {
+      width: 100%;
+      max-width: 540px;
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--r-cover);
+      border: 1px solid var(--border-cover);
+      background: linear-gradient(165deg, var(--mint-a) 0%, var(--mint-b) 56%, #ffffff 100%);
+      box-shadow: var(--shadow-cover);
+      padding: 28px 22px 22px;
+      text-align: center;
+      isolation: isolate;
+    }
+    .age-senior .cover-card {
+      background: linear-gradient(165deg, var(--ink-a) 0%, var(--ink-b) 58%, #f7f9fc 100%);
+    }
+    .cover-card::before {
+      content: "";
+      position: absolute;
+      inset: -1px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.36), rgba(255, 255, 255, 0));
+      opacity: 0.26;
+      pointer-events: none;
+    }
+    .age-senior .cover-card::before {
+      background: linear-gradient(104deg, rgba(255, 255, 255, 0.32) 0%, rgba(255, 255, 255, 0) 34%, rgba(100, 116, 139, 0.22) 54%, rgba(255, 255, 255, 0) 82%);
+      opacity: var(--metal-gloss);
+      mix-blend-mode: overlay;
+    }
+    .cover-card::after {
+      content: "";
+      position: absolute;
+      inset: -2px;
+      background: radial-gradient(100% 65% at 50% 0%, rgba(255, 255, 255, 0.56), rgba(255, 255, 255, 0)), radial-gradient(70% 45% at 100% 100%, rgba(15, 23, 42, 0.08), rgba(15, 23, 42, 0));
+      opacity: 0.72;
+      pointer-events: none;
+    }
+    .cover-kicker {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 24px;
+      padding: 0 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(15, 23, 42, 0.12);
+      background: rgba(255, 255, 255, 0.72);
+      color: #5f6b7a;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      font-weight: 600;
+      position: relative;
+      z-index: 1;
+    }
+    .cover-title {
+      margin-top: 12px;
+      color: #0f172a;
+      font-size: clamp(30px, 7.2vw, 42px);
+      line-height: 1.08;
+      font-weight: 800;
+      letter-spacing: 0.01em;
+      position: relative;
+      z-index: 1;
+    }
+    .cover-subtitle {
+      margin-top: 6px;
+      color: #5f6b7a;
+      font-size: 12px;
+      letter-spacing: 0.2em;
+      font-weight: 600;
+      position: relative;
+      z-index: 1;
+    }
+    .cover-strap {
+      margin: 14px auto 0;
+      max-width: 94%;
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px dashed rgba(15, 23, 42, 0.14);
+      background: rgba(255, 255, 255, 0.66);
+      color: #415063;
+      font-size: 12px;
+      line-height: 1.4;
+      position: relative;
+      z-index: 1;
+    }
+    .cover-strap-row {
+      margin: 14px auto 0;
+      max-width: 94%;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      position: relative;
+      z-index: 1;
+    }
+    .cover-strap {
+      margin: 0;
+      flex: 1 1 auto;
+      min-height: 31px;
+    }
+    .cover-strap-text {
+      width: 100%;
+      display: inline-block;
+      line-height: 1.35;
+    }
+    .cover-strap-actions {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      flex-shrink: 0;
+    }
+    .cover-strap-mini {
+      min-height: 28px;
+      padding: 0 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(15, 23, 42, 0.12);
+      background: rgba(255, 255, 255, 0.78);
+      color: #475569;
+      font-size: 11px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .cover-strap-mini.icon {
+      width: 28px;
+      padding: 0;
+    }
+    .cover-enc-enter-active,
+    .cover-enc-leave-active {
+      transition: opacity 220ms ease, transform 220ms ease;
+    }
+    .cover-enc-enter-from,
+    .cover-enc-leave-to {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+    .cover-photo-strip {
+      margin-top: 16px;
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      position: relative;
+      z-index: 1;
+    }
+    .cover-photo-tile {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--r-tile);
+      border: 1px solid var(--border-cover);
+      background: rgba(255, 255, 255, 0.92);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75), 0 3px 10px rgba(15, 23, 42, 0.1);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+      color: #0f172a;
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .age-junior .cover-photo-tile {
+      border-color: rgba(93, 167, 160, 0.22);
+    }
+    .age-senior .cover-photo-tile {
+      border-color: rgba(71, 85, 105, 0.32);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.42), 0 4px 12px rgba(30, 41, 59, 0.16);
+    }
+    .cover-photo-tile img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .cover-photo-empty {
+      color: #94a3b8;
+      font-weight: 600;
+      background: rgba(248, 250, 252, 0.95);
+      background-image: linear-gradient(150deg, rgba(166, 231, 226, 0.34), rgba(255, 255, 255, 0.95));
+    }
+    .age-senior .cover-photo-empty {
+      background-image: linear-gradient(150deg, rgba(75, 88, 114, 0.25), rgba(255, 255, 255, 0.96));
+      color: #718096;
+    }
+    .cover-date {
+      margin-top: 10px;
+      color: #64748b;
+      font-size: 11px;
+      position: relative;
+      z-index: 1;
+    }
+    .cover-cta {
+      margin-top: 16px;
+      min-height: 44px;
+      padding: 10px 18px;
+      border-radius: var(--r-tile);
+      border: 1px solid var(--cta-border);
+      color: var(--cta-text);
+      background: linear-gradient(180deg, var(--cta-bg-a), var(--cta-bg-b));
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      position: relative;
+      z-index: 1;
+      box-shadow: var(--cta-shadow), inset 0 1px 0 var(--cta-gloss);
+      transition: transform 140ms ease, box-shadow 140ms ease, filter 140ms ease;
+    }
+    .age-junior .cover-cta {
+      background: linear-gradient(180deg, var(--mint-a), var(--mint-b));
+      border-color: rgba(93, 167, 160, 0.24);
+      box-shadow: 0 10px 18px -14px rgba(41, 128, 120, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.34);
+    }
+    .age-senior .cover-cta {
+      background: linear-gradient(180deg, var(--ink-a), var(--ink-b));
+      border-color: rgba(71, 85, 105, 0.34);
+      letter-spacing: 0.005em;
+      box-shadow: 0 8px 16px -14px rgba(31, 41, 55, 0.36), inset 0 1px 0 rgba(255, 255, 255, 0.14);
+    }
+    .cover-cta::before {
+      content: "";
+      position: absolute;
+      inset: 1px 1px auto 1px;
+      height: 42%;
+      border-radius: calc(var(--r-tile) - 2px) calc(var(--r-tile) - 2px) calc(var(--r-tile) - 4px) calc(var(--r-tile) - 4px);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.36), rgba(255, 255, 255, 0));
+      pointer-events: none;
+    }
+    .cover-cta:hover {
+      filter: brightness(1.02);
+    }
+    .cover-cta:active {
+      transform: translateY(1px) scale(0.995);
+      box-shadow: 0 6px 10px -10px rgba(15, 23, 42, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+    }
+    .cover-photo-modal {
+      z-index: 44;
+    }
+    .cover-photo-panel {
+      width: min(94vw, 540px);
+      border-radius: 24px;
+      border: 1px solid rgba(15, 23, 42, 0.12);
+      background: #fff;
+      box-shadow: 0 20px 34px -22px rgba(15, 23, 42, 0.45), 0 8px 20px rgba(15, 23, 42, 0.1);
+      padding: 16px;
+    }
+    .cover-photo-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .cover-photo-slot {
+      border: 1px solid rgba(15, 23, 42, 0.1);
+      border-radius: 16px;
+      background: rgba(248, 250, 252, 0.8);
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      align-items: center;
+    }
+    .cover-photo-btn,
+    .cover-photo-delete {
+      width: 100%;
+      min-height: 30px;
+      border-radius: 10px;
+      font-size: 11px;
+      font-weight: 600;
+      border: 1px solid rgba(15, 23, 42, 0.12);
+      background: #fff;
+      color: #334155;
+      text-align: center;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .cover-photo-delete[disabled] {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    @media (min-width: 768px) {
+      .cover-photo-tile {
+        width: 60px;
+        height: 60px;
+        border-radius: 18px;
+      }
+      .cover-photo-slot {
+        border-radius: 18px;
+      }
+    }
     .sticker-inline-hint {
       margin-bottom: 6px;
       border: 1px solid rgba(16, 185, 129, 0.2);
@@ -929,7 +1282,7 @@
       bottom: 4px;
       height: 2px;
       border-radius: 999px;
-      background: var(--accent-main-2);
+      background: var(--cta-bg-b);
     }
     .age-junior .bottom-nav button {
       min-height: 56px;
@@ -940,6 +1293,19 @@
         animation: none !important;
         transition-duration: 0.01ms !important;
         scroll-behavior: auto !important;
+      }
+      .page-enter,
+      .page-leave {
+        transition: none !important;
+      }
+      .page-from,
+      .page-to {
+        transform: none !important;
+        filter: none !important;
+        opacity: 1 !important;
+      }
+      .cover-cta {
+        transition: none !important;
       }
     }
 
@@ -1560,6 +1926,60 @@
 
     <div v-if="showBuildTag" class="build-debug-tag">{{ buildLabel }}</div>
 
+    <div class="book">
+      <transition
+        mode="out-in"
+        enter-active-class="page-enter"
+        leave-active-class="page-leave"
+        enter-from-class="page-from"
+        leave-to-class="page-to">
+        <section :key="`page-${currentPage}`" class="book-page">
+          <template v-if="currentPage === 0">
+            <div class="cover-wrap">
+              <article class="cover-card">
+                <p class="cover-kicker">PAGE 0 · STUDYPLAN</p>
+                <h1 class="cover-title">打卡小书</h1>
+                <p class="cover-subtitle">STUDY PLAN</p>
+                <div class="cover-strap-row">
+                  <div class="cover-strap">
+                    <transition v-if="!encourageReducedMotion" name="cover-enc" mode="out-in">
+                      <span :key="`cover-quote-${encourageAnimKey}`" class="cover-strap-text">“{{ currentQuote || '今天也会很棒。' }}”</span>
+                    </transition>
+                    <span v-else class="cover-strap-text">“{{ currentQuote || '今天也会很棒。' }}”</span>
+                  </div>
+                  <div class="cover-strap-actions">
+                    <button type="button" class="cover-strap-mini" @click="nextEncourage">换一句</button>
+                    <button
+                      type="button"
+                      class="cover-strap-mini icon"
+                      @click="encourageAutoPlay ? (encourageAutoPlay = false, stopEncourageAutoPlay()) : (encourageAutoPlay = true, startEncourageAutoPlay())">
+                      {{ encourageAutoPlay ? '⏸' : '▶' }}
+                    </button>
+                  </div>
+                </div>
+                <div class="cover-photo-strip" aria-label="cover photo strip">
+                  <span
+                    v-for="slot in 3"
+                    :key="`cover-photo-${slot}`"
+                    class="cover-photo-tile"
+                    :class="{ 'cover-photo-empty': !coverPhotoSlots[slot - 1] }">
+                    <img v-if="coverPhotoSlots[slot - 1]" :src="coverPhotoSlots[slot - 1]" :alt="`cover photo ${slot}`" />
+                    <template v-else>
+                      {{ profiles[slot - 1] ? (profiles[slot - 1].name || '学').slice(0, 1) : '✦' }}
+                    </template>
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  @click="activeTab = 'daily'; goPage(1)"
+                  class="cover-cta">
+                  翻开（开始今天）
+                </button>
+                <p class="cover-date">{{ todayLabel }}</p>
+              </article>
+            </div>
+          </template>
+          <template v-else>
     <!-- 顶部栏：iOS 紧凑两行 -->
     <header class="app-header ios-compact-header" :class="[{ 'header-collapsed': !headerExpanded, 'header-expanded': headerExpanded }]">
       <div class="compact-top-row">
@@ -1642,24 +2062,24 @@
         </transition>
 
         <!-- 标签页 -->
-        <div class="mobile-tabs ios-segmented-tabs">
+        <div v-if="currentPage !== 3" class="mobile-tabs ios-segmented-tabs">
           <button
             class="flex-1 transition"
-            :class="activeTab === 'daily' ? 'segment-active' : ''"
-            @click="activeTab = 'daily'; collapseHeader()">
+            :class="currentPage === 1 && activeTab === 'daily' ? 'segment-active' : ''"
+            @click="activeTab = 'daily'; goPage(1); collapseHeader()">
             今日
           </button>
           <button
             class="flex-1 transition"
-            :class="activeTab === 'memory' ? 'segment-active' : ''"
-            @click="activeTab = 'memory'; collapseHeader()">
+            :class="currentPage === 2 ? 'segment-active' : ''"
+            @click="goPage(2); collapseHeader()">
             记忆
           </button>
           <button
             v-if="ageGroup === 'senior'"
             class="flex-1 transition"
-            :class="activeTab === 'stats' ? 'segment-active' : ''"
-            @click="activeTab = 'stats'; collapseHeader()">
+            :class="currentPage === 1 && activeTab === 'stats' ? 'segment-active' : ''"
+            @click="activeTab = 'stats'; goPage(1); collapseHeader()">
             统计
           </button>
         </div>
@@ -1668,7 +2088,7 @@
         <div class="flex-1 glass rounded-3xl soft-shadow p-2 sm:p-3 lg:p-4 flex flex-col overflow-hidden lift variant-card content-surface"
              :class="{ 'daily-main-card': activeTab === 'daily' }">
           <!-- 今日大冒险：每日计划 + 打卡 -->
-          <div v-if="activeTab === 'daily'" class="flex-1 flex flex-col fade-slide">
+          <div v-if="currentPage === 1 && activeTab === 'daily'" class="flex-1 flex flex-col fade-slide">
             <div class="daily-task-head relative mb-2 rounded-xl px-3 py-2 flex items-center justify-between">
               <p class="daily-task-title">今日任务</p>
               <span class="daily-completion-rate px-2 py-0.5 rounded-full bg-emerald-50 border border-emerald-200">
@@ -1863,7 +2283,7 @@
           </div>
 
           <!-- 艾宾浩斯记忆挑战 -->
-          <div v-else-if="activeTab === 'memory'" class="flex-1 flex flex-col gap-3 text-xs sm:text-sm overflow-hidden fade-slide">
+          <div v-else-if="currentPage === 2 && activeTab === 'memory'" class="flex-1 flex flex-col gap-3 text-xs sm:text-sm overflow-hidden fade-slide">
             <!-- 模块标题 -->
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-2">
@@ -2094,7 +2514,7 @@
             </div>
             </div>
 
-          <div v-else-if="activeTab === 'stats' && ageGroup === 'senior'" class="flex-1 flex flex-col gap-3 text-xs sm:text-sm overflow-hidden fade-slide">
+          <div v-else-if="currentPage === 1 && activeTab === 'stats' && ageGroup === 'senior'" class="flex-1 flex flex-col gap-3 text-xs sm:text-sm overflow-hidden fade-slide">
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-2">
                 <span class="icon-badge bg-indigo-100 text-indigo-700">
@@ -2222,29 +2642,62 @@
               <p class="text-[11px] text-slate-500 mt-1">专注分钟上限：{{ seniorChartModel.maxFocus }} 分钟</p>
             </div>
           </div>
+          <div v-else-if="currentPage === 3" class="flex-1 flex items-center justify-center fade-slide">
+            <div class="w-full max-w-md bg-white rounded-2xl border border-slate-200 p-4 text-center space-y-3">
+              <p class="text-sm font-semibold text-slate-800">家长中心</p>
+              <p class="text-xs text-slate-500">进入现有设置页中的「家长设置」进行 PIN 与权限操作。</p>
+              <button @click="goPage(3)" class="btn-main add-task-primary px-4 py-2 text-xs font-semibold">打开家长设置</button>
+              <button @click="openCoverPhotoManager" class="cover-photo-btn">封面照片（最多3张）</button>
+            </div>
+          </div>
 
         </div>
       </section>
     </main>
 
-    <nav class="bottom-nav mt-3">
-      <template v-if="ageGroup === 'junior'">
-        <button @click="activeTab = 'daily'" :class="activeTab === 'daily' ? 'bottom-nav-active' : ''">今日</button>
-        <button @click="activeTab = 'memory'" :class="activeTab === 'memory' ? 'bottom-nav-active' : ''">记忆</button>
-        <button @click="openSettings">设置</button>
-      </template>
-      <template v-else>
-        <button @click="activeTab = 'daily'" :class="activeTab === 'daily' ? 'bottom-nav-active' : ''">今日</button>
-        <button @click="activeTab = 'memory'" :class="activeTab === 'memory' ? 'bottom-nav-active' : ''">记忆</button>
-        <button @click="activeTab = 'stats'" :class="activeTab === 'stats' ? 'bottom-nav-active' : ''">统计</button>
-        <button @click="openTemplateManager">模板</button>
-        <button @click="openSettings">设置</button>
-      </template>
+    <nav v-if="currentPage !== 0" class="bottom-nav mt-3">
+      <button @click="activeTab = 'daily'; goPage(1)" :class="currentPage === 1 ? 'bottom-nav-active' : ''">今日</button>
+      <button @click="goPage(2)" :class="currentPage === 2 ? 'bottom-nav-active' : ''">记忆</button>
+      <button @click="goPage(3)" :class="currentPage === 3 ? 'bottom-nav-active' : ''">家长</button>
     </nav>
 
     <footer class="w-full max-w-5xl mt-4 text-center text-[11px] text-slate-400">
       © fabien Zhang · 快乐学习大冒险
     </footer>
+          </template>
+        </section>
+      </transition>
+    </div>
+
+    <div v-if="showCoverPhotoManager"
+         @click.self="showCoverPhotoManager = false"
+         class="cover-photo-modal fixed inset-0 bg-black/40 flex items-center justify-center px-3">
+      <div class="cover-photo-panel">
+        <div class="flex items-center justify-between">
+          <p class="text-sm font-semibold text-slate-800">封面照片（最多3张）</p>
+          <button class="icon-btn text-slate-400 hover:text-slate-600 text-sm" @click="showCoverPhotoManager = false">✕</button>
+        </div>
+        <div class="cover-photo-grid">
+          <div v-for="slot in 3" :key="`cover-modal-${slot}`" class="cover-photo-slot">
+            <div class="cover-photo-tile" :class="{ 'cover-photo-empty': !coverPhotoSlots[slot - 1] }">
+              <img v-if="coverPhotoSlots[slot - 1]" :src="coverPhotoSlots[slot - 1]" :alt="`cover slot ${slot}`" />
+              <template v-else>{{ profiles[slot - 1] ? (profiles[slot - 1].name || '学').slice(0, 1) : '✦' }}</template>
+            </div>
+            <label class="cover-photo-btn cursor-pointer">
+              <input type="file" accept="image/*" class="hidden" @change="onCoverPhotoPicked($event, slot - 1)" />
+              {{ coverPhotoSlots[slot - 1] ? '更换照片' : '上传照片' }}
+            </label>
+            <button
+              type="button"
+              class="cover-photo-delete"
+              :disabled="!coverPhotoSlots[slot - 1]"
+              @click="clearCoverPhotoSlot(slot - 1)">
+              删除
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- 模板管理弹窗 -->
     <div v-if="showTemplateManager"
@@ -2976,6 +3429,7 @@
 
           // Tabs
           activeTab: 'daily',
+          currentPage: 0,
 
           // 每日任务
           tasks: [],
@@ -3090,7 +3544,13 @@
             items: [],
             hintVisible: false,
             latestId: ''
-          }
+          },
+          showCoverPhotoManager: false,
+          coverPhotoSlots: ['', '', ''],
+          encourageAutoPlay: true,
+          encourageTimer: null,
+          encourageAnimKey: 0,
+          encourageReducedMotion: false
         };
       },
       computed: {
@@ -3592,6 +4052,108 @@
         }
       },
       methods: {
+        goPage(n) {
+          const target = Math.max(0, Math.min(3, Number(n) || 0));
+          if (target === 3) {
+            if (!this.requireParentIfNeeded(true)) return;
+            this.currentPage = 3;
+            this.showSettings = true;
+            this.settingsSection = 'parent';
+            return;
+          }
+          this.currentPage = target;
+          if (target === 2) {
+            this.activeTab = 'memory';
+          } else if (target === 1 && this.activeTab === 'memory') {
+            this.activeTab = 'daily';
+          }
+          if (this.showSettings) {
+            this.showSettings = false;
+            this.settingsSection = 'home';
+          }
+        },
+        loadCoverPhotoSlots() {
+          const key = 'studyplan.coverPhotoSlots.v1';
+          const raw = localStorage.getItem(key);
+          if (!raw) {
+            this.coverPhotoSlots = ['', '', ''];
+            return;
+          }
+          try {
+            const parsed = JSON.parse(raw);
+            if (Array.isArray(parsed)) {
+              const normalized = parsed.slice(0, 3).map(item => typeof item === 'string' ? item : '');
+              while (normalized.length < 3) normalized.push('');
+              this.coverPhotoSlots = normalized;
+              return;
+            }
+          } catch (e) {
+            // ignore parse errors and reset
+          }
+          this.coverPhotoSlots = ['', '', ''];
+        },
+        saveCoverPhotoSlots() {
+          const key = 'studyplan.coverPhotoSlots.v1';
+          const slots = this.coverPhotoSlots.slice(0, 3).map(item => typeof item === 'string' ? item : '');
+          while (slots.length < 3) slots.push('');
+          this.coverPhotoSlots = slots;
+          localStorage.setItem(key, JSON.stringify(slots));
+        },
+        openCoverPhotoManager() {
+          if (!this.requireParentIfNeeded(true)) return;
+          this.showCoverPhotoManager = true;
+        },
+        async onCoverPhotoPicked(event, index) {
+          const file = event && event.target && event.target.files ? event.target.files[0] : null;
+          if (!file) return;
+          try {
+            const compressed = await this.compressImageToJpegDataURL(file, 384, 0.78);
+            const slots = this.coverPhotoSlots.slice(0, 3);
+            while (slots.length < 3) slots.push('');
+            slots[index] = compressed;
+            this.coverPhotoSlots = slots;
+            this.saveCoverPhotoSlots();
+          } catch (e) {
+            alert('图片处理失败，请重试。');
+          } finally {
+            if (event && event.target) event.target.value = '';
+          }
+        },
+        clearCoverPhotoSlot(index) {
+          const slots = this.coverPhotoSlots.slice(0, 3);
+          while (slots.length < 3) slots.push('');
+          slots[index] = '';
+          this.coverPhotoSlots = slots;
+          this.saveCoverPhotoSlots();
+        },
+        compressImageToJpegDataURL(file, maxEdge = 384, quality = 0.78) {
+          return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onerror = () => reject(new Error('read failed'));
+            reader.onload = () => {
+              const img = new Image();
+              img.onerror = () => reject(new Error('decode failed'));
+              img.onload = () => {
+                const square = Math.min(img.width, img.height);
+                const sx = Math.floor((img.width - square) / 2);
+                const sy = Math.floor((img.height - square) / 2);
+                const target = Math.max(1, Math.min(maxEdge, square));
+                const canvas = document.createElement('canvas');
+                canvas.width = target;
+                canvas.height = target;
+                const ctx = canvas.getContext('2d');
+                if (!ctx) {
+                  reject(new Error('canvas failed'));
+                  return;
+                }
+                ctx.drawImage(img, sx, sy, square, square, 0, 0, target, target);
+                resolve(canvas.toDataURL('image/jpeg', quality));
+              };
+              img.src = reader.result;
+            };
+            reader.readAsDataURL(file);
+          });
+        },
         // 主题切换
         setTheme(value) {
           this.theme = value;
@@ -3629,6 +4191,7 @@
         },
         openSeniorStats() {
           if (this.ageGroup !== 'senior') return;
+          this.currentPage = 1;
           this.activeTab = 'stats';
           this.showSettings = false;
           this.settingsSection = 'home';
@@ -4923,9 +5486,29 @@
         },
 
         // 鼓励语
-        refreshQuote() {
-          const idx = Math.floor(Math.random() * this.quotes.length);
+        startEncourageAutoPlay() {
+          if (!this.encourageAutoPlay || this.encourageTimer) return;
+          this.encourageTimer = setInterval(() => {
+            if (!this.encourageAutoPlay || this.currentPage !== 0) return;
+            this.nextEncourage();
+          }, 3500);
+        },
+        stopEncourageAutoPlay() {
+          if (!this.encourageTimer) return;
+          clearInterval(this.encourageTimer);
+          this.encourageTimer = null;
+        },
+        nextEncourage() {
+          if (!Array.isArray(this.quotes) || this.quotes.length === 0) return;
+          let idx = Math.floor(Math.random() * this.quotes.length);
+          if (this.quotes.length > 1 && this.currentQuote === this.quotes[idx]) {
+            idx = (idx + 1) % this.quotes.length;
+          }
           this.currentQuote = this.quotes[idx];
+          this.encourageAnimKey += 1;
+        },
+        refreshQuote() {
+          this.nextEncourage();
         },
 
         // 语音录制
@@ -5375,12 +5958,23 @@
         this.showMemoryManager = false;
         this.showAddTodayModal = false;
         this.showTemplateManager = false;
+        this.showCoverPhotoManager = false;
         this.showMonthlyReport = false;
         this._userInitiatedMemoryManager = false;
         this._userInitiatedMonthlyReport = false;
+        this.loadCoverPhotoSlots();
       },
       mounted() {
         try {
+        const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+        this.encourageReducedMotion = !!(motionQuery && motionQuery.matches);
+        if (this.encourageReducedMotion) {
+          this.encourageAutoPlay = false;
+          this.stopEncourageAutoPlay();
+        } else {
+          this.encourageAutoPlay = true;
+          this.startEncourageAutoPlay();
+        }
         // 强制清除可能存在的 localStorage 弹窗状态
         localStorage.removeItem('kldx_showMemoryManager');
         localStorage.removeItem('kldx_showMonthlyReport');
@@ -5548,6 +6142,9 @@
         } catch (error) {
           console.error('初始化时出错:', error);
         }
+      },
+      beforeUnmount() {
+        this.stopEncourageAutoPlay();
       }
     }).mount('#app');
       } catch (error) {
