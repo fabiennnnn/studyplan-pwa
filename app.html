@@ -940,7 +940,8 @@
     .cover-strap {
       margin: 14px auto 0;
       max-width: 94%;
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
       padding: 6px 12px;
       border-radius: 999px;
       border: 1px dashed rgba(15, 23, 42, 0.14);
@@ -950,6 +951,57 @@
       line-height: 1.4;
       position: relative;
       z-index: 1;
+    }
+    .cover-strap-row {
+      margin: 14px auto 0;
+      max-width: 94%;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      position: relative;
+      z-index: 1;
+    }
+    .cover-strap {
+      margin: 0;
+      flex: 1 1 auto;
+      min-height: 31px;
+    }
+    .cover-strap-text {
+      width: 100%;
+      display: inline-block;
+      line-height: 1.35;
+    }
+    .cover-strap-actions {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      flex-shrink: 0;
+    }
+    .cover-strap-mini {
+      min-height: 28px;
+      padding: 0 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(15, 23, 42, 0.12);
+      background: rgba(255, 255, 255, 0.78);
+      color: #475569;
+      font-size: 11px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .cover-strap-mini.icon {
+      width: 28px;
+      padding: 0;
+    }
+    .cover-enc-enter-active,
+    .cover-enc-leave-active {
+      transition: opacity 220ms ease, transform 220ms ease;
+    }
+    .cover-enc-enter-from,
+    .cover-enc-leave-to {
+      opacity: 0;
+      transform: translateY(4px);
     }
     .cover-photo-strip {
       margin-top: 16px;
@@ -1841,7 +1893,23 @@
                 <p class="cover-kicker">PAGE 0 · STUDYPLAN</p>
                 <h1 class="cover-title">打卡小书</h1>
                 <p class="cover-subtitle">STUDY PLAN</p>
-                <p class="cover-strap">“{{ currentQuote || '今天也会很棒。' }}”</p>
+                <div class="cover-strap-row">
+                  <div class="cover-strap">
+                    <transition v-if="!encourageReducedMotion" name="cover-enc" mode="out-in">
+                      <span :key="`cover-quote-${encourageAnimKey}`" class="cover-strap-text">“{{ currentQuote || '今天也会很棒。' }}”</span>
+                    </transition>
+                    <span v-else class="cover-strap-text">“{{ currentQuote || '今天也会很棒。' }}”</span>
+                  </div>
+                  <div class="cover-strap-actions">
+                    <button type="button" class="cover-strap-mini" @click="nextEncourage">换一句</button>
+                    <button
+                      type="button"
+                      class="cover-strap-mini icon"
+                      @click="encourageAutoPlay ? (encourageAutoPlay = false, stopEncourageAutoPlay()) : (encourageAutoPlay = true, startEncourageAutoPlay())">
+                      {{ encourageAutoPlay ? '⏸' : '▶' }}
+                    </button>
+                  </div>
+                </div>
                 <div class="cover-photo-strip" aria-label="cover photo strip">
                   <span
                     v-for="slot in 3"
@@ -3431,7 +3499,11 @@
             latestId: ''
           },
           showCoverPhotoManager: false,
-          coverPhotoSlots: ['', '', '']
+          coverPhotoSlots: ['', '', ''],
+          encourageAutoPlay: true,
+          encourageTimer: null,
+          encourageAnimKey: 0,
+          encourageReducedMotion: false
         };
       },
       computed: {
@@ -5367,9 +5439,29 @@
         },
 
         // 鼓励语
-        refreshQuote() {
-          const idx = Math.floor(Math.random() * this.quotes.length);
+        startEncourageAutoPlay() {
+          if (!this.encourageAutoPlay || this.encourageTimer) return;
+          this.encourageTimer = setInterval(() => {
+            if (!this.encourageAutoPlay || this.currentPage !== 0) return;
+            this.nextEncourage();
+          }, 3500);
+        },
+        stopEncourageAutoPlay() {
+          if (!this.encourageTimer) return;
+          clearInterval(this.encourageTimer);
+          this.encourageTimer = null;
+        },
+        nextEncourage() {
+          if (!Array.isArray(this.quotes) || this.quotes.length === 0) return;
+          let idx = Math.floor(Math.random() * this.quotes.length);
+          if (this.quotes.length > 1 && this.currentQuote === this.quotes[idx]) {
+            idx = (idx + 1) % this.quotes.length;
+          }
           this.currentQuote = this.quotes[idx];
+          this.encourageAnimKey += 1;
+        },
+        refreshQuote() {
+          this.nextEncourage();
         },
 
         // 语音录制
@@ -5827,6 +5919,15 @@
       },
       mounted() {
         try {
+        const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+        this.encourageReducedMotion = !!(motionQuery && motionQuery.matches);
+        if (this.encourageReducedMotion) {
+          this.encourageAutoPlay = false;
+          this.stopEncourageAutoPlay();
+        } else {
+          this.encourageAutoPlay = true;
+          this.startEncourageAutoPlay();
+        }
         // 强制清除可能存在的 localStorage 弹窗状态
         localStorage.removeItem('kldx_showMemoryManager');
         localStorage.removeItem('kldx_showMonthlyReport');
@@ -5994,6 +6095,9 @@
         } catch (error) {
           console.error('初始化时出错:', error);
         }
+      },
+      beforeUnmount() {
+        this.stopEncourageAutoPlay();
       }
     }).mount('#app');
       } catch (error) {
