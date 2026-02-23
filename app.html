@@ -868,9 +868,22 @@
       width: 100%;
       flex: 1 1 auto;
       min-width: 0;
+      display: flex;
       transform-origin: left center;
       backface-visibility: hidden;
       transform-style: preserve-3d;
+    }
+    .page-frame {
+      width: 100%;
+      max-width: 56rem;
+      margin: 0 auto;
+      min-height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+      padding: calc(env(safe-area-inset-top) + 6px) 8px calc(env(safe-area-inset-bottom) + 8px);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.18);
+      border-radius: 18px;
     }
     .page-enter,
     .page-leave {
@@ -888,11 +901,12 @@
       transform: rotateY(10deg) translateX(-16px) scale(0.988);
     }
     .cover-wrap {
-      min-height: 72vh;
+      flex: 1 1 auto;
+      min-height: 0;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 6px;
+      padding: 8px 6px;
     }
     .cover-card {
       width: 100%;
@@ -1245,9 +1259,10 @@
       position: sticky;
       bottom: 0;
       width: 100%;
-      max-width: 56rem;
+      max-width: 100%;
       display: flex;
       gap: 0;
+      margin-top: auto;
       padding: 0 10px calc(env(safe-area-inset-bottom) + 10px);
       z-index: 20;
       background: rgba(255,255,255,0.98);
@@ -1934,6 +1949,7 @@
         enter-from-class="page-from"
         leave-to-class="page-to">
         <section :key="`page-${currentPage}`" class="book-page">
+          <div class="page-frame">
           <template v-if="currentPage === 0">
             <div class="cover-wrap">
               <article class="cover-card">
@@ -2665,6 +2681,7 @@
       © fabien Zhang · 快乐学习大冒险
     </footer>
           </template>
+          </div>
         </section>
       </transition>
     </div>
