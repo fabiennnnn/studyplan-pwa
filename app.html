@@ -951,7 +951,7 @@
       position: relative;
       z-index: 1;
     }
-    .cover-avatars {
+    .cover-photo-strip {
       margin-top: 16px;
       display: flex;
       justify-content: center;
@@ -959,24 +959,37 @@
       position: relative;
       z-index: 1;
     }
-    .cover-avatar {
-      width: 42px;
-      height: 42px;
-      border-radius: 12px;
+    .cover-photo-tile {
+      width: 48px;
+      height: 48px;
+      border-radius: 15px;
       border: 1px solid rgba(15, 23, 42, 0.12);
       background: rgba(255, 255, 255, 0.92);
       box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75), 0 3px 10px rgba(15, 23, 42, 0.1);
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      overflow: hidden;
+      position: relative;
       color: #0f172a;
       font-size: 14px;
       font-weight: 700;
     }
-    .cover-avatar-empty {
+    .cover-photo-tile img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .cover-photo-empty {
       color: #94a3b8;
       font-weight: 600;
       background: rgba(248, 250, 252, 0.95);
+      background-image: linear-gradient(150deg, rgba(166, 231, 226, 0.34), rgba(255, 255, 255, 0.95));
+    }
+    .age-senior .cover-photo-empty {
+      background-image: linear-gradient(150deg, rgba(75, 88, 114, 0.25), rgba(255, 255, 255, 0.96));
+      color: #718096;
     }
     .cover-date {
       margin-top: 10px;
@@ -1016,6 +1029,62 @@
     .cover-cta:active {
       transform: translateY(1px) scale(0.995);
       box-shadow: 0 6px 10px -10px rgba(15, 23, 42, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+    }
+    .cover-photo-modal {
+      z-index: 44;
+    }
+    .cover-photo-panel {
+      width: min(94vw, 540px);
+      border-radius: 24px;
+      border: 1px solid rgba(15, 23, 42, 0.12);
+      background: #fff;
+      box-shadow: 0 20px 34px -22px rgba(15, 23, 42, 0.45), 0 8px 20px rgba(15, 23, 42, 0.1);
+      padding: 16px;
+    }
+    .cover-photo-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .cover-photo-slot {
+      border: 1px solid rgba(15, 23, 42, 0.1);
+      border-radius: 16px;
+      background: rgba(248, 250, 252, 0.8);
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      align-items: center;
+    }
+    .cover-photo-btn,
+    .cover-photo-delete {
+      width: 100%;
+      min-height: 30px;
+      border-radius: 10px;
+      font-size: 11px;
+      font-weight: 600;
+      border: 1px solid rgba(15, 23, 42, 0.12);
+      background: #fff;
+      color: #334155;
+      text-align: center;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .cover-photo-delete[disabled] {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    @media (min-width: 768px) {
+      .cover-photo-tile {
+        width: 60px;
+        height: 60px;
+        border-radius: 18px;
+      }
+      .cover-photo-slot {
+        border-radius: 18px;
+      }
     }
     .sticker-inline-hint {
       margin-bottom: 6px;
@@ -1773,18 +1842,21 @@
                 <h1 class="cover-title">打卡小书</h1>
                 <p class="cover-subtitle">STUDY PLAN</p>
                 <p class="cover-strap">“{{ currentQuote || '今天也会很棒。' }}”</p>
-                <div class="cover-avatars" aria-label="profile slots">
+                <div class="cover-photo-strip" aria-label="cover photo strip">
                   <span
                     v-for="slot in 3"
-                    :key="`cover-slot-${slot}`"
-                    class="cover-avatar"
-                    :class="{ 'cover-avatar-empty': !profiles[slot - 1] }">
-                    {{ profiles[slot - 1] ? (profiles[slot - 1].name || '学').slice(0, 1) : '☆' }}
+                    :key="`cover-photo-${slot}`"
+                    class="cover-photo-tile"
+                    :class="{ 'cover-photo-empty': !coverPhotoSlots[slot - 1] }">
+                    <img v-if="coverPhotoSlots[slot - 1]" :src="coverPhotoSlots[slot - 1]" :alt="`cover photo ${slot}`" />
+                    <template v-else>
+                      {{ profiles[slot - 1] ? (profiles[slot - 1].name || '学').slice(0, 1) : '✦' }}
+                    </template>
                   </span>
                 </div>
                 <button
                   type="button"
-                  @click="goPage(1)"
+                  @click="activeTab = 'daily'; goPage(1)"
                   class="cover-cta">
                   翻开（开始今天）
                 </button>
@@ -2456,10 +2528,11 @@
             </div>
           </div>
           <div v-else-if="currentPage === 3" class="flex-1 flex items-center justify-center fade-slide">
-            <div class="w-full max-w-md bg-white rounded-2xl border border-slate-200 p-4 text-center space-y-2">
+            <div class="w-full max-w-md bg-white rounded-2xl border border-slate-200 p-4 text-center space-y-3">
               <p class="text-sm font-semibold text-slate-800">家长中心</p>
               <p class="text-xs text-slate-500">进入现有设置页中的「家长设置」进行 PIN 与权限操作。</p>
               <button @click="goPage(3)" class="btn-main add-task-primary px-4 py-2 text-xs font-semibold">打开家长设置</button>
+              <button @click="openCoverPhotoManager" class="cover-photo-btn">封面照片（最多3张）</button>
             </div>
           </div>
 
@@ -2479,6 +2552,36 @@
           </template>
         </section>
       </transition>
+    </div>
+
+    <div v-if="showCoverPhotoManager"
+         @click.self="showCoverPhotoManager = false"
+         class="cover-photo-modal fixed inset-0 bg-black/40 flex items-center justify-center px-3">
+      <div class="cover-photo-panel">
+        <div class="flex items-center justify-between">
+          <p class="text-sm font-semibold text-slate-800">封面照片（最多3张）</p>
+          <button class="icon-btn text-slate-400 hover:text-slate-600 text-sm" @click="showCoverPhotoManager = false">✕</button>
+        </div>
+        <div class="cover-photo-grid">
+          <div v-for="slot in 3" :key="`cover-modal-${slot}`" class="cover-photo-slot">
+            <div class="cover-photo-tile" :class="{ 'cover-photo-empty': !coverPhotoSlots[slot - 1] }">
+              <img v-if="coverPhotoSlots[slot - 1]" :src="coverPhotoSlots[slot - 1]" :alt="`cover slot ${slot}`" />
+              <template v-else>{{ profiles[slot - 1] ? (profiles[slot - 1].name || '学').slice(0, 1) : '✦' }}</template>
+            </div>
+            <label class="cover-photo-btn cursor-pointer">
+              <input type="file" accept="image/*" class="hidden" @change="onCoverPhotoPicked($event, slot - 1)" />
+              {{ coverPhotoSlots[slot - 1] ? '更换照片' : '上传照片' }}
+            </label>
+            <button
+              type="button"
+              class="cover-photo-delete"
+              :disabled="!coverPhotoSlots[slot - 1]"
+              @click="clearCoverPhotoSlot(slot - 1)">
+              删除
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- 模板管理弹窗 -->
@@ -3326,7 +3429,9 @@
             items: [],
             hintVisible: false,
             latestId: ''
-          }
+          },
+          showCoverPhotoManager: false,
+          coverPhotoSlots: ['', '', '']
         };
       },
       computed: {
@@ -3847,6 +3952,88 @@
             this.showSettings = false;
             this.settingsSection = 'home';
           }
+        },
+        loadCoverPhotoSlots() {
+          const key = 'studyplan.coverPhotoSlots.v1';
+          const raw = localStorage.getItem(key);
+          if (!raw) {
+            this.coverPhotoSlots = ['', '', ''];
+            return;
+          }
+          try {
+            const parsed = JSON.parse(raw);
+            if (Array.isArray(parsed)) {
+              const normalized = parsed.slice(0, 3).map(item => typeof item === 'string' ? item : '');
+              while (normalized.length < 3) normalized.push('');
+              this.coverPhotoSlots = normalized;
+              return;
+            }
+          } catch (e) {
+            // ignore parse errors and reset
+          }
+          this.coverPhotoSlots = ['', '', ''];
+        },
+        saveCoverPhotoSlots() {
+          const key = 'studyplan.coverPhotoSlots.v1';
+          const slots = this.coverPhotoSlots.slice(0, 3).map(item => typeof item === 'string' ? item : '');
+          while (slots.length < 3) slots.push('');
+          this.coverPhotoSlots = slots;
+          localStorage.setItem(key, JSON.stringify(slots));
+        },
+        openCoverPhotoManager() {
+          if (!this.requireParentIfNeeded(true)) return;
+          this.showCoverPhotoManager = true;
+        },
+        async onCoverPhotoPicked(event, index) {
+          const file = event && event.target && event.target.files ? event.target.files[0] : null;
+          if (!file) return;
+          try {
+            const compressed = await this.compressImageToJpegDataURL(file, 384, 0.78);
+            const slots = this.coverPhotoSlots.slice(0, 3);
+            while (slots.length < 3) slots.push('');
+            slots[index] = compressed;
+            this.coverPhotoSlots = slots;
+            this.saveCoverPhotoSlots();
+          } catch (e) {
+            alert('图片处理失败，请重试。');
+          } finally {
+            if (event && event.target) event.target.value = '';
+          }
+        },
+        clearCoverPhotoSlot(index) {
+          const slots = this.coverPhotoSlots.slice(0, 3);
+          while (slots.length < 3) slots.push('');
+          slots[index] = '';
+          this.coverPhotoSlots = slots;
+          this.saveCoverPhotoSlots();
+        },
+        compressImageToJpegDataURL(file, maxEdge = 384, quality = 0.78) {
+          return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onerror = () => reject(new Error('read failed'));
+            reader.onload = () => {
+              const img = new Image();
+              img.onerror = () => reject(new Error('decode failed'));
+              img.onload = () => {
+                const square = Math.min(img.width, img.height);
+                const sx = Math.floor((img.width - square) / 2);
+                const sy = Math.floor((img.height - square) / 2);
+                const target = Math.max(1, Math.min(maxEdge, square));
+                const canvas = document.createElement('canvas');
+                canvas.width = target;
+                canvas.height = target;
+                const ctx = canvas.getContext('2d');
+                if (!ctx) {
+                  reject(new Error('canvas failed'));
+                  return;
+                }
+                ctx.drawImage(img, sx, sy, square, square, 0, 0, target, target);
+                resolve(canvas.toDataURL('image/jpeg', quality));
+              };
+              img.src = reader.result;
+            };
+            reader.readAsDataURL(file);
+          });
         },
         // 主题切换
         setTheme(value) {
@@ -5632,9 +5819,11 @@
         this.showMemoryManager = false;
         this.showAddTodayModal = false;
         this.showTemplateManager = false;
+        this.showCoverPhotoManager = false;
         this.showMonthlyReport = false;
         this._userInitiatedMemoryManager = false;
         this._userInitiatedMonthlyReport = false;
+        this.loadCoverPhotoSlots();
       },
       mounted() {
         try {
