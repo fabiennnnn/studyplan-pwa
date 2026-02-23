@@ -954,7 +954,18 @@
       background: rgba(255, 255, 255, 0.18);
       border-radius: 18px;
     }
-    .page-enter,
+    
+    /* --- P8 book layout fill: content scroll + footer pinned --- */
+    .page-body{
+      flex:1 1 auto;
+      min-height:0;
+      overflow:auto;
+      -webkit-overflow-scrolling:touch;
+      padding-bottom:10px;
+    }
+    .book-turn-hint{ margin-top:auto; }
+    .bottom-nav{ margin-top:auto; }
+.page-enter,
     .page-leave {
       transition: transform 420ms cubic-bezier(0.26, 0.72, 0.22, 1), opacity 300ms ease, filter 300ms ease;
       will-change: transform, opacity, filter;
@@ -1872,7 +1883,32 @@
       bottom: 0;
       z-index: 9999;
     }
-  </style>
+  
+    /* --- P8 cover hero type --- */
+    .cover-title{
+      font-size:42px;
+      letter-spacing:0.02em;
+      line-height:1.05;
+    }
+    @media (max-width:420px){
+      .cover-title{ font-size:36px; }
+    }
+
+
+    /* --- P8 cover photos center-bottom --- */
+    .cover-photo-strip{
+      justify-content:center;
+      margin-top:18px;
+      margin-bottom:8px;
+    }
+    .cover-photo-tile{
+      width:56px;height:56px;border-radius:18px;
+    }
+    @media (min-width:768px){
+      .cover-photo-tile{ width:68px;height:68px;border-radius:20px; }
+    }
+
+</style>
 </head>
 <body class="min-h-screen text-slate-800">
   <svg aria-hidden="true" class="hidden">
@@ -2112,10 +2148,10 @@
         <section :key="`page-${currentPage}`" class="book-page">
           <div class="page-frame">
           <template v-if="currentPage === 0">
+            <div class=\"page-body\">
             <div class="cover-wrap">
               <article class="cover-card">
-                <p class="cover-kicker">PAGE 0 · STUDYPLAN</p>
-                <h1 class="cover-title">打卡小书</h1>
+<h1 class="cover-title">打卡小书</h1>
                 <p class="cover-subtitle">STUDY PLAN</p>
                 <div class="cover-strap-row">
                   <div class="cover-strap">
@@ -2124,17 +2160,7 @@
                     </transition>
                     <span v-else class="cover-strap-text">“{{ currentQuote || '今天也会很棒。' }}”</span>
                   </div>
-                  <div class="cover-strap-actions">
-                    <button type="button" class="cover-strap-mini" @click="nextEncourage">换一句</button>
-                    <button
-                      type="button"
-                      class="cover-strap-mini icon"
-                      @click="encourageAutoPlay ? (encourageAutoPlay = false, stopEncourageAutoPlay()) : (encourageAutoPlay = true, startEncourageAutoPlay())">
-                      {{ encourageAutoPlay ? '⏸' : '▶' }}
-                    </button>
-                  </div>
-                </div>
-                <div class="cover-photo-strip" aria-label="cover photo strip">
+<div class="cover-photo-strip" aria-label="cover photo strip">
                   <span
                     v-for="slot in 3"
                     :key="`cover-photo-${slot}`"
@@ -2146,13 +2172,19 @@
                     </template>
                   </span>
                 </div>
-                <button
-                  type="button"
-                  @click="activeTab = 'daily'; goPage(1)"
-                  class="cover-cta">
-                  翻开（开始今天）
-                </button>
-                <p class="cover-date">{{ todayLabel }}</p>
+
+                  <div class="cover-strap-actions">
+                    <button type="button" class="cover-strap-mini" @click="nextEncourage">换一句</button>
+                    <button
+                      type="button"
+                      class="cover-strap-mini icon"
+                      @click="encourageAutoPlay ? (encourageAutoPlay = false, stopEncourageAutoPlay()) : (encourageAutoPlay = true, startEncourageAutoPlay())">
+                      {{ encourageAutoPlay ? '⏸' : '▶' }}
+                    </button>
+                  </div>
+                </div>
+                
+<p class="cover-date">{{ todayLabel }}</p>
               </article>
             </div>
             <div v-if="currentPage < 3" class="page-turn-hint" aria-hidden="true">
@@ -2167,8 +2199,10 @@
             <footer class="w-full max-w-5xl mt-4 text-center text-[11px] text-slate-400 page-footer-placeholder" aria-hidden="true">
               © fabien Zhang · 快乐学习大冒险
             </footer>
+                      </div>
           </template>
           <template v-else>
+            <div class=\"page-body\">
     <!-- 顶部栏：iOS 紧凑两行 -->
     <header class="app-header ios-compact-header" :class="[{ 'header-collapsed': !headerExpanded, 'header-expanded': headerExpanded }]">
       <div class="compact-top-row">
