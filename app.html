@@ -888,6 +888,13 @@
     .mobile-main-lift {
       padding-bottom: calc(env(safe-area-inset-bottom) + 84px);
     }
+    .page-body {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 10px;
+    }
     .book {
       width: 100%;
       max-width: 56rem;
@@ -917,6 +924,7 @@
     .book-page {
       width: 100%;
       flex: 1 1 auto;
+      min-height: 100dvh;
       min-width: 0;
       display: flex;
       position: relative;
@@ -938,7 +946,7 @@
       width: 100%;
       max-width: 56rem;
       margin: 0 auto;
-      min-height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+      min-height: 100dvh;
       padding: calc(env(safe-area-inset-top) + 6px) 8px calc(env(safe-area-inset-bottom) + 8px);
       display: flex;
       flex-direction: column;
@@ -1397,6 +1405,7 @@
       min-height: 56px;
       font-size: 13px;
     }
+    .book-turn-hint,
     .page-turn-hint {
       width: 100%;
       display: inline-flex;
@@ -1405,6 +1414,7 @@
       gap: 8px;
       min-height: 24px;
       margin: 2px 0 4px;
+      margin-top: auto;
       color: rgba(71, 85, 105, 0.74);
       font-size: 11px;
       letter-spacing: 0.04em;
@@ -2217,7 +2227,7 @@
     </header>
 
     <!-- 主体卡片：响应式布局，手机竖屏单列，平板横屏可并排 -->
-    <main class="mobile-main-lift w-full max-w-5xl flex-1 flex flex-col lg:flex-row gap-2 lg:gap-4">
+    <main class="page-body mobile-main-lift w-full max-w-5xl flex-1 flex flex-col lg:flex-row gap-2 lg:gap-4">
       <!-- 左侧：Tabs + 内容 -->
       <section class="flex-1 flex flex-col">
         <!-- 今日鼓励（默认一行） -->
