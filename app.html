@@ -869,9 +869,20 @@
       flex: 1 1 auto;
       min-width: 0;
       display: flex;
+      position: relative;
       transform-origin: left center;
       backface-visibility: hidden;
       transform-style: preserve-3d;
+    }
+    .book-page::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      pointer-events: none;
+      opacity: 0;
+      background: linear-gradient(112deg, rgba(255, 255, 255, 0) 24%, rgba(255, 255, 255, 0.18) 46%, rgba(255, 255, 255, 0) 70%);
+      transform: translateX(-32%);
     }
     .page-frame {
       width: 100%;
@@ -887,18 +898,41 @@
     }
     .page-enter,
     .page-leave {
-      transition: transform 360ms cubic-bezier(0.24, 0.72, 0.2, 1), opacity 320ms ease, filter 320ms ease;
+      transition: transform 420ms cubic-bezier(0.26, 0.72, 0.22, 1), opacity 300ms ease, filter 300ms ease;
       will-change: transform, opacity, filter;
     }
+    .page-enter {
+      transform-origin: left center;
+    }
+    .page-leave {
+      transform-origin: left center;
+    }
+    .page-enter::after,
+    .page-leave::after {
+      animation: page-gloss-sweep 420ms ease;
+    }
     .page-from {
-      opacity: 0;
+      opacity: 0.08;
       filter: blur(1px);
-      transform: rotateY(-12deg) translateX(20px) scale(0.988);
+      transform: rotateY(68deg) translateX(10px) scale(0.985);
     }
     .page-to {
-      opacity: 0;
+      opacity: 0.08;
       filter: blur(1px);
-      transform: rotateY(10deg) translateX(-16px) scale(0.988);
+      transform: rotateY(-74deg) translateX(-14px) scale(0.985);
+    }
+    @keyframes page-gloss-sweep {
+      0% {
+        opacity: 0;
+        transform: translateX(-34%);
+      }
+      38% {
+        opacity: 0.46;
+      }
+      100% {
+        opacity: 0;
+        transform: translateX(42%);
+      }
     }
     .cover-wrap {
       flex: 1 1 auto;
@@ -1303,6 +1337,11 @@
       min-height: 56px;
       font-size: 13px;
     }
+    .page-nav-placeholder,
+    .page-footer-placeholder {
+      visibility: hidden;
+      pointer-events: none;
+    }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation: none !important;
@@ -1311,13 +1350,18 @@
       }
       .page-enter,
       .page-leave {
-        transition: none !important;
+        transition: opacity 220ms ease !important;
       }
       .page-from,
       .page-to {
         transform: none !important;
         filter: none !important;
-        opacity: 1 !important;
+        opacity: 0 !important;
+      }
+      .page-enter::after,
+      .page-leave::after {
+        animation: none !important;
+        opacity: 0 !important;
       }
       .cover-cta {
         transition: none !important;
@@ -1994,6 +2038,14 @@
                 <p class="cover-date">{{ todayLabel }}</p>
               </article>
             </div>
+            <nav class="bottom-nav mt-3 page-nav-placeholder" aria-hidden="true">
+              <button>今日</button>
+              <button>记忆</button>
+              <button>家长</button>
+            </nav>
+            <footer class="w-full max-w-5xl mt-4 text-center text-[11px] text-slate-400 page-footer-placeholder" aria-hidden="true">
+              © fabien Zhang · 快乐学习大冒险
+            </footer>
           </template>
           <template v-else>
     <!-- 顶部栏：iOS 紧凑两行 -->
@@ -2664,6 +2716,7 @@
               <p class="text-xs text-slate-500">进入现有设置页中的「家长设置」进行 PIN 与权限操作。</p>
               <button @click="goPage(3)" class="btn-main add-task-primary px-4 py-2 text-xs font-semibold">打开家长设置</button>
               <button @click="openCoverPhotoManager" class="cover-photo-btn">封面照片（最多3张）</button>
+              <button @click="refreshToLatestVersion" class="cover-photo-btn">刷新到最新版本</button>
             </div>
           </div>
 
@@ -3425,6 +3478,9 @@
   </div>
 
   <script>
+    window.__APP_BUILD_VERSION = '2026-02-23-1938 (a648afc)';
+    window.__APP_BUILD_LABEL = `BUILD ${window.__APP_BUILD_VERSION}`;
+
     // 确保 Vue 已加载
     if (typeof Vue === 'undefined') {
       document.body.innerHTML = '<div style="padding: 20px; text-align: center;"><h1>错误：Vue 未加载</h1><p>请检查网络连接和 CDN 链接</p></div>';
@@ -3524,8 +3580,8 @@
           encourageCollapsed: true,
           headerExpanded: false,
           stickerBookCollapsed: true,
-          debugBuildEnabled: false,
-          buildLabel: 'BUILD 2026-02-22-1810 (a648afc)',
+          debugBuildEnabled: true,
+          buildLabel: window.__APP_BUILD_LABEL || 'BUILD unknown',
 
           // 家长与档案
           profiles: [],
@@ -4224,17 +4280,25 @@
           }
           if (queryValue === '0') {
             this.debugBuildEnabled = false;
-            localStorage.removeItem(this.getStorageKey('debug_build_tag'));
+            localStorage.setItem(this.getStorageKey('debug_build_tag'), '0');
             return;
           }
-          this.debugBuildEnabled = stored === '1';
+          if (stored === '1') {
+            this.debugBuildEnabled = true;
+            return;
+          }
+          if (stored === '0') {
+            this.debugBuildEnabled = false;
+            return;
+          }
+          this.debugBuildEnabled = true;
         },
         toggleDebugBuild() {
           this.debugBuildEnabled = !this.debugBuildEnabled;
           if (this.debugBuildEnabled) {
             localStorage.setItem(this.getStorageKey('debug_build_tag'), '1');
           } else {
-            localStorage.removeItem(this.getStorageKey('debug_build_tag'));
+            localStorage.setItem(this.getStorageKey('debug_build_tag'), '0');
           }
         },
         toggleHeaderExpanded() {
@@ -4250,23 +4314,42 @@
           this.stickerBookCollapsed = !this.stickerBookCollapsed;
         },
 
+        async refreshToLatestVersion() {
+          const confirmed = confirm('将检查新版本并清理缓存，然后刷新页面。是否继续？');
+          if (!confirmed) return;
+          const cacheBustVersion = (window.__APP_BUILD_VERSION || Date.now().toString()).replace(/\s+/g, '-');
+          try {
+            if ('serviceWorker' in navigator) {
+              const registration = await navigator.serviceWorker.getRegistration();
+              if (registration) {
+                await registration.update().catch(() => {});
+                if (registration.waiting) {
+                  registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+                }
+                if (registration.active) {
+                  registration.active.postMessage({ type: 'SKIP_WAITING' });
+                }
+              }
+              if (navigator.serviceWorker.controller) {
+                navigator.serviceWorker.controller.postMessage({ type: 'SKIP_WAITING' });
+              }
+            }
+            if ('caches' in window) {
+              const keys = await caches.keys();
+              await Promise.all(keys.map(key => caches.delete(key)));
+            }
+          } catch (e) {
+            console.warn('刷新版本流程出现异常，继续强制刷新。', e);
+          } finally {
+            const nextUrl = new URL(window.location.href);
+            nextUrl.searchParams.set('v', cacheBustVersion);
+            window.location.replace(nextUrl.toString());
+          }
+        },
+
         // 一键清缓存（Service Worker + Cache Storage）
         clearAppCache() {
-          const confirmed = confirm('将清除离线缓存并刷新页面，确定继续吗？');
-          if (!confirmed) return;
-          if ('caches' in window) {
-            caches.keys()
-              .then(keys => Promise.all(keys.map(key => caches.delete(key))))
-              .then(() => {
-                if (navigator.serviceWorker && navigator.serviceWorker.controller) {
-                  navigator.serviceWorker.controller.postMessage({ type: 'SKIP_WAITING' });
-                }
-                location.reload();
-              })
-              .catch(() => location.reload());
-          } else {
-            location.reload();
-          }
+          this.refreshToLatestVersion();
         },
 
         // 加载今日任务
@@ -6175,19 +6258,41 @@
     // 注册 Service Worker
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register(`sw.js?v=20260221-2355`)
+        const swVersion = window.__APP_BUILD_VERSION || '2026-02-23-1938';
+        const swUrl = `sw.js?v=${encodeURIComponent(swVersion)}`;
+        let pendingUpdateShown = false;
+        let hasControllerReloaded = false;
+
+        const promptAndActivateUpdate = (registration, installingWorker) => {
+          if (!registration || !navigator.serviceWorker.controller || pendingUpdateShown) return;
+          pendingUpdateShown = true;
+          const shouldRefresh = confirm('发现新版本，是否立即刷新到最新版本？');
+          if (!shouldRefresh) return;
+          if (installingWorker) {
+            installingWorker.postMessage({ type: 'SKIP_WAITING' });
+          } else if (registration.waiting) {
+            registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+          }
+          const nextUrl = new URL(window.location.href);
+          nextUrl.searchParams.set('v', swVersion.replace(/\s+/g, '-'));
+          window.location.replace(nextUrl.toString());
+        };
+
+        navigator.serviceWorker.register(swUrl)
           .then((registration) => {
             console.log('✅ Service Worker 注册成功:', registration.scope);
-            
+
+            if (registration.waiting && navigator.serviceWorker.controller) {
+              promptAndActivateUpdate(registration, null);
+            }
+
             // 检查更新
             registration.addEventListener('updatefound', () => {
               const newWorker = registration.installing;
+              if (!newWorker) return;
               newWorker.addEventListener('statechange', () => {
                 if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                  // 新版本可用，提示用户刷新
-                  if (confirm('发现新版本，是否立即刷新？')) {
-                    window.location.reload();
-                  }
+                  promptAndActivateUpdate(registration, newWorker);
                 }
               });
             });
@@ -6198,7 +6303,12 @@
         
         // 监听 Service Worker 更新
         navigator.serviceWorker.addEventListener('controllerchange', () => {
+          if (hasControllerReloaded) return;
+          hasControllerReloaded = true;
           console.log('🔄 Service Worker 已更新');
+          const nextUrl = new URL(window.location.href);
+          nextUrl.searchParams.set('v', swVersion.replace(/\s+/g, '-'));
+          window.location.replace(nextUrl.toString());
         });
       });
     } else {
