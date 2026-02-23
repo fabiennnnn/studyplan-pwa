@@ -832,6 +832,31 @@
     .mobile-main-lift {
       padding-bottom: calc(env(safe-area-inset-bottom) + 84px);
     }
+    .book {
+      width: 100%;
+      max-width: 56rem;
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+    }
+    .book-page {
+      width: 100%;
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+    .page-enter,
+    .page-leave {
+      transition: transform 220ms ease, opacity 220ms ease;
+      will-change: transform, opacity;
+    }
+    .page-from {
+      opacity: 0.82;
+      transform: translateX(14px);
+    }
+    .page-to {
+      opacity: 0.82;
+      transform: translateX(-14px);
+    }
     .sticker-inline-hint {
       margin-bottom: 6px;
       border: 1px solid rgba(16, 185, 129, 0.2);
@@ -940,6 +965,15 @@
         animation: none !important;
         transition-duration: 0.01ms !important;
         scroll-behavior: auto !important;
+      }
+      .page-enter,
+      .page-leave {
+        transition: none !important;
+      }
+      .page-from,
+      .page-to {
+        transform: none !important;
+        opacity: 1 !important;
       }
     }
 
@@ -1560,6 +1594,31 @@
 
     <div v-if="showBuildTag" class="build-debug-tag">{{ buildLabel }}</div>
 
+    <div class="book">
+      <transition
+        mode="out-in"
+        enter-active-class="page-enter"
+        leave-active-class="page-leave"
+        enter-from-class="page-from"
+        leave-to-class="page-to">
+        <section :key="`page-${currentPage}`" class="book-page">
+          <template v-if="currentPage === 0">
+            <div class="min-h-[72vh] flex items-center justify-center px-2">
+              <div class="w-full max-w-xl rounded-3xl border border-slate-200 bg-white/85 shadow-lg backdrop-blur p-6 sm:p-8 text-center space-y-3">
+                <p class="text-xs tracking-[0.18em] text-slate-500">PAGE 0 · COVER</p>
+                <h1 class="text-2xl sm:text-3xl font-bold text-slate-900">快乐学习大冒险</h1>
+                <p class="text-xs sm:text-sm text-slate-500">{{ todayLabel }}</p>
+                <p class="text-sm sm:text-base text-slate-700">“{{ currentQuote || '今天也会很棒。' }}”</p>
+                <button
+                  type="button"
+                  @click="goPage(1)"
+                  class="btn-main add-task-primary px-6 py-2 text-sm sm:text-base font-semibold">
+                  翻开 / 开始今天
+                </button>
+              </div>
+            </div>
+          </template>
+          <template v-else>
     <!-- 顶部栏：iOS 紧凑两行 -->
     <header class="app-header ios-compact-header" :class="[{ 'header-collapsed': !headerExpanded, 'header-expanded': headerExpanded }]">
       <div class="compact-top-row">
@@ -1642,24 +1701,24 @@
         </transition>
 
         <!-- 标签页 -->
-        <div class="mobile-tabs ios-segmented-tabs">
+        <div v-if="currentPage !== 3" class="mobile-tabs ios-segmented-tabs">
           <button
             class="flex-1 transition"
-            :class="activeTab === 'daily' ? 'segment-active' : ''"
-            @click="activeTab = 'daily'; collapseHeader()">
+            :class="currentPage === 1 && activeTab === 'daily' ? 'segment-active' : ''"
+            @click="activeTab = 'daily'; goPage(1); collapseHeader()">
             今日
           </button>
           <button
             class="flex-1 transition"
-            :class="activeTab === 'memory' ? 'segment-active' : ''"
-            @click="activeTab = 'memory'; collapseHeader()">
+            :class="currentPage === 2 ? 'segment-active' : ''"
+            @click="goPage(2); collapseHeader()">
             记忆
           </button>
           <button
             v-if="ageGroup === 'senior'"
             class="flex-1 transition"
-            :class="activeTab === 'stats' ? 'segment-active' : ''"
-            @click="activeTab = 'stats'; collapseHeader()">
+            :class="currentPage === 1 && activeTab === 'stats' ? 'segment-active' : ''"
+            @click="activeTab = 'stats'; goPage(1); collapseHeader()">
             统计
           </button>
         </div>
@@ -1668,7 +1727,7 @@
         <div class="flex-1 glass rounded-3xl soft-shadow p-2 sm:p-3 lg:p-4 flex flex-col overflow-hidden lift variant-card content-surface"
              :class="{ 'daily-main-card': activeTab === 'daily' }">
           <!-- 今日大冒险：每日计划 + 打卡 -->
-          <div v-if="activeTab === 'daily'" class="flex-1 flex flex-col fade-slide">
+          <div v-if="currentPage === 1 && activeTab === 'daily'" class="flex-1 flex flex-col fade-slide">
             <div class="daily-task-head relative mb-2 rounded-xl px-3 py-2 flex items-center justify-between">
               <p class="daily-task-title">今日任务</p>
               <span class="daily-completion-rate px-2 py-0.5 rounded-full bg-emerald-50 border border-emerald-200">
@@ -1863,7 +1922,7 @@
           </div>
 
           <!-- 艾宾浩斯记忆挑战 -->
-          <div v-else-if="activeTab === 'memory'" class="flex-1 flex flex-col gap-3 text-xs sm:text-sm overflow-hidden fade-slide">
+          <div v-else-if="currentPage === 2 && activeTab === 'memory'" class="flex-1 flex flex-col gap-3 text-xs sm:text-sm overflow-hidden fade-slide">
             <!-- 模块标题 -->
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-2">
@@ -2094,7 +2153,7 @@
             </div>
             </div>
 
-          <div v-else-if="activeTab === 'stats' && ageGroup === 'senior'" class="flex-1 flex flex-col gap-3 text-xs sm:text-sm overflow-hidden fade-slide">
+          <div v-else-if="currentPage === 1 && activeTab === 'stats' && ageGroup === 'senior'" class="flex-1 flex flex-col gap-3 text-xs sm:text-sm overflow-hidden fade-slide">
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-2">
                 <span class="icon-badge bg-indigo-100 text-indigo-700">
@@ -2222,29 +2281,31 @@
               <p class="text-[11px] text-slate-500 mt-1">专注分钟上限：{{ seniorChartModel.maxFocus }} 分钟</p>
             </div>
           </div>
+          <div v-else-if="currentPage === 3" class="flex-1 flex items-center justify-center fade-slide">
+            <div class="w-full max-w-md bg-white rounded-2xl border border-slate-200 p-4 text-center space-y-2">
+              <p class="text-sm font-semibold text-slate-800">家长中心</p>
+              <p class="text-xs text-slate-500">进入现有设置页中的「家长设置」进行 PIN 与权限操作。</p>
+              <button @click="goPage(3)" class="btn-main add-task-primary px-4 py-2 text-xs font-semibold">打开家长设置</button>
+            </div>
+          </div>
 
         </div>
       </section>
     </main>
 
-    <nav class="bottom-nav mt-3">
-      <template v-if="ageGroup === 'junior'">
-        <button @click="activeTab = 'daily'" :class="activeTab === 'daily' ? 'bottom-nav-active' : ''">今日</button>
-        <button @click="activeTab = 'memory'" :class="activeTab === 'memory' ? 'bottom-nav-active' : ''">记忆</button>
-        <button @click="openSettings">设置</button>
-      </template>
-      <template v-else>
-        <button @click="activeTab = 'daily'" :class="activeTab === 'daily' ? 'bottom-nav-active' : ''">今日</button>
-        <button @click="activeTab = 'memory'" :class="activeTab === 'memory' ? 'bottom-nav-active' : ''">记忆</button>
-        <button @click="activeTab = 'stats'" :class="activeTab === 'stats' ? 'bottom-nav-active' : ''">统计</button>
-        <button @click="openTemplateManager">模板</button>
-        <button @click="openSettings">设置</button>
-      </template>
+    <nav v-if="currentPage !== 0" class="bottom-nav mt-3">
+      <button @click="activeTab = 'daily'; goPage(1)" :class="currentPage === 1 ? 'bottom-nav-active' : ''">今日</button>
+      <button @click="goPage(2)" :class="currentPage === 2 ? 'bottom-nav-active' : ''">记忆</button>
+      <button @click="goPage(3)" :class="currentPage === 3 ? 'bottom-nav-active' : ''">家长</button>
     </nav>
 
     <footer class="w-full max-w-5xl mt-4 text-center text-[11px] text-slate-400">
       © fabien Zhang · 快乐学习大冒险
     </footer>
+          </template>
+        </section>
+      </transition>
+    </div>
 
     <!-- 模板管理弹窗 -->
     <div v-if="showTemplateManager"
@@ -2976,6 +3037,7 @@
 
           // Tabs
           activeTab: 'daily',
+          currentPage: 0,
 
           // 每日任务
           tasks: [],
@@ -3592,6 +3654,26 @@
         }
       },
       methods: {
+        goPage(n) {
+          const target = Math.max(0, Math.min(3, Number(n) || 0));
+          if (target === 3) {
+            if (!this.requireParentIfNeeded(true)) return;
+            this.currentPage = 3;
+            this.showSettings = true;
+            this.settingsSection = 'parent';
+            return;
+          }
+          this.currentPage = target;
+          if (target === 2) {
+            this.activeTab = 'memory';
+          } else if (target === 1 && this.activeTab === 'memory') {
+            this.activeTab = 'daily';
+          }
+          if (this.showSettings) {
+            this.showSettings = false;
+            this.settingsSection = 'home';
+          }
+        },
         // 主题切换
         setTheme(value) {
           this.theme = value;
@@ -3629,6 +3711,7 @@
         },
         openSeniorStats() {
           if (this.ageGroup !== 'senior') return;
+          this.currentPage = 1;
           this.activeTab = 'stats';
           this.showSettings = false;
           this.settingsSection = 'home';
