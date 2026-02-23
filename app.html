@@ -660,7 +660,40 @@
       border: 1px solid rgba(15, 23, 42, 0.1);
       background: rgba(255, 255, 255, 0.8);
       border-radius: 999px;
-      padding: 4px 8px;
+      padding: 3px 8px 3px 4px;
+    }
+    .compact-profile-avatar {
+      width: 24px;
+      height: 24px;
+      border-radius: 9px;
+      overflow: hidden;
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(15, 23, 42, 0.14);
+      background: linear-gradient(150deg, rgba(166, 231, 226, 0.48), rgba(255, 255, 255, 0.96));
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.64), 0 3px 8px rgba(15, 23, 42, 0.12);
+    }
+    .compact-profile-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .compact-profile-avatar-fallback {
+      font-size: 12px;
+      font-weight: 700;
+      color: #34515d;
+      line-height: 1;
+    }
+    .age-senior .compact-profile-avatar {
+      border-color: rgba(71, 85, 105, 0.28);
+      background: linear-gradient(150deg, rgba(75, 88, 114, 0.34), rgba(255, 255, 255, 0.95));
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.42), 0 3px 8px rgba(30, 41, 59, 0.16);
+    }
+    .age-senior .compact-profile-avatar-fallback {
+      color: #3e4b67;
     }
     .compact-top-row .icon-btn {
       font-size: 12px;
@@ -863,6 +896,23 @@
       flex-direction: column;
       position: relative;
       perspective: 1400px;
+    }
+    .book-turn-cue {
+      animation: book-turn-cue 180ms ease;
+    }
+    @keyframes book-turn-cue {
+      0% {
+        transform: translateZ(0) scale(1);
+        filter: none;
+      }
+      45% {
+        transform: translateZ(0) scale(0.9965);
+        filter: saturate(1.03);
+      }
+      100% {
+        transform: translateZ(0) scale(1);
+        filter: none;
+      }
     }
     .book-page {
       width: 100%;
@@ -1347,6 +1397,36 @@
       min-height: 56px;
       font-size: 13px;
     }
+    .page-turn-hint {
+      width: 100%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 24px;
+      margin: 2px 0 4px;
+      color: rgba(71, 85, 105, 0.74);
+      font-size: 11px;
+      letter-spacing: 0.04em;
+      user-select: none;
+      pointer-events: none;
+    }
+    .page-turn-hint-copy {
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.32);
+      background: rgba(255, 255, 255, 0.6);
+      line-height: 1.2;
+    }
+    .page-turn-hint-arrow {
+      font-size: 12px;
+      opacity: 0.65;
+      animation: page-turn-arrow 1400ms ease-in-out infinite;
+    }
+    @keyframes page-turn-arrow {
+      0%, 100% { transform: translateX(0); opacity: 0.55; }
+      50% { transform: translateX(2px); opacity: 0.9; }
+    }
     .page-nav-placeholder,
     .page-footer-placeholder {
       visibility: hidden;
@@ -1375,6 +1455,10 @@
       }
       .cover-cta {
         transition: none !important;
+      }
+      .book-turn-cue,
+      .page-turn-hint-arrow {
+        animation: none !important;
       }
     }
 
@@ -1480,6 +1564,14 @@
       .compact-profile-pill {
         font-size: 9px;
         padding: 2px 6px;
+      }
+      .compact-profile-avatar {
+        width: 22px;
+        height: 22px;
+        border-radius: 8px;
+      }
+      .compact-profile-avatar-fallback {
+        font-size: 11px;
       }
       .compact-top-row .icon-btn {
         padding: 1px 5px;
@@ -1995,7 +2087,12 @@
 
     <div v-if="showBuildTag" class="build-debug-tag">{{ buildLabel }}</div>
 
-    <div class="book">
+    <div
+      class="book"
+      :class="{ 'book-turn-cue': bookTurnCue }"
+      @touchstart.passive="onBookTouchStart"
+      @touchend.passive="onBookTouchEnd"
+      @touchcancel.passive="onBookTouchCancel">
       <transition
         mode="out-in"
         enter-active-class="page-enter"
@@ -2048,6 +2145,10 @@
                 <p class="cover-date">{{ todayLabel }}</p>
               </article>
             </div>
+            <div v-if="currentPage < 3" class="page-turn-hint" aria-hidden="true">
+              <span class="page-turn-hint-copy">← 左滑翻页</span>
+              <span class="page-turn-hint-arrow">↠</span>
+            </div>
             <nav class="bottom-nav mt-3 page-nav-placeholder" aria-hidden="true">
               <button>今日</button>
               <button>记忆</button>
@@ -2062,10 +2163,14 @@
     <header class="app-header ios-compact-header" :class="[{ 'header-collapsed': !headerExpanded, 'header-expanded': headerExpanded }]">
       <div class="compact-top-row">
         <div class="compact-profile-pill">
-          <span class="inline-flex items-center justify-center logo-badge diamond-bg diamond-sparkle" style="width:22px;height:22px;">
-            <svg class="icon text-sky-400" style="width:16px;height:16px;">
-              <use href="#icon-diamond"></use>
-            </svg>
+          <span class="compact-profile-avatar">
+            <img
+              v-if="profiles.findIndex(p => p.id === activeProfileId) > -1 && coverPhotoSlots[profiles.findIndex(p => p.id === activeProfileId)]"
+              :src="coverPhotoSlots[profiles.findIndex(p => p.id === activeProfileId)]"
+              :alt="`${activeProfile.name || '孩子'}头像`" />
+            <span v-else class="compact-profile-avatar-fallback">
+              {{ ((activeProfile.name || '').trim().slice(0, 1)) || '👶' }}
+            </span>
           </span>
           <span class="truncate">{{ activeProfile.name }} · {{ activeProfile.age }}岁</span>
         </div>
@@ -2116,7 +2221,7 @@
       <!-- 左侧：Tabs + 内容 -->
       <section class="flex-1 flex flex-col">
         <!-- 今日鼓励（默认一行） -->
-        <div class="encourage-inline" :class="{ 'encourage-collapsed': encourageCollapsed }">
+        <div v-if="currentPage !== 1" class="encourage-inline" :class="{ 'encourage-collapsed': encourageCollapsed }">
           <button type="button" class="icon-btn encourage-inline-main" @click="encourageCollapsed = !encourageCollapsed">
             <span class="text-slate-500">今日鼓励</span>
             <span class="quote-line line-clamp-1">“{{ currentQuote }}”</span>
@@ -2134,13 +2239,13 @@
           </div>
         </div>
         <transition name="fade">
-          <p v-if="!encourageCollapsed" class="text-[12px] text-emerald-700 leading-snug mb-1 px-2 theme-accent-text">
+          <p v-if="currentPage !== 1 && !encourageCollapsed" class="text-[12px] text-emerald-700 leading-snug mb-1 px-2 theme-accent-text">
             “{{ currentQuote }}”
           </p>
         </transition>
 
         <!-- 标签页 -->
-        <div v-if="currentPage !== 3" class="mobile-tabs ios-segmented-tabs">
+        <div v-if="false" class="mobile-tabs ios-segmented-tabs">
           <button
             class="flex-1 transition"
             :class="currentPage === 1 && activeTab === 'daily' ? 'segment-active' : ''"
@@ -2164,9 +2269,9 @@
 
         <!-- 内容卡片 -->
         <div class="flex-1 glass rounded-3xl soft-shadow p-2 sm:p-3 lg:p-4 flex flex-col overflow-hidden lift variant-card content-surface"
-             :class="{ 'daily-main-card': activeTab === 'daily' }">
+             :class="{ 'daily-main-card': currentPage === 1 }">
           <!-- 今日大冒险：每日计划 + 打卡 -->
-          <div v-if="currentPage === 1 && activeTab === 'daily'" class="flex-1 flex flex-col fade-slide">
+          <div v-if="currentPage === 1" class="flex-1 flex flex-col fade-slide">
             <div class="daily-task-head relative mb-2 rounded-xl px-3 py-2 flex items-center justify-between">
               <p class="daily-task-title">今日任务</p>
               <span class="daily-completion-rate px-2 py-0.5 rounded-full bg-emerald-50 border border-emerald-200">
@@ -2361,7 +2466,7 @@
           </div>
 
           <!-- 艾宾浩斯记忆挑战 -->
-          <div v-else-if="currentPage === 2 && activeTab === 'memory'" class="flex-1 flex flex-col gap-3 text-xs sm:text-sm overflow-hidden fade-slide">
+          <div v-else-if="currentPage === 2" class="flex-1 flex flex-col gap-3 text-xs sm:text-sm overflow-hidden fade-slide">
             <!-- 模块标题 -->
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-2">
@@ -2733,6 +2838,11 @@
         </div>
       </section>
     </main>
+
+    <div v-if="currentPage < 3" class="page-turn-hint" aria-hidden="true">
+      <span class="page-turn-hint-copy">← 左滑翻页</span>
+      <span class="page-turn-hint-arrow">↠</span>
+    </div>
 
     <nav v-if="currentPage !== 0" class="bottom-nav mt-3">
       <button @click="activeTab = 'daily'; goPage(1)" :class="currentPage === 1 ? 'bottom-nav-active' : ''">今日</button>
@@ -3633,7 +3743,11 @@
           encourageAutoPlay: true,
           encourageTimer: null,
           encourageAnimKey: 0,
-          encourageReducedMotion: false
+          encourageReducedMotion: false,
+          bookTurnCue: false,
+          bookTouchStartX: 0,
+          bookTouchStartY: 0,
+          bookTouchIgnore: false
         };
       },
       computed: {
@@ -4154,6 +4268,65 @@
             this.showSettings = false;
             this.settingsSection = 'home';
           }
+        },
+        onBookTouchStart(event) {
+          const touch = event && event.changedTouches ? event.changedTouches[0] : null;
+          if (!touch) return;
+          this.bookTouchStartX = touch.clientX;
+          this.bookTouchStartY = touch.clientY;
+          this.bookTouchIgnore = this.shouldIgnoreBookSwipeTarget(event.target);
+        },
+        onBookTouchEnd(event) {
+          const touch = event && event.changedTouches ? event.changedTouches[0] : null;
+          if (!touch || this.bookTouchIgnore) {
+            this.onBookTouchCancel();
+            return;
+          }
+          const deltaX = touch.clientX - this.bookTouchStartX;
+          const deltaY = touch.clientY - this.bookTouchStartY;
+          this.onBookTouchCancel();
+          if (Math.abs(deltaX) < 45) return;
+          if (Math.abs(deltaY) > Math.abs(deltaX) * 0.72) return;
+          if (deltaX < -45 && this.currentPage < 3) {
+            this.triggerBookTurnCue();
+            this.goPage(this.currentPage + 1);
+            return;
+          }
+          if (deltaX > 45 && this.currentPage > 0) {
+            this.triggerBookTurnCue();
+            this.goPage(this.currentPage - 1);
+          }
+        },
+        onBookTouchCancel() {
+          this.bookTouchStartX = 0;
+          this.bookTouchStartY = 0;
+          this.bookTouchIgnore = false;
+        },
+        shouldIgnoreBookSwipeTarget(target) {
+          if (!target || !(target instanceof Element)) return false;
+          if (target.closest('input, textarea, button, select, [contenteditable="true"], .cover-photo-modal')) {
+            return true;
+          }
+          let node = target;
+          while (node && node !== document.body) {
+            if (node instanceof HTMLElement) {
+              const style = window.getComputedStyle(node);
+              const canScrollY = (style.overflowY === 'auto' || style.overflowY === 'scroll') && node.scrollHeight > node.clientHeight + 8;
+              const canScrollX = (style.overflowX === 'auto' || style.overflowX === 'scroll') && node.scrollWidth > node.clientWidth + 8;
+              if (canScrollY || canScrollX) return true;
+            }
+            node = node.parentElement;
+          }
+          return false;
+        },
+        triggerBookTurnCue() {
+          if (this._bookTurnCueTimer) {
+            clearTimeout(this._bookTurnCueTimer);
+          }
+          this.bookTurnCue = true;
+          this._bookTurnCueTimer = setTimeout(() => {
+            this.bookTurnCue = false;
+          }, 170);
         },
         loadCoverPhotoSlots() {
           const key = 'studyplan.coverPhotoSlots.v1';
@@ -6255,6 +6428,10 @@
       },
       beforeUnmount() {
         this.stopEncourageAutoPlay();
+        if (this._bookTurnCueTimer) {
+          clearTimeout(this._bookTurnCueTimer);
+          this._bookTurnCueTimer = null;
+        }
       }
     }).mount('#app');
       } catch (error) {
