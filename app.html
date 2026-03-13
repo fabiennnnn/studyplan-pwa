@@ -3229,6 +3229,12 @@
       color: #334155;
       font-size: 12px;
       font-weight: 700;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+      transition: transform 120ms ease, background 120ms ease, border-color 120ms ease;
+    }
+    .memory-mobile-review-chip:active {
+      transform: scale(0.98);
     }
     .memory-mobile-review-chip-mark {
       width: 18px;
@@ -6291,55 +6297,31 @@
         todayMemoryReviewCards() {
           const today = new Date();
           const todayKey = this.toLocalDateKey(today);
-          const stageOrder = {
-            '5min': 0,
-            '30min': 1,
-            '12h': 2,
-            1: 3,
-            2: 4,
-            4: 5,
-            7: 6,
-            15: 7,
-            30: 8
-          };
-          const offsets = [1, 2, 4, 7, 15, 30];
+          const stageOrder = { '5min': 0, '30min': 1, '12h': 2, 1: 3, 2: 4, 4: 5, 7: 6, 15: 7, 30: 8 };
 
-          return this.memoryList
-            .filter(m => this.memoryCategory === 'classics'
-              ? this.isClassicsCategory(m.category)
-              : m.category === this.memoryCategory)
-            .map(m => {
-              const learnDate = new Date(m.createdAt);
+          return this.weeklyMemoryItems
+            .map(item => {
               const stages = [];
 
-              [
-                { key: '5min', label: '5分', date: new Date(learnDate.getTime() + 5 * 60 * 1000) },
-                { key: '30min', label: '30分', date: new Date(learnDate.getTime() + 30 * 60 * 1000) },
-                { key: '12h', label: '12时', date: new Date(learnDate.getTime() + 12 * 60 * 60 * 1000) }
-              ].forEach(stage => {
-                if (this.toLocalDateKey(stage.date) === todayKey) {
-                  stages.push({
-                    key: stage.key,
-                    label: stage.label,
-                    done: this.getReviewStatus(m.id, stage.key),
-                    timeLabel: this.formatTodayReviewLabel(stage.date),
-                    sort: stageOrder[stage.key]
-                  });
-                }
+              ['5min', '30min', '12h'].forEach(key => {
+                const review = item.reviews[key];
+                if (!review || this.toLocalDateKey(new Date(review.timestamp)) !== todayKey) return;
+                stages.push({
+                  key,
+                  label: key === '5min' ? '5分' : key === '30min' ? '30分' : '12时',
+                  done: review.done,
+                  timeLabel: this.formatTodayReviewLabel(new Date(review.timestamp)),
+                  sort: stageOrder[key]
+                });
               });
 
-              offsets.forEach(offset => {
-                const reviewDate = new Date(learnDate);
-                reviewDate.setDate(reviewDate.getDate() + offset);
-                const reviewDayKey = this.toLocalDateKey(reviewDate);
-                if (reviewDayKey !== todayKey) return;
-                const scheduleItem = this.memorySchedule.find(s =>
-                  s.baseId === m.id && s.offsetDay === offset && s.dayKey === reviewDayKey
-                );
+              [1, 2, 4, 7, 15, 30].forEach(offset => {
+                const review = item.reviews[offset];
+                if (!review || review.dayKey !== todayKey) return;
                 stages.push({
                   key: offset,
                   label: `+${offset}天`,
-                  done: scheduleItem ? scheduleItem.done : false,
+                  done: review.done,
                   timeLabel: '今天',
                   sort: stageOrder[offset]
                 });
@@ -6351,22 +6333,22 @@
               const doneCount = stages.filter(stage => stage.done).length;
 
               return {
-                id: m.id,
-                title: m.title,
-                subtitle: m.author
-                  ? `${m.dynasty ? `${m.dynasty} · ` : ''}${m.author}`
-                  : (m.content || '今天有复习安排'),
+                id: item.id,
+                title: item.title,
+                subtitle: item.author
+                  ? `${item.dynasty ? `${item.dynasty} · ` : ''}${item.author}`
+                  : (item.content || '今天有复习安排'),
                 doneCount,
                 stageCount: stages.length,
                 stages,
-                createdAt: learnDate.getTime()
+                sortKey: item.learnKey
               };
             })
             .filter(Boolean)
             .sort((a, b) => {
               if (a.doneCount === a.stageCount && b.doneCount !== b.stageCount) return 1;
               if (a.doneCount !== a.stageCount && b.doneCount === b.stageCount) return -1;
-              return b.createdAt - a.createdAt;
+              return String(b.sortKey || '').localeCompare(String(a.sortKey || ''));
             });
         },
 
