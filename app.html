@@ -1180,6 +1180,39 @@
       white-space: nowrap;
       background: linear-gradient(150deg, var(--surface-strong-a), var(--surface-strong-b));
     }
+    .age-junior .compact-mini-stats {
+      color: #8a5c78;
+      font-weight: 700;
+    }
+    .age-junior .compact-xp-chip {
+      color: #8c6480;
+      border-color: rgba(245, 192, 210, 0.72);
+      background: linear-gradient(150deg, rgba(255,246,250,0.96), rgba(255,239,247,0.94));
+    }
+    .age-junior .header-float-panel {
+      border-color: rgba(247, 205, 221, 0.78);
+      background: linear-gradient(180deg, rgba(255,252,253,0.98), rgba(255,244,249,0.96));
+      box-shadow: 0 16px 30px -24px rgba(232, 121, 160, 0.22);
+    }
+    .age-junior .compact-progress-detail {
+      border-color: rgba(245, 192, 210, 0.4);
+      background: rgba(255, 250, 252, 0.88);
+      color: #8a5c78;
+    }
+    .age-junior .memory-mobile-review-panel {
+      border-color: rgba(247, 205, 221, 0.78);
+      background: linear-gradient(180deg, rgba(255,252,253,0.98), rgba(255,244,249,0.96));
+      box-shadow: 0 18px 30px -26px rgba(232, 121, 160, 0.18);
+    }
+    .age-junior .memory-mobile-review-card {
+      border-color: rgba(245, 192, 210, 0.5);
+      background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,248,252,0.96));
+    }
+    .age-junior .memory-mobile-review-card-progress {
+      border-color: rgba(245, 192, 210, 0.5);
+      background: linear-gradient(180deg, rgba(255,252,253,0.98), rgba(255,244,249,0.96));
+      color: #8a5c78;
+    }
     .compact-expand-hint {
       font-size: 10px;
       color: #94a3b8;
@@ -3983,10 +4016,17 @@
           </span>
           <span class="truncate">{{ activeProfile.name }} · {{ activeProfile.age }}岁</span>
         </div>
-        <div class="compact-mini-stats">
-          <span>{{ todayProgress.done }}/{{ todayProgress.total }}</span>
-          <span class="compact-mini-stats-sep">·</span>
-          <span>{{ activeProfile.streakDays || 0 }}天</span>
+      <div class="compact-mini-stats">
+          <template v-if="ageGroup === 'junior'">
+            <span>{{ todayProgress.done }}/{{ todayProgress.total }}</span>
+            <span class="compact-mini-stats-sep">·</span>
+            <span>{{ juniorHeaderHint }}</span>
+          </template>
+          <template v-else>
+            <span>{{ todayProgress.done }}/{{ todayProgress.total }}</span>
+            <span class="compact-mini-stats-sep">·</span>
+            <span>{{ activeProfile.streakDays || 0 }}天</span>
+          </template>
         </div>
         <div class="compact-top-actions">
           <button type="button" class="btn-ghost btn-mini" @click.stop="toggleHeaderExpanded">{{ headerExpanded ? '收起' : '展开' }}</button>
@@ -4014,14 +4054,22 @@
             </svg>
             <div class="compact-progress-text">
               <strong>{{ todayProgress.done }}/{{ todayProgress.total }}</strong>
-              <span>今日任务进度</span>
+              <span>{{ ageGroup === 'junior' ? '今天做了几项' : '今日任务进度' }}</span>
             </div>
           </div>
-          <span class="compact-xp-chip">Lv.{{ levelDisplay.level }} · XP {{ xp }}</span>
+          <span class="compact-xp-chip">
+            {{ ageGroup === 'junior' ? `${todayProgress.percent}% 完成` : `Lv.${levelDisplay.level} · XP ${xp}` }}
+          </span>
         </div>
         <div class="compact-progress-detail">
-          <span>{{ levelDisplay.title }} · 完成率 {{ todayProgress.percent }}%</span>
-          <span>下一阶 XP {{ levelDisplay.nextXp }}</span>
+          <template v-if="ageGroup === 'junior'">
+            <span>{{ juniorHeaderDetail }}</span>
+            <span>{{ todayProgress.percent >= 100 ? '今天真棒' : '点一下就能打勾' }}</span>
+          </template>
+          <template v-else>
+            <span>{{ levelDisplay.title }} · 完成率 {{ todayProgress.percent }}%</span>
+            <span>下一阶 XP {{ levelDisplay.nextXp }}</span>
+          </template>
         </div>
       </div>
     </transition>
@@ -4340,7 +4388,7 @@
                 <div>
                   <div class="memory-mobile-review-title">今天待复习</div>
                   <div class="memory-mobile-review-meta">
-                    {{ todayMemoryReviewCards.length ? `今天 ${todayMemoryReviewCards.length} 项 · 点节点即可勾选完成` : '今天没有待复习内容，可以先添加学习内容。' }}
+                    {{ todayMemoryReviewCards.length ? (ageGroup === 'junior' ? `今天有 ${todayMemoryReviewCards.length} 样要看 · 点圆圈就算完成` : `今天 ${todayMemoryReviewCards.length} 项 · 点节点即可勾选完成`) : '今天没有待复习内容，可以先添加学习内容。' }}
                   </div>
                 </div>
                 <button
@@ -6093,6 +6141,20 @@
           const percent = total === 0 ? 0 : Math.round((done / total) * 100);
           return { total, done, percent };
         },
+        juniorHeaderHint() {
+          const remaining = Math.max(0, this.todayProgress.total - this.todayProgress.done);
+          if (this.todayProgress.total === 0) return '先做1件';
+          if (remaining === 0) return '都做完啦';
+          if (remaining === 1) return '还差1项';
+          return `还差${remaining}项`;
+        },
+        juniorHeaderDetail() {
+          const remaining = Math.max(0, this.todayProgress.total - this.todayProgress.done);
+          if (this.todayProgress.total === 0) return '今天先选一件小任务';
+          if (remaining === 0) return '今天任务都完成了';
+          if (remaining === 1) return '再完成 1 项就可以啦';
+          return `再完成 ${remaining} 项会更棒`;
+        },
         progressRing() {
           const radius = 28;
           const circumference = 2 * Math.PI * radius;
@@ -7530,6 +7592,12 @@
         formatTodayReviewLabel(date) {
           const now = new Date();
           const diff = date.getTime() - now.getTime();
+          if (this.ageGroup === 'junior') {
+            if (diff <= 0) return '现在看';
+            if (diff < 20 * 60 * 1000) return '先看这个';
+            if (diff < 90 * 60 * 1000) return '等一会儿';
+            return '今天晚点';
+          }
           if (diff <= 0) return '现在复习';
           if (diff < 20 * 60 * 1000) return '马上复习';
           if (diff < 90 * 60 * 1000) return '稍后复习';
