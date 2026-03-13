@@ -7528,8 +7528,12 @@
         },
 
         formatTodayReviewLabel(date) {
-          const label = this.formatReviewTime(date);
-          return label === '已过' ? '现在复习' : label;
+          const now = new Date();
+          const diff = date.getTime() - now.getTime();
+          if (diff <= 0) return '现在复习';
+          if (diff < 20 * 60 * 1000) return '马上复习';
+          if (diff < 90 * 60 * 1000) return '稍后复习';
+          return '今天晚点';
         },
 
         // 检查是否可以编辑记忆项（只能编辑当天及以后的内容）
