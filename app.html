@@ -1185,6 +1185,26 @@
       color: #94a3b8;
       white-space: nowrap;
     }
+    .compact-profile-pill {
+      font-size: 13px;
+      font-weight: 600;
+      color: #1f2937;
+    }
+    .compact-mini-stats {
+      font-size: 11px;
+      font-weight: 600;
+      color: #64748b;
+    }
+    .header-float-panel {
+      margin: 6px 2px 8px;
+      border: 1px solid rgba(203, 213, 225, 0.86);
+      border-radius: 18px;
+      padding: 10px 12px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(247,249,252,0.95));
+      box-shadow: 0 16px 30px -24px rgba(15, 23, 42, 0.22);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
     .compact-progress-detail {
       border: 1px solid rgba(148, 163, 184, 0.25);
       background: rgba(255, 255, 255, 0.75);
@@ -1208,6 +1228,16 @@
     .header-slide-leave-to {
       opacity: 0;
       transform: translateY(-10px) scale(0.985);
+    }
+    .header-float-enter-active,
+    .header-float-leave-active {
+      transition: opacity 220ms ease, transform 260ms cubic-bezier(0.22, 1, 0.36, 1);
+      transform-origin: top center;
+    }
+    .header-float-enter-from,
+    .header-float-leave-to {
+      opacity: 0;
+      transform: translateY(-8px) scale(0.98);
     }
     .encourage-inline {
       display: flex;
@@ -2696,7 +2726,7 @@
         gap: 5px;
       }
       .compact-profile-pill {
-        font-size: 9px;
+        font-size: 11px;
         padding: 2px 6px;
       }
       .compact-profile-avatar {
@@ -2712,7 +2742,7 @@
         font-size: 10px;
       }
       .compact-mini-stats {
-        font-size: 9px;
+        font-size: 10px;
         padding: 1px 6px;
       }
       .btn-ghost.btn-mini {
@@ -2720,29 +2750,30 @@
         padding: 1px 6px !important;
         font-size: 9px !important;
       }
-      .header-expanded .compact-progress-row {
-        min-height: 28px;
-        padding: 3px 6px;
-        margin-top: 2px;
+      .compact-progress-row {
+        min-height: 30px;
+        padding: 4px 7px;
       }
-      .header-expanded .compact-progress-ring {
+      .compact-progress-ring {
         width: 22px;
         height: 22px;
       }
-      .header-expanded .compact-progress-text strong {
+      .compact-progress-text strong {
         font-size: 11px;
       }
-      .header-expanded .compact-progress-text span {
+      .compact-progress-text span {
         font-size: 9px;
       }
-      .header-expanded .compact-xp-chip {
+      .compact-xp-chip {
         font-size: 9px;
         padding: 2px 6px;
       }
-      .header-expanded .compact-expand-hint {
-        display: none;
+      .header-float-panel {
+        margin: 5px 0 6px;
+        padding: 8px 9px;
+        border-radius: 16px;
       }
-      .header-expanded .compact-progress-detail {
+      .compact-progress-detail {
         padding: 5px 7px;
         font-size: 9px;
       }
@@ -2753,6 +2784,65 @@
       }
       .encourage-inline-main {
         font-size: 10px;
+      }
+      .memory-mobile-table-trigger {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 10px 12px;
+        border-radius: 18px;
+        border: 1px solid rgba(203, 213, 225, 0.84);
+        background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(246,248,252,0.94));
+        box-shadow: 0 12px 24px -22px rgba(15, 23, 42, 0.18);
+      }
+      .memory-table-shell.memory-desktop-table {
+        display: none;
+      }
+      .memory-category-row {
+        align-items: stretch;
+        flex-wrap: wrap;
+      }
+      .memory-category-row .ml-auto {
+        width: 100%;
+        margin-left: 0 !important;
+        text-align: right;
+      }
+      .memory-action-row {
+        justify-content: stretch;
+      }
+      .memory-action-btn {
+        flex: 1 1 calc(50% - 6px);
+        min-width: 0;
+      }
+      .memory-week-nav {
+        padding: 9px 10px;
+        gap: 8px;
+      }
+      .memory-week-btn {
+        min-height: 34px;
+        padding: 0 12px;
+        font-size: 11px;
+      }
+      .memory-week-label {
+        font-size: 13px;
+      }
+      .memory-table-sheet {
+        max-height: min(78dvh, 720px);
+        border-radius: 22px 22px 18px 18px;
+      }
+      .memory-table-sheet-body .memory-table-shell {
+        border-radius: 0;
+        border: 0;
+        box-shadow: none;
+      }
+      .memory-table-sheet-body table {
+        min-width: 860px;
+      }
+      .memory-table-sheet-body .memory-title-cell {
+        min-width: 150px;
+        text-align: left;
+        align-items: flex-start;
       }
       .ios-segmented-tabs {
         min-height: 31px;
@@ -3000,6 +3090,9 @@
     .memory-action-btn-secondary {
       background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(247,249,252,0.95));
     }
+    .memory-mobile-table-trigger {
+      display: none;
+    }
     .memory-week-nav {
       display: flex;
       align-items: center;
@@ -3033,6 +3126,14 @@
       border: 1px solid rgba(203, 213, 225, 0.82);
       background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(247,249,252,0.95));
       box-shadow: 0 16px 32px -26px rgba(15, 23, 42, 0.16);
+    }
+    .memory-title-cell {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 4px;
+      min-height: 42px;
+      text-align: center;
     }
     .memory-table-head {
       background: linear-gradient(180deg, rgba(249, 251, 254, 0.98), rgba(242, 246, 251, 0.95));
@@ -3080,6 +3181,51 @@
     .memory-check-btn:not(.is-done):hover {
       border-color: rgba(148, 163, 184, 0.5);
       background: rgba(255,255,255,1);
+    }
+    .memory-table-sheet-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 80;
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+      padding: 14px 10px calc(env(safe-area-inset-bottom) + 12px);
+      background: rgba(15, 23, 42, 0.26);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+    .memory-table-sheet-backdrop.is-open {
+      display: flex;
+    }
+    .memory-table-sheet {
+      width: min(100%, 920px);
+      max-height: min(82dvh, 760px);
+      border-radius: 24px;
+      border: 1px solid rgba(203, 213, 225, 0.92);
+      background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(246,248,252,0.96));
+      box-shadow: 0 28px 64px -38px rgba(15, 23, 42, 0.34);
+      overflow: hidden;
+    }
+    .memory-table-sheet-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 16px 10px;
+      border-bottom: 1px solid rgba(226, 232, 240, 0.88);
+      background: rgba(255,255,255,0.9);
+    }
+    .memory-table-sheet-grab {
+      width: 42px;
+      height: 4px;
+      margin: 0 auto 10px;
+      border-radius: 999px;
+      background: rgba(148, 163, 184, 0.28);
+    }
+    .memory-table-sheet-body {
+      overflow: auto;
+      padding: 0 0 8px;
+      -webkit-overflow-scrolling: touch;
     }
     .memory-item-content {
       margin-top: 8px;
@@ -3561,9 +3707,10 @@
           <button @click="openSettings" class="icon-btn" title="设置">⚙️</button>
         </div>
       </div>
-
-      <transition name="header-slide">
-        <div v-show="headerExpanded" class="compact-progress-row" @click="toggleHeaderExpanded">
+    </header>
+    <transition name="header-float">
+      <div v-show="headerExpanded" class="header-float-panel" @click="collapseHeader">
+        <div class="compact-progress-row">
           <div class="compact-progress-main">
             <svg class="compact-progress-ring" viewBox="0 0 40 40" aria-hidden="true">
               <circle cx="20" cy="20" r="14" stroke="#dbe2ea" stroke-width="4" fill="none"></circle>
@@ -3586,14 +3733,12 @@
           </div>
           <span class="compact-xp-chip">Lv.{{ levelDisplay.level }} · XP {{ xp }}</span>
         </div>
-      </transition>
-      <transition name="header-slide">
-        <div v-show="headerExpanded" class="compact-progress-detail">
+        <div class="compact-progress-detail">
           <span>{{ levelDisplay.title }} · 完成率 {{ todayProgress.percent }}%</span>
           <span>下一阶 XP {{ levelDisplay.nextXp }}</span>
         </div>
-      </transition>
-    </header>
+      </div>
+    </transition>
 
     <!-- 主体卡片：响应式布局，手机竖屏单列，平板横屏可并排 -->
     <main class="mobile-main-lift w-full max-w-5xl flex-1 flex flex-col lg:flex-row gap-2 lg:gap-4">
@@ -3904,13 +4049,20 @@
                 下一周 →
               </button>
             </div>
+            <button
+              type="button"
+              class="memory-mobile-table-trigger"
+              @click="openMemoryTableSheet">
+              <span class="font-semibold text-slate-800">查看复习表</span>
+              <span class="text-[11px] text-slate-500">{{ weeklyMemoryItems.length }} 条 · 横向查看</span>
+            </button>
 
             <!-- 周视图任务表格 -->
-            <div class="memory-table-shell flex-1 overflow-x-auto overflow-y-auto">
+            <div class="memory-table-shell memory-desktop-table flex-1 overflow-x-auto overflow-y-auto">
               <table class="text-xs border-collapse" style="table-layout: auto; width: 100%;">
                 <colgroup>
                   <col style="width: 65px;">
-                  <col>
+                  <col style="width: 168px;">
                   <col style="width: 40px;">
                   <col style="width: 40px;">
                   <col style="width: 40px;">
@@ -3947,7 +4099,7 @@
                     </td>
                     <td class="px-3 py-3 border-r border-slate-200" style="word-wrap: break-word; word-break: break-word; overflow-wrap: break-word;">
                       <div v-if="editingMemoryId !== item.id" 
-                           class="flex flex-col justify-center min-h-[40px] group relative">
+                           class="memory-title-cell group relative">
                         <span class="font-semibold text-slate-900 leading-snug text-center break-words">{{ item.title }}</span>
                         <div v-if="item.dynasty" class="mt-1 flex items-center justify-center">
                           <span class="px-1.5 py-0.5 rounded-full text-[9px] text-white"
@@ -4057,6 +4209,113 @@
                   </tr>
                 </tbody>
               </table>
+            </div>
+            <div
+              class="memory-table-sheet-backdrop"
+              :class="{ 'is-open': showMemoryTableSheet }"
+              @click.self="closeMemoryTableSheet">
+              <div class="memory-table-sheet">
+                <div class="memory-table-sheet-header">
+                  <div class="w-full">
+                    <div class="memory-table-sheet-grab"></div>
+                    <div class="flex items-center justify-between gap-3">
+                      <div>
+                        <p class="text-sm font-semibold text-slate-900">复习表</p>
+                        <p class="text-[11px] text-slate-500">{{ currentWeekLabel }} · {{ memoryCategoryLabel }}</p>
+                      </div>
+                      <button type="button" class="memory-week-btn" @click="closeMemoryTableSheet">完成</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="memory-table-sheet-body">
+                  <div class="memory-table-shell overflow-x-auto">
+                    <table class="text-xs border-collapse" style="table-layout: auto; width: 100%;">
+                      <colgroup>
+                        <col style="width: 72px;">
+                        <col style="width: 168px;">
+                        <col style="width: 44px;">
+                        <col style="width: 44px;">
+                        <col style="width: 44px;">
+                        <col style="width: 64px;" v-for="n in 6" :key="`sheet-${n}`">
+                      </colgroup>
+                      <thead class="memory-table-head sticky top-0 z-10">
+                        <tr>
+                          <th class="px-2 py-2.5 text-center font-bold text-slate-900 border-r border-amber-200">日期</th>
+                          <th class="px-3 py-2.5 text-center font-bold text-slate-900 border-r border-amber-200">学习内容</th>
+                          <th class="px-1.5 py-2.5 text-center font-bold text-slate-900 border-r border-amber-200" colspan="3">学习计划</th>
+                          <th class="px-1.5 py-2.5 text-center font-bold text-slate-900 border-r border-amber-200" colspan="6">后续复习日期</th>
+                        </tr>
+                        <tr class="memory-table-subhead">
+                          <th class="px-2 py-1.5 border-r border-amber-200"></th>
+                          <th class="px-3 py-1.5 border-r border-amber-200"></th>
+                          <th class="px-1.5 py-1.5 text-center font-semibold text-slate-700 border-r border-amber-200">5分</th>
+                          <th class="px-1.5 py-1.5 text-center font-semibold text-slate-700 border-r border-amber-200">30分</th>
+                          <th class="px-1.5 py-1.5 text-center font-semibold text-slate-700 border-r border-amber-200">12时</th>
+                          <th v-for="(offset, idx) in [1, 2, 4, 7, 15, 30]" :key="`sheet-offset-${idx}`"
+                              class="px-1.5 py-1.5 text-center font-semibold text-slate-700 border-r border-amber-200">
+                            +{{ offset }}天
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr v-for="(item, rowIdx) in weeklyMemoryItems" :key="`sheet-row-${item.id}`"
+                            :class="rowIdx % 2 === 0 ? 'bg-white' : 'bg-slate-50/30'"
+                            class="memory-table-row border-b border-slate-200">
+                          <td class="px-2 py-3 border-r border-slate-200 text-center">
+                            <div class="flex flex-col items-center justify-center">
+                              <span class="memory-date-main leading-tight">{{ item.learnDate }}</span>
+                              <span class="memory-date-sub leading-tight">{{ item.learnYear }}</span>
+                            </div>
+                          </td>
+                          <td class="px-3 py-3 border-r border-slate-200" style="word-wrap: break-word; word-break: break-word; overflow-wrap: break-word;">
+                            <div class="memory-title-cell">
+                              <span class="font-semibold text-slate-900 leading-snug break-words">{{ item.title }}</span>
+                              <div v-if="item.dynasty" class="mt-1 flex items-center gap-1">
+                                <span class="px-1.5 py-0.5 rounded-full text-[9px] text-white"
+                                      :style="{ backgroundColor: dynastyColor(item.dynasty) }">
+                                  {{ item.dynasty }}
+                                </span>
+                                <span v-if="item.author" class="text-[10px] text-slate-600">{{ item.author }}</span>
+                              </div>
+                              <span v-else-if="item.content" class="memory-item-content break-words text-left">{{ item.content }}</span>
+                            </div>
+                          </td>
+                          <td class="px-1.5 py-3 text-center border-r border-slate-200 align-middle" v-for="reviewKey in ['5min', '30min', '12h']" :key="`instant-${item.id}-${reviewKey}`">
+                            <button
+                              @click.stop="toggleReviewCheck(item.id, reviewKey)"
+                              class="memory-check-btn flex items-center justify-center mx-auto transition-all flex-shrink-0 cursor-pointer"
+                              :class="item.reviews[reviewKey]?.done ? 'is-done' : ''">
+                              <span v-if="item.reviews[reviewKey]?.done" class="text-sm font-bold">✓</span>
+                            </button>
+                          </td>
+                          <td v-for="(offset, idx) in [1, 2, 4, 7, 15, 30]" :key="`sheet-review-${item.id}-${idx}`"
+                              class="px-1.5 py-3 text-center border-r border-slate-200 align-middle">
+                            <div class="flex flex-col items-center justify-center gap-1">
+                              <span class="text-[8px] text-slate-500 leading-tight">{{ item.reviews[offset]?.date || '-' }}</span>
+                              <button
+                                v-if="item.reviews[offset]"
+                                @click.stop="toggleReviewCheck(item.id, offset)"
+                                class="memory-check-btn flex items-center justify-center transition-all flex-shrink-0 cursor-pointer"
+                                :class="item.reviews[offset].done ? 'is-done' : ''">
+                                <span v-if="item.reviews[offset].done" class="text-sm font-bold">✓</span>
+                              </button>
+                              <span v-else class="text-slate-300 text-[8px]">-</span>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr v-if="weeklyMemoryItems.length === 0">
+                          <td colspan="10" class="px-4 py-12 text-center text-slate-400 text-sm bg-white">
+                            <div class="flex flex-col items-center gap-2">
+                              <span class="text-2xl">📚</span>
+                              <span>本周暂无记忆任务</span>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
             </div>
             </div>
 
@@ -5243,6 +5502,7 @@
           currentQuote: '',
           encourageCollapsed: true,
           headerExpanded: false,
+          headerAutoCollapseTimer: null,
           stickerBookCollapsed: true,
           debugBuildEnabled: true,
           buildLabel: window.__APP_BUILD_LABEL || 'BUILD unknown',
@@ -5286,6 +5546,7 @@
           coverPhotoSlots: ['', '', ''],
           encourageAutoPlay: true,
           encourageTimer: null,
+          showMemoryTableSheet: false,
           encourageAnimKey: 0,
           encourageReducedMotion: false,
           pageTurnMode: 'cover',
@@ -6096,9 +6357,29 @@
         },
         toggleHeaderExpanded() {
           this.headerExpanded = !this.headerExpanded;
+          if (this.headerAutoCollapseTimer) {
+            clearTimeout(this.headerAutoCollapseTimer);
+            this.headerAutoCollapseTimer = null;
+          }
+          if (this.headerExpanded) {
+            this.headerAutoCollapseTimer = setTimeout(() => {
+              this.headerExpanded = false;
+              this.headerAutoCollapseTimer = null;
+            }, 2800);
+          }
         },
         collapseHeader() {
           this.headerExpanded = false;
+          if (this.headerAutoCollapseTimer) {
+            clearTimeout(this.headerAutoCollapseTimer);
+            this.headerAutoCollapseTimer = null;
+          }
+        },
+        openMemoryTableSheet() {
+          this.showMemoryTableSheet = true;
+        },
+        closeMemoryTableSheet() {
+          this.showMemoryTableSheet = false;
         },
         syncStickerBookCollapse() {
           this.stickerBookCollapsed = this.todayJuniorStickers.length === 0;
@@ -8254,6 +8535,10 @@
       beforeUnmount() {
         this.stopEncourageAutoPlay();
         this.clearMemoryLookup();
+        if (this.headerAutoCollapseTimer) {
+          clearTimeout(this.headerAutoCollapseTimer);
+          this.headerAutoCollapseTimer = null;
+        }
         if (this._bookTurnCueTimer) {
           clearTimeout(this._bookTurnCueTimer);
           this._bookTurnCueTimer = null;
