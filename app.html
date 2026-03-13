@@ -4061,13 +4061,14 @@
             <button
               type="button"
               class="memory-mobile-table-trigger"
+              v-if="shouldUseMemorySheet"
               @click="openMemoryTableSheet">
               <span class="font-semibold text-slate-800">{{ weeklyMemoryItems.length ? '查看复习表' : '本周暂无复习表' }}</span>
               <span class="text-[11px] text-slate-500">{{ weeklyMemoryItems.length ? `${weeklyMemoryItems.length} 条 · 横向查看` : '先添加内容，再查看复习安排' }}</span>
             </button>
 
             <!-- 周视图任务表格 -->
-            <div class="memory-table-shell memory-desktop-table flex-1 overflow-x-auto overflow-y-auto">
+            <div v-if="!shouldUseMemorySheet" class="memory-table-shell memory-desktop-table flex-1 overflow-x-auto overflow-y-auto">
               <table class="text-xs border-collapse" style="table-layout: auto; width: 100%;">
                 <colgroup>
                   <col style="width: 65px;">
@@ -4220,6 +4221,7 @@
               </table>
             </div>
             <div
+              v-if="shouldUseMemorySheet"
               class="memory-table-sheet-backdrop"
               :class="{ 'is-open': showMemoryTableSheet }"
               @click.self="closeMemoryTableSheet">
@@ -5556,6 +5558,7 @@
           encourageAutoPlay: true,
           encourageTimer: null,
           showMemoryTableSheet: false,
+          compactViewport: window.innerWidth <= 820,
           encourageAnimKey: 0,
           encourageReducedMotion: false,
           pageTurnMode: 'cover',
@@ -5593,6 +5596,9 @@
         },
         currentThemeOption() {
           return this.themeOptions.find(opt => opt.value === this.theme) || this.themeOptions[0];
+        },
+        shouldUseMemorySheet() {
+          return this.compactViewport;
         },
         iconSet() {
           const map = {
@@ -6389,6 +6395,12 @@
         },
         closeMemoryTableSheet() {
           this.showMemoryTableSheet = false;
+        },
+        syncCompactViewport() {
+          this.compactViewport = window.innerWidth <= 820;
+          if (!this.compactViewport) {
+            this.showMemoryTableSheet = false;
+          }
         },
         syncStickerBookCollapse() {
           this.stickerBookCollapsed = this.todayJuniorStickers.length === 0;
@@ -8363,6 +8375,8 @@
       },
       mounted() {
         try {
+        this.syncCompactViewport();
+        window.addEventListener('resize', this.syncCompactViewport);
         const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
         this.encourageReducedMotion = !!(motionQuery && motionQuery.matches);
         if (this.encourageReducedMotion) {
@@ -8544,6 +8558,7 @@
       beforeUnmount() {
         this.stopEncourageAutoPlay();
         this.clearMemoryLookup();
+        window.removeEventListener('resize', this.syncCompactViewport);
         if (this.headerAutoCollapseTimer) {
           clearTimeout(this.headerAutoCollapseTimer);
           this.headerAutoCollapseTimer = null;
