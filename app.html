@@ -2801,6 +2801,35 @@
       .memory-action-row {
         justify-content: stretch;
       }
+      .memory-mobile-review-panel {
+        padding: 12px;
+        gap: 10px;
+      }
+      .memory-mobile-review-head {
+        align-items: flex-start;
+      }
+      .memory-mobile-review-link {
+        min-height: 32px;
+        padding: 0 12px;
+        font-size: 11px;
+      }
+      .memory-mobile-review-card {
+        padding: 11px 12px;
+      }
+      .memory-mobile-review-card-title {
+        font-size: 15px;
+      }
+      .memory-mobile-review-card-sub {
+        font-size: 10px;
+      }
+      .memory-mobile-review-chip {
+        min-height: 32px;
+        padding: 0 10px;
+        font-size: 11px;
+      }
+      .memory-mobile-review-chip span:last-child {
+        font-size: 10px;
+      }
       .memory-mobile-table-trigger {
         padding: 11px 12px;
         gap: 8px;
@@ -2832,16 +2861,7 @@
         min-width: 0;
       }
       .memory-week-nav {
-        padding: 9px 10px;
-        gap: 8px;
-      }
-      .memory-week-btn {
-        min-height: 34px;
-        padding: 0 12px;
-        font-size: 11px;
-      }
-      .memory-week-label {
-        font-size: 13px;
+        display: none;
       }
       .memory-table-sheet {
         max-height: min(88dvh, 780px);
@@ -3106,6 +3126,128 @@
     .memory-action-btn-secondary {
       background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(247,249,252,0.95));
     }
+    .memory-mobile-review-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 14px;
+      border-radius: 22px;
+      border: 1px solid rgba(203, 213, 225, 0.82);
+      background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(247,249,252,0.95));
+      box-shadow: 0 14px 30px -26px rgba(15, 23, 42, 0.18);
+    }
+    .memory-mobile-review-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .memory-mobile-review-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: #0f172a;
+    }
+    .memory-mobile-review-meta {
+      margin-top: 3px;
+      font-size: 11px;
+      color: #64748b;
+    }
+    .memory-mobile-review-link {
+      min-height: 34px;
+      padding: 0 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(191, 201, 217, 0.74);
+      background: rgba(255,255,255,0.96);
+      color: #334155;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .memory-mobile-review-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .memory-mobile-review-card {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 12px 13px;
+      border-radius: 18px;
+      border: 1px solid rgba(226, 232, 240, 0.92);
+      background: rgba(248, 250, 252, 0.94);
+    }
+    .memory-mobile-review-card-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .memory-mobile-review-card-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: #0f172a;
+      line-height: 1.25;
+    }
+    .memory-mobile-review-card-sub {
+      margin-top: 4px;
+      font-size: 11px;
+      color: #64748b;
+      line-height: 1.45;
+    }
+    .memory-mobile-review-card-progress {
+      flex-shrink: 0;
+      min-width: 56px;
+      padding: 5px 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.96);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      color: #334155;
+      font-size: 11px;
+      font-weight: 800;
+      text-align: center;
+    }
+    .memory-mobile-review-chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .memory-mobile-review-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 34px;
+      padding: 0 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(191, 201, 217, 0.76);
+      background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(246,248,252,0.96));
+      color: #334155;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .memory-mobile-review-chip span:last-child {
+      font-size: 11px;
+      color: #64748b;
+      font-weight: 600;
+    }
+    .memory-mobile-review-chip.is-done {
+      border-color: rgba(145, 159, 201, 0.48);
+      background: linear-gradient(180deg, rgba(235, 240, 248, 0.98), rgba(225, 231, 243, 0.96));
+      color: #334155;
+    }
+    .memory-mobile-review-chip.is-done span:last-child {
+      color: #506482;
+    }
+    .memory-mobile-review-empty {
+      padding: 18px 14px;
+      border-radius: 18px;
+      border: 1px dashed rgba(203, 213, 225, 0.92);
+      background: rgba(248, 250, 252, 0.72);
+      color: #64748b;
+      font-size: 12px;
+      line-height: 1.6;
+      text-align: center;
+    }
     .memory-mobile-table-trigger {
       display: flex;
       flex-direction: column;
@@ -3317,7 +3459,22 @@
       padding: 0 0 8px;
       -webkit-overflow-scrolling: touch;
     }
+    .memory-table-sheet-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .memory-table-sheet-week {
+      font-size: 13px;
+      font-weight: 700;
+      color: #0f172a;
+    }
     @media (min-width: 821px) {
+      .memory-mobile-review-panel {
+        display: none;
+      }
       .memory-mobile-table-trigger {
         display: none;
       }
@@ -4147,27 +4304,51 @@
                 下一周 →
               </button>
             </div>
-            <button
-              type="button"
-              class="memory-mobile-table-trigger"
-              @click="openMemoryTableSheet">
-              <div class="memory-mobile-table-trigger-head">
-                <span class="memory-mobile-table-trigger-title">{{ weeklyMemoryItems.length ? '艾宾浩斯复习表' : '本周暂无复习表' }}</span>
-                <span class="memory-mobile-table-trigger-meta">{{ weeklyMemoryItems.length ? '点按展开 · 点空白处收起' : '先添加内容，再查看复习安排' }}</span>
-              </div>
-              <div v-if="weeklyMemoryItems.length" class="memory-mobile-table-preview">
-                <span class="memory-mobile-table-preview-date">{{ weeklyMemoryItems[0].learnDate }}</span>
-                <div class="min-w-0">
-                  <div class="memory-mobile-table-preview-title">{{ weeklyMemoryItems[0].title }}</div>
-                  <div class="memory-mobile-table-preview-sub">
-                    {{ weeklyMemoryItems[0].author ? `${weeklyMemoryItems[0].dynasty || ''} · ${weeklyMemoryItems[0].author}` : (weeklyMemoryItems[0].content || '查看完整复习安排') }}
+            <div class="memory-mobile-review-panel">
+              <div class="memory-mobile-review-head">
+                <div>
+                  <div class="memory-mobile-review-title">今天待复习</div>
+                  <div class="memory-mobile-review-meta">
+                    {{ todayMemoryReviewCards.length ? `今天 ${todayMemoryReviewCards.length} 项 · 点节点即可勾选完成` : '今天没有待复习内容，可以先添加学习内容。' }}
                   </div>
                 </div>
-                <span class="memory-mobile-table-preview-dot">{{ weeklyMemoryItems[0].reviews['5min']?.done ? '✓' : '·' }}</span>
-                <span class="memory-mobile-table-preview-dot">{{ weeklyMemoryItems[0].reviews['30min']?.done ? '✓' : '·' }}</span>
+                <button
+                  type="button"
+                  class="memory-mobile-review-link"
+                  @click="openMemoryTableSheet">
+                  完整复习表
+                </button>
               </div>
-            </button>
-
+              <div v-if="todayMemoryReviewCards.length" class="memory-mobile-review-list">
+                <article
+                  v-for="card in todayMemoryReviewCards"
+                  :key="`today-review-${card.id}`"
+                  class="memory-mobile-review-card">
+                  <div class="memory-mobile-review-card-head">
+                    <div class="min-w-0">
+                      <div class="memory-mobile-review-card-title">{{ card.title }}</div>
+                      <div class="memory-mobile-review-card-sub">{{ card.subtitle }}</div>
+                    </div>
+                    <div class="memory-mobile-review-card-progress">{{ card.doneCount }}/{{ card.stageCount }}</div>
+                  </div>
+                  <div class="memory-mobile-review-chip-row">
+                    <button
+                      v-for="stage in card.stages"
+                      :key="`stage-${card.id}-${stage.key}`"
+                      type="button"
+                      class="memory-mobile-review-chip"
+                      :class="{ 'is-done': stage.done }"
+                      @click.stop="toggleReviewCheck(card.id, stage.key)">
+                      <span>{{ stage.label }}</span>
+                      <span>{{ stage.done ? '已完成' : stage.timeLabel }}</span>
+                    </button>
+                  </div>
+                </article>
+              </div>
+              <div v-else class="memory-mobile-review-empty">
+                今天没有待复习内容。你可以先添加古文诗词、英语或数理化内容，系统会按艾宾浩斯节奏自动安排复习。
+              </div>
+            </div>
             <!-- 周视图任务表格 -->
             <div class="memory-table-shell memory-desktop-table flex-1 overflow-x-auto overflow-y-auto">
               <table class="text-xs border-collapse" style="table-layout: auto; width: 100%;">
@@ -4335,6 +4516,21 @@
                         <p class="text-[11px] text-slate-500">{{ currentWeekLabel }} · {{ memoryCategoryLabel }} · 点空白处收起</p>
                       </div>
                       <button type="button" class="memory-week-btn" @click.stop="closeMemoryTableSheet">完成</button>
+                    </div>
+                    <div class="memory-table-sheet-toolbar">
+                      <button
+                        type="button"
+                        class="memory-week-btn"
+                        @click.stop="prevWeek">
+                        ← 上一周
+                      </button>
+                      <span class="memory-table-sheet-week">{{ currentWeekLabel }}</span>
+                      <button
+                        type="button"
+                        class="memory-week-btn"
+                        @click.stop="nextWeek">
+                        下一周 →
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -6066,6 +6262,88 @@
           return weekDays;
         },
 
+        todayMemoryReviewCards() {
+          const today = new Date();
+          const todayKey = this.toLocalDateKey(today);
+          const stageOrder = {
+            '5min': 0,
+            '30min': 1,
+            '12h': 2,
+            1: 3,
+            2: 4,
+            4: 5,
+            7: 6,
+            15: 7,
+            30: 8
+          };
+          const offsets = [1, 2, 4, 7, 15, 30];
+
+          return this.memoryList
+            .filter(m => this.memoryCategory === 'classics'
+              ? this.isClassicsCategory(m.category)
+              : m.category === this.memoryCategory)
+            .map(m => {
+              const learnDate = new Date(m.createdAt);
+              const stages = [];
+
+              [
+                { key: '5min', label: '5分', date: new Date(learnDate.getTime() + 5 * 60 * 1000) },
+                { key: '30min', label: '30分', date: new Date(learnDate.getTime() + 30 * 60 * 1000) },
+                { key: '12h', label: '12时', date: new Date(learnDate.getTime() + 12 * 60 * 60 * 1000) }
+              ].forEach(stage => {
+                if (this.toLocalDateKey(stage.date) === todayKey) {
+                  stages.push({
+                    key: stage.key,
+                    label: stage.label,
+                    done: this.getReviewStatus(m.id, stage.key),
+                    timeLabel: this.formatTodayReviewLabel(stage.date),
+                    sort: stageOrder[stage.key]
+                  });
+                }
+              });
+
+              offsets.forEach(offset => {
+                const reviewDate = new Date(learnDate);
+                reviewDate.setDate(reviewDate.getDate() + offset);
+                const reviewDayKey = this.toLocalDateKey(reviewDate);
+                if (reviewDayKey !== todayKey) return;
+                const scheduleItem = this.memorySchedule.find(s =>
+                  s.baseId === m.id && s.offsetDay === offset && s.dayKey === reviewDayKey
+                );
+                stages.push({
+                  key: offset,
+                  label: `+${offset}天`,
+                  done: scheduleItem ? scheduleItem.done : false,
+                  timeLabel: '今天',
+                  sort: stageOrder[offset]
+                });
+              });
+
+              if (!stages.length) return null;
+
+              stages.sort((a, b) => a.sort - b.sort);
+              const doneCount = stages.filter(stage => stage.done).length;
+
+              return {
+                id: m.id,
+                title: m.title,
+                subtitle: m.author
+                  ? `${m.dynasty ? `${m.dynasty} · ` : ''}${m.author}`
+                  : (m.content || '今天有复习安排'),
+                doneCount,
+                stageCount: stages.length,
+                stages,
+                createdAt: learnDate.getTime()
+              };
+            })
+            .filter(Boolean)
+            .sort((a, b) => {
+              if (a.doneCount === a.stageCount && b.doneCount !== b.stageCount) return 1;
+              if (a.doneCount !== a.stageCount && b.doneCount === b.stageCount) return -1;
+              return b.createdAt - a.createdAt;
+            });
+        },
+
         // 周视图记忆项（按学习项分组，显示所有复习时间点）
         weeklyMemoryItems() {
           const start = this.getWeekStart();
@@ -7239,6 +7517,11 @@
           } else {
             return `${date.getMonth() + 1}/${date.getDate()}`;
           }
+        },
+
+        formatTodayReviewLabel(date) {
+          const label = this.formatReviewTime(date);
+          return label === '已过' ? '现在复习' : label;
         },
 
         // 检查是否可以编辑记忆项（只能编辑当天及以后的内容）
