@@ -2801,6 +2801,32 @@
       .memory-action-row {
         justify-content: stretch;
       }
+      .memory-mobile-table-trigger {
+        padding: 11px 12px;
+        gap: 8px;
+      }
+      .memory-mobile-table-trigger-title {
+        font-size: 13px;
+      }
+      .memory-mobile-table-trigger-meta {
+        font-size: 10px;
+      }
+      .memory-mobile-table-preview {
+        grid-template-columns: 48px minmax(0, 1fr) 30px 30px;
+        gap: 6px;
+        padding: 8px 10px;
+      }
+      .memory-mobile-table-preview-title {
+        font-size: 12px;
+      }
+      .memory-mobile-table-preview-sub {
+        font-size: 9px;
+      }
+      .memory-mobile-table-preview-dot {
+        width: 28px;
+        height: 28px;
+        font-size: 12px;
+      }
       .memory-action-btn {
         flex: 1 1 calc(50% - 6px);
         min-width: 0;
@@ -2818,7 +2844,7 @@
         font-size: 13px;
       }
       .memory-table-sheet {
-        max-height: min(78dvh, 720px);
+        max-height: min(88dvh, 780px);
         border-radius: 22px 22px 18px 18px;
       }
       .memory-table-sheet-body .memory-table-shell {
@@ -3082,14 +3108,77 @@
     }
     .memory-mobile-table-trigger {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
+      flex-direction: column;
+      align-items: stretch;
       gap: 10px;
-      padding: 10px 12px;
-      border-radius: 18px;
+      padding: 12px 14px;
+      border-radius: 20px;
       border: 1px solid rgba(203, 213, 225, 0.84);
       background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(246,248,252,0.94));
       box-shadow: 0 12px 24px -22px rgba(15, 23, 42, 0.18);
+      text-align: left;
+    }
+    .memory-mobile-table-trigger-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .memory-mobile-table-trigger-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #0f172a;
+    }
+    .memory-mobile-table-trigger-meta {
+      font-size: 11px;
+      color: #64748b;
+      white-space: nowrap;
+    }
+    .memory-mobile-table-preview {
+      display: grid;
+      grid-template-columns: 54px minmax(0, 1fr) 34px 34px;
+      gap: 8px;
+      align-items: center;
+      padding: 10px 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(226, 232, 240, 0.92);
+      background: rgba(248, 250, 252, 0.92);
+    }
+    .memory-mobile-table-preview-date {
+      font-size: 12px;
+      font-weight: 700;
+      color: #475569;
+      text-align: center;
+    }
+    .memory-mobile-table-preview-title {
+      min-width: 0;
+      font-size: 13px;
+      font-weight: 700;
+      color: #0f172a;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .memory-mobile-table-preview-sub {
+      margin-top: 2px;
+      font-size: 10px;
+      color: #64748b;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .memory-mobile-table-preview-dot {
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      border: 1px solid rgba(203, 213, 225, 0.92);
+      background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(246,248,252,0.95));
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #6b7c98;
+      font-size: 13px;
+      font-weight: 700;
     }
     .memory-week-nav {
       display: flex;
@@ -3200,7 +3289,7 @@
     }
     .memory-table-sheet {
       width: min(100%, 920px);
-      max-height: min(82dvh, 760px);
+      max-height: min(90dvh, 860px);
       border-radius: 24px;
       border: 1px solid rgba(203, 213, 225, 0.92);
       background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(246,248,252,0.96));
@@ -4062,8 +4151,21 @@
               type="button"
               class="memory-mobile-table-trigger"
               @click="openMemoryTableSheet">
-              <span class="font-semibold text-slate-800">{{ weeklyMemoryItems.length ? '查看复习表' : '本周暂无复习表' }}</span>
-              <span class="text-[11px] text-slate-500">{{ weeklyMemoryItems.length ? `${weeklyMemoryItems.length} 条 · 横向查看` : '先添加内容，再查看复习安排' }}</span>
+              <div class="memory-mobile-table-trigger-head">
+                <span class="memory-mobile-table-trigger-title">{{ weeklyMemoryItems.length ? '艾宾浩斯复习表' : '本周暂无复习表' }}</span>
+                <span class="memory-mobile-table-trigger-meta">{{ weeklyMemoryItems.length ? '点按展开 · 点空白处收起' : '先添加内容，再查看复习安排' }}</span>
+              </div>
+              <div v-if="weeklyMemoryItems.length" class="memory-mobile-table-preview">
+                <span class="memory-mobile-table-preview-date">{{ weeklyMemoryItems[0].learnDate }}</span>
+                <div class="min-w-0">
+                  <div class="memory-mobile-table-preview-title">{{ weeklyMemoryItems[0].title }}</div>
+                  <div class="memory-mobile-table-preview-sub">
+                    {{ weeklyMemoryItems[0].author ? `${weeklyMemoryItems[0].dynasty || ''} · ${weeklyMemoryItems[0].author}` : (weeklyMemoryItems[0].content || '查看完整复习安排') }}
+                  </div>
+                </div>
+                <span class="memory-mobile-table-preview-dot">{{ weeklyMemoryItems[0].reviews['5min']?.done ? '✓' : '·' }}</span>
+                <span class="memory-mobile-table-preview-dot">{{ weeklyMemoryItems[0].reviews['30min']?.done ? '✓' : '·' }}</span>
+              </div>
             </button>
 
             <!-- 周视图任务表格 -->
@@ -4230,9 +4332,9 @@
                     <div class="flex items-center justify-between gap-3">
                       <div>
                         <p class="text-sm font-semibold text-slate-900">复习表</p>
-                        <p class="text-[11px] text-slate-500">{{ currentWeekLabel }} · {{ memoryCategoryLabel }}</p>
+                        <p class="text-[11px] text-slate-500">{{ currentWeekLabel }} · {{ memoryCategoryLabel }} · 点空白处收起</p>
                       </div>
-                      <button type="button" class="memory-week-btn" @click="closeMemoryTableSheet">完成</button>
+                      <button type="button" class="memory-week-btn" @click.stop="closeMemoryTableSheet">完成</button>
                     </div>
                   </div>
                 </div>
