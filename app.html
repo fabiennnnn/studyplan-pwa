@@ -5363,7 +5363,7 @@
   </div>
 
   <script>
-    window.__APP_BUILD_VERSION = '2026-03-13-local-wip';
+    window.__APP_BUILD_VERSION = '2026-03-14-mobile-fix';
     window.__APP_BUILD_LABEL = `BUILD ${window.__APP_BUILD_VERSION}`;
 
     // 确保 Vue 已加载
@@ -8578,7 +8578,7 @@
     // 注册 Service Worker
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        const swVersion = window.__APP_BUILD_VERSION || '2026-03-13-local-wip';
+        const swVersion = window.__APP_BUILD_VERSION || '2026-03-14-mobile-fix';
         const swUrl = `sw.js?v=${encodeURIComponent(swVersion)}`;
         let pendingUpdateShown = false;
         let hasControllerReloaded = false;

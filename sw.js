@@ -1,4 +1,4 @@
-const SW_VERSION = '20260221-2355';
+const SW_VERSION = '20260314-0048';
 const CACHE_NAME = `studyplan-${SW_VERSION}`;
 
 const PRECACHE_ASSETS = [
